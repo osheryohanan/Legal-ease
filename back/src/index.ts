@@ -4,7 +4,11 @@ import multer from 'multer';
 var upload=multer();
 import bodyParser from 'body-parser';
 import { userRoute } from "./routes/user.route";
+import { InitiateMongoServer } from './config/db';
+require('dotenv').config();
 
+
+import { errorHandler  } from "./interfaces/error.interfaces";
 
 
 
@@ -17,20 +21,30 @@ app.use(bodyParser.urlencoded(
     {extended:true}
 ));
 //FORMDATA -POST
-// app.use(upload.array());
+app.use(upload.any());
+app.use(express.static('public'));
 app.use(cors());
+
+
+// InitiateMongoServer();
+
 
 app.use('/user',new userRoute().router);
 
 app.all("*",(req,res)=>{
-    res.send('ok');
+    var error:errorHandler={
+        status:404,
+        message:`We can't access to this path`,
+        type:'Invalid Path'
+    }
+    res.status(error.status).send(error);
 });
 
 
 
 
 
-const PORT=8080;
+const PORT=process.env.PORT||8080;
 app.listen(PORT,()=>{
-    console.log('lisen on port'+PORT);
+    console.log('Listen on port '+PORT);
 })
