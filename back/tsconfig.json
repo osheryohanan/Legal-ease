@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+    "target": "es5",
+    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": true
+    },
+    "include": [
+    "src/*.ts"
+    ],
+    "exclude": [
+    "node_modules",
+    ".vscode"
+    ]
+    }
