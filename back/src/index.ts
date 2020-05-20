@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import multer from 'multer';
-var upload=multer();
+// var upload=multer();
 import bodyParser from 'body-parser';
 import { userRoute } from "./routes/user.route";
 import { InitiateMongoServer } from './config/db';
@@ -21,7 +20,7 @@ app.use(bodyParser.urlencoded(
     {extended:true}
 ));
 //FORMDATA -POST
-app.use(upload.any());
+// app.use(upload.any());
 app.use(express.static('public'));
 app.use(cors());
 

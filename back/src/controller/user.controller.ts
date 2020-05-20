@@ -2,13 +2,14 @@ import { Request, Response } from 'express';
 import { validationResult } from "express-validator";
 import * as bcrypt from "bcryptjs";
 import * as jwt from 'jsonwebtoken';
-var fs = require('fs');
-var path = require('path')
-var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
+import fs from 'fs';
+import path from 'path';
 import { OAuth2Client } from "google-auth-library";
 import { errorHandler } from '../interfaces/error.interfaces';
 
-var User = null;
+import { User } from "../model/user.model";
+
+var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
 
 
 export class userController {
@@ -18,14 +19,14 @@ export class userController {
     async signup(req: Request, res: Response) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            var error:errorHandler={
-                status:400,
-                message:`We need to specified all attributes`,
-                type:'Requirement',
-                all:errors.array()
+            var error: errorHandler = {
+                status: 400,
+                message: `We need to specified all attributes`,
+                type: 'Requirement',
+                all: errors.array()
             }
             return res.status(error.status).send(error);
-            
+
         }
         const { email, password, name, phone, gid } = req.body;
 
@@ -68,18 +69,18 @@ export class userController {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            var error:errorHandler={
-                status:400,
-                message:`We need to specified all attributes`,
-                type:'Requirement',
-                all:errors.array()
+            var error: errorHandler = {
+                status: 400,
+                message: `We need to specified all attributes`,
+                type: 'Requirement',
+                all: errors.array()
             }
             return res.status(error.status).send(error);
-            
+
         }
         const { email, password } = req.body;
         try {
-            let user = await User.findOne({
+            let user: any = await User.findOne({
                 email
             });
             if (!user)
@@ -123,25 +124,25 @@ export class userController {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            var error:errorHandler={
-                status:400,
-                message:`We need to specified all attributes`,
-                type:'Requirement',
-                all:errors.array()
+            var error: errorHandler = {
+                status: 400,
+                message: `We need to specified all attributes`,
+                type: 'Requirement',
+                all: errors.array()
             }
             return res.status(error.status).send(error);
-            
+
         }
         try {
             const client = new OAuth2Client('GOOGLE ID');
 
             const ticket = await client.verifyIdToken({
                 idToken: req.body.gid,
-                audience: 'GOOGLE ID',  
+                audience: 'GOOGLE ID',
             });
             const guser = ticket.getPayload();
             const gid = guser['sub'];
-    
+
             let user = await User.findOne({
                 gid
             });
@@ -176,7 +177,7 @@ export class userController {
         }
     }
 
-    update = function (req, res) {
+    update(req, res) {
         User.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, product) {
             if (err) {
                 // handle
@@ -208,6 +209,58 @@ export class userController {
             res.status(200).send('Deleted successfully!');
         })
     };
+    uploadImage(req: any, res: Response) {
+        try {
+            if (req.file) {
+                User.findById(req.user, function (err, doc: any) {
+                    if (err) {
+                        var error: errorHandler = {
+                            status: 400,
+                            message: `error when saving the image`,
+                            type: 'DataBasing',
 
- 
+                        }
+                        return res.status(error.status).send(error);
+                    }
+                    doc.imagePath = req.file.filename;
+                    doc.save(function (err) {
+                        if (!err) {
+                            res.status(200).json({
+                                success: true,
+                                filename: req.file.filename
+                            })
+                        }
+                        else {
+                            var error: errorHandler = {
+                                status: 400,
+                                message: `error when saving the image`,
+                                type: 'DataBasing',
+
+                            }
+                            return res.status(error.status).send(error);
+                        }
+                    });
+                })
+            }
+            else {
+                var error: errorHandler = {
+                    status: 400,
+                    message: `no image was received`,
+                    type: 'Requirement',
+
+                }
+                return res.status(error.status).send(error);
+
+            }
+        } catch (error) {
+            var error: errorHandler = {
+                status: 400,
+                message: `no image was received`,
+                type: 'Requirement',
+
+            }
+            return res.status(error.status).send(error);
+        }
+    }
+
 }
