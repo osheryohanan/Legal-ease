@@ -4,6 +4,7 @@
  *      Invalid Path
  *      Anth Error
  *      DataBasing
+ *      BUG
  * 
 */
 export interface errorHandler{

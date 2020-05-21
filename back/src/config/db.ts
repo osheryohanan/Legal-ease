@@ -18,7 +18,7 @@ export const InitiateMongoServer = async () => {
       useUnifiedTopology: true,
       useFindAndModify:false
     });
-    // console.log("Connected to DB !!");
+    console.log("Connected to DB !!");
   } catch (e) {
     console.log(e);
     throw e;

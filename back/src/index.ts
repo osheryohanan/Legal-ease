@@ -1,8 +1,10 @@
 import express from 'express';
+
 import cors from 'cors';
-// var upload=multer();
+
 import bodyParser from 'body-parser';
 import { userRoute } from "./routes/user.route";
+import { commentsRoute } from "./routes/comments.route";
 import { InitiateMongoServer } from './config/db';
 require('dotenv').config();
 
@@ -19,16 +21,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded(
     {extended:true}
 ));
-//FORMDATA -POST
-// app.use(upload.any());
+
 app.use(express.static('public'));
 app.use(cors());
 
 
-// InitiateMongoServer();
+InitiateMongoServer();
 
 
 app.use('/user',new userRoute().router);
+app.use('/comments',new commentsRoute().router);
 
 app.all("*",(req,res)=>{
     var error:errorHandler={
