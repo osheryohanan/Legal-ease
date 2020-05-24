@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "lease-ease": {
@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "lease-ease"
+    }
+  },
+  "defaultProject": "lease-ease",
+  "cli": {
+    "analytics": "7587d0b9-8584-4232-bc66-f97659a6b7b9"
+  }
 }
