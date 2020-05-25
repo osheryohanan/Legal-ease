@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {  UserService} from "./services/api/user.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  constructor(private userservice:UserService){
+
+  }
+  ngOnInit(): void {
+    this.userservice.check();
+
+  }
   title = 'lease-ease';
 }
