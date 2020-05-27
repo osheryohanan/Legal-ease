@@ -22,6 +22,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserService } from './services/api/user.service';
 import { ApiHttpService } from './services/api/base.services';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -40,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot({user:_user_reducer}, {}),
     EffectsModule.forRoot([LoginEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    BrowserAnimationsModule,
 
   ],
   providers: [Helper,UserService,ApiHttpService],

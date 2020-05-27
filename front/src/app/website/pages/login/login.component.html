@@ -1,34 +1,50 @@
-<form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
-  <div class="card-header">
-    <img class="card-img" src="" alt="Card image">
-    <h4 class="card-title">Login</h4>
-  </div>
-  <div class="card-body">
-    <div class="input-group input-lg">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="tim-icons icon-single-02"></i></span>
-      </div>
-      <input type="text" class="form-control" formControlName="email" placeholder="Enter mail">
-    </div>
-    <div class="input-group input-lg">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="tim-icons icon-caps-small"></i></span>
-      </div>
-      <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
-    </div>
-  </div>
-  <div class="card-footer text-center">
-      <button type="submit" class="btn btn-primary btn-round btn-lg btn-block" [disabled]="!loginForm.valid">Submit</button>
+<div class="wrapper">
+  <div class="cd-section">
+    <div class="header header-1">
+      <div class="page-header header-filter">
+        <div class="page-header-image" style="background-image: url('assets/img/bac1.png');"></div>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+                <div class="card-header">
+                  <img class="card-img" src="" alt="Card image">
+                  <h4 class="card-title">Login</h4>
+                </div>
+                <div class="card-body">
+                  <div class="input-group input-lg">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="tim-icons icon-single-02"></i></span>
+                    </div>
+                    <input type="text" class="form-control" formControlName="email" placeholder="Enter mail">
+                  </div>
+                  <div class="input-group input-lg">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="tim-icons icon-caps-small"></i></span>
+                    </div>
+                    <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
+                  </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-primary btn-round btn-lg btn-block" [disabled]="!loginForm.valid">Submit</button>
 
+                </div>
+                <div class="pull-left ml-3 mb-3">
+                  <h6>
+                    <a [routerLink]="['/register']"  class="link footer-link">Create Account</a>
+                  </h6>
+                </div>
+                <div class="pull-right mr-3 mb-3">
+                  <h6>
+                    <a [routerLink]="['/forgot']" class="link footer-link">Reset Password</a>
+                  </h6>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="pull-left ml-3 mb-3">
-    <h6>
-      <a [routerLink]="['/register']"  class="link footer-link">Create Account</a>
-    </h6>
-  </div>
-  <div class="pull-right mr-3 mb-3">
-    <h6>
-      <a [routerLink]="['/forgot']" class="link footer-link">Reset Password</a>
-    </h6>
-  </div>
-</form>
+</div>
