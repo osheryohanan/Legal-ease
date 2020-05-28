@@ -25,11 +25,11 @@ export class WebsiteLayoutComponent implements OnInit {
 
       if (number > 150 || window.pageYOffset > 150) {
           navbar.classList.remove('navbar-transparent');
-          navbar.classList.add('bg-primary');
+          navbar.classList.add('bg-primary-legal');
       } else if (  'login' ) {
           // remove logic
           navbar.classList.add('navbar-transparent');
-          navbar.classList.remove('bg-primary');
+          navbar.classList.remove('bg-primary-legal');
       }
   });
 

@@ -1,4 +1,4 @@
-<div class="wrapper rtl">
+<div class="wrapper rtl" dir="rtl">
   <div class="cd-section">
     <div class="header header-1">
       <div class="page-header header-filter">
@@ -6,43 +6,109 @@
         <div class="container">
           <div class="row">
             <div class="col"></div>
-            <div class="col" dir="rtl">
-              <p>
-                <mat-form-field appearance="legacy">
-                  <mat-label>Legacy form field</mat-label>
-                  <input matInput placeholder="Placeholder">
-                  <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                  <mat-hint>Hint</mat-hint>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field appearance="legacy">
-                  <mat-label>Legacy form field</mat-label>
-                  <input matInput placeholder="Placeholder">
-                  <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                  <mat-hint>Hint</mat-hint>
-                </mat-form-field>
-              </p><p>
-                <mat-form-field appearance="legacy">
-                  <mat-label>Legacy form field</mat-label>
-                  <input matInput placeholder="Placeholder">
-                  <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                  <mat-hint>Hint</mat-hint>
-                </mat-form-field>
-              </p><p>
-                <mat-form-field appearance="legacy">
-                  <mat-label>Legacy form field</mat-label>
-                  <input matInput placeholder="Placeholder">
-                  <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                  <mat-hint>Hint</mat-hint>
-                </mat-form-field>
-              </p>
+            <div class="col">
+              <h1> הרשמה</h1>
+              <div class="row">
+
+                <div class="col">
+                  <div class="form-check form-check-radio" (click)="lawyer=true">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio"  [checked]="lawyer === true" name="exampleRadios" id="exampleRadios1"
+                        value="true">
+                        עורך דין
+                      <span class="form-check-sign"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check form-check-radio" (click)="lawyer=false">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio"  [checked]="lawyer === false" name="exampleRadios" id="exampleRadios2"
+                        value="false" checked>
+                        לקוח
+                      <span class="form-check-sign"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="lawyer; else elseBlock">
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*שם פרטי</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*שם משפחה</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*סיסמא</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*אישור סיסמא</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <section class="example-section">
+                  <mat-checkbox class="example-margin">קראתי ואני מאשר את תקנון</mat-checkbox>
+                </section>
+              </div>
+              <ng-template #elseBlock>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*שם פרטי</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*שם משפחה</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*סיסמא</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>*אישור סיסמא</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <section class="example-section">
+                  <mat-checkbox class="example-margin">קראתי ואני מאשר את תקנון</mat-checkbox>
+                </section>
+              </ng-template>
 
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>

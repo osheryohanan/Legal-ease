@@ -85,3 +85,7 @@ typings/
 
 #vscodeConfiG
 **/.vscode/
+
+#privateKey
+LegalEase
+LegalEasePrivate.ppk

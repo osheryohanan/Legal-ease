@@ -1,0 +1,44 @@
+.image-logo-head {
+
+  max-width: 25rem;
+
+}
+
+
+
+.rtl {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    float: right;
+    direction: rtl;
+  }
+}
+
+ul.custom-header-ul {
+  list-style-type: none;
+}
+
+.btnlegal {
+  &,.btn-outline-primary-legal {
+    border: none;
+    position: relative;
+    overflow: hidden;
+    margin: 4px 1px;
+    border-radius: 0.4285rem;
+    cursor: pointer;
+    background: #344675;
+    background-image: linear-gradient(to bottom left, #344675, #263148, #344675);
+    background-size: 210% 210%;
+    background-position: top right;
+    background-color: #344675;
+    transition: all 0.15s ease;
+    box-shadow: none;
+    color: #ffffff;
+  }
+}

@@ -35,7 +35,15 @@ a {
 
 .rtl{
   direction: rtl;
+  .row > * {
+    float: left !important;
+  }
 }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.navbar.bg-primary {
+  background-color: #22575d !important;
+}
