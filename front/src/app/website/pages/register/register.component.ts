@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
   registeUserForm: FormGroup;
   registeLawyerForm: FormGroup;
   lawyer: boolean = false;
-  subs: Array<Subscription>;
+  subs: Array<Subscription>=[];
 
   constructor(
     private authService: AuthService,
