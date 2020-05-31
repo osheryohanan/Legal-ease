@@ -7,108 +7,171 @@
           <div class="row">
             <div class="col"></div>
             <div class="col">
-              <h1> הרשמה</h1>
+              <h1> הרשמה כ{{lawyer?'עורך דין':'לקוח'}}</h1>
               <div class="row">
-
                 <div class="col">
-                  <div class="form-check form-check-radio" (click)="lawyer=true">
+                  <div class="selectRegister" [class.cliked]="lawyer==true" (click)="lawyer=true"><span>עורך דין</span></div>
+                  <!-- <div class="form-check form-check-radio" (click)="lawyer=true">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio"  [checked]="lawyer === true" name="exampleRadios" id="exampleRadios1"
-                        value="true">
-                        עורך דין
+                      <input class="form-check-input" type="radio" [checked]="lawyer === true" name="exampleRadios"
+                        id="exampleRadios1" value="true">
+                      עורך דין
                       <span class="form-check-sign"></span>
                     </label>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="col">
-                  <div class="form-check form-check-radio" (click)="lawyer=false">
+                  <div class="selectRegister " [class.cliked]="lawyer==false" (click)="lawyer=false"><span>לקוח</span></div>
+                  <!-- <div class="form-check form-check-radio" (click)="lawyer=false">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio"  [checked]="lawyer === false" name="exampleRadios" id="exampleRadios2"
-                        value="false" checked>
-                        לקוח
+                      <input class="form-check-input" type="radio" [checked]="lawyer === false" name="exampleRadios"
+                        id="exampleRadios2" value="false" checked>
+                      לקוח
                       <span class="form-check-sign"></span>
                     </label>
-                  </div>
+                  </div> -->
                 </div>
               </div>
-              <div *ngIf="lawyer; else elseBlock">
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*שם פרטי</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*שם משפחה</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*סיסמא</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*אישור סיסמא</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <section class="example-section">
-                  <mat-checkbox class="example-margin">קראתי ואני מאשר את תקנון</mat-checkbox>
-                </section>
-              </div>
-              <ng-template #elseBlock>
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*שם פרטי</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*שם משפחה</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*סיסמא</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <p>
-                  <mat-form-field appearance="legacy">
-                    <mat-label>*אישור סיסמא</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                    <mat-hint>Hint</mat-hint>
-                  </mat-form-field>
-                </p>
-                <section class="example-section">
-                  <mat-checkbox class="example-margin">קראתי ואני מאשר את תקנון</mat-checkbox>
-                </section>
-              </ng-template>
+              <div *ngIf="!lawyer">
+                <form [formGroup]="registeUserForm" (ngSubmit)="onUserSubmit()" style="z-index: 14534;">
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*שם פרטי</mat-label>
+                      <input matInput formControlName="firstname" placeholder="" autocomplete="given-name">
+                      <mat-error *ngIf="fUser.firstname.invalid">Not a valid firstname</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*שם משפחה</mat-label>
+                      <input matInput formControlName="lastname" placeholder="" autocomplete="family-name">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <mat-error *ngIf="fUser.lastname.invalid">Not a valid lastname</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*אימייל</mat-label>
+                      <input matInput type="email" formControlName="email" placeholder="" autocomplete="email">
+                      <mat-error *ngIf="fUser.email.invalid">Not a valid email</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*טלפון</mat-label>
+                      <input matInput type="text" formControlName="phone" placeholder="" autocomplete="tel">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <mat-error *ngIf="fUser.phone.invalid">Not a valid phone number</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*סיסמא</mat-label>
+                      <input matInput formControlName="password" placeholder="" autocomplete="new-password" type="password">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <mat-error *ngIf="fUser.password.invalid">Not a valid password</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*אישור סיסמא</mat-label>
+                      <input matInput formControlName="repassword" placeholder="" type="password">
 
+                      <mat-error *ngIf="fUser.repassword.errors&&fUser.repassword.errors.mustMatch">Passwords must match</mat-error>
+                      <mat-error *ngIf="fUser.repassword.errors&&!fUser.repassword.errors.mustMatch">Not valid</mat-error>
+
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    </mat-form-field>
+                  </p>
+                  <section class="example-section">
+                    <mat-checkbox class="example-margin">קראתי ואני מאשר את תקנון</mat-checkbox>
+                  </section>
+                  <div class="row">
+                    <div class="col">
+                  <button type="submit" [disabled]="!registeUserForm.valid" class="btn btn-outline-success my-2 my-sm-0">התחבר</button>
+
+                    </div>
+                    <div class="col">
+                      <div class="google-btn" (click)="signInWithGoogle()">
+                        <div class="google-icon-wrapper">
+                          <img
+                            class="google-icon"
+                            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                          />
+                        </div>
+                        <p class="btn-text"><b>Sign in with google</b></p>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              <div *ngIf="lawyer">
+                <form [formGroup]="registeLawyerForm" (ngSubmit)="onLawyerSubmit()" style="z-index: 14534;">
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*שם פרטי</mat-label>
+                      <input matInput formControlName="firstname" placeholder="">
+                      <mat-error *ngIf="fUser.firstname.invalid">Not a valid firstname</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*שם משפחה</mat-label>
+                      <input matInput formControlName="lastname" placeholder="">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <mat-error *ngIf="fUser.lastname.invalid">Not a valid lastname</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*אימייל</mat-label>
+                      <input matInput type="email" formControlName="email" placeholder="">
+                      <mat-error *ngIf="fUser.email.invalid">Not a valid email</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*מספר עורך דין</mat-label>
+                      <input matInput formControlName="text" placeholder="">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <mat-error *ngIf="fUser.password.invalid">Not a valid </mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*טלפון</mat-label>
+                      <input matInput type="text" formControlName="phone" placeholder="">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <mat-error *ngIf="fUser.phone.invalid">Not a valid phone number</mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*סיסמא</mat-label>
+                      <input matInput formControlName="password" placeholder="">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <mat-error *ngIf="fUser.password.invalid">Not a valid </mat-error>
+                    </mat-form-field>
+                  </p>
+                  <p>
+                    <mat-form-field appearance="legacy">
+                      <mat-label>*אישור סיסמא</mat-label>
+                      <input matInput formControlName="repassword" placeholder="">
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                    </mat-form-field>
+                  </p>
+                  <section class="example-section">
+                    <mat-checkbox class="example-margin">קראתי ואני מאשר את תקנון</mat-checkbox>
+                  </section>
+                  <button type="submit" class="btn btn-outline-success my-2 my-sm-0">התחבר</button>
+
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <p-toast></p-toast>

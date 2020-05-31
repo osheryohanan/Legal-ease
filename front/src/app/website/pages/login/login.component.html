@@ -5,8 +5,67 @@
         <div class="page-header-image" style="background-image: url('assets/img/bac1.png');"></div>
         <div class="container">
           <div class="row">
+            <div class="col-5">
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>אימייל</mat-label>
+                    <input matInput formControlName="email"  placeholder="yourmail@mail.co.il" autocomplete="email" type="email">
+                    <mat-icon matSuffix>alternate_email</mat-icon>
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>Password</mat-label>
+                    <input type="password" matInput formControlName="password" placeholder="***********" autocomplete="current-password">
+                    <mat-icon matSuffix>lock</mat-icon>
+                    <mat-hint>Hint</mat-hint>
+                  </mat-form-field>
+                </p>
+                <div class="row">
+                  <div class="col align-self-end">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" formControlName="longtime" >
+                        Remember me
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+
+
+                  <div class="col align-self-end">
+                    <h6 class="forgot">
+                      <a href="#pablo" class="link footer-link">Forgot password?</a>
+                    </h6>
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col">
+                    <button [disabled]="!loginForm.valid" type="submit" class="btn btn-outline-success my-2 my-sm-0">התחבר</button>
+                  </div>
+                  <div class="col">
+                    <div class="google-btn" (click)="signInWithGoogle()">
+                      <div class="google-icon-wrapper">
+                        <img
+                          class="google-icon"
+                          src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                        />
+                      </div>
+                      <p class="btn-text"><b>Sign in with google</b></p>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+          <div class="row" *ngIf="false">
             <div class="col">
-              <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+              <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <div class="card-header">
                   <img class="card-img" src="" alt="Card image">
                   <h4 class="card-title">Login</h4>
@@ -26,12 +85,13 @@
                   </div>
                 </div>
                 <div class="card-footer text-center">
-                    <button type="submit" class="btn btn-primary btn-round btn-lg btn-block" [disabled]="!loginForm.valid">Submit</button>
+                  <button type="submit" class="btn btn-primary btn-round btn-lg btn-block"
+                    [disabled]="!loginForm.valid">Submit</button>
 
                 </div>
                 <div class="pull-left ml-3 mb-3">
                   <h6>
-                    <a [routerLink]="['/register']"  class="link footer-link">Create Account</a>
+                    <a [routerLink]="['/register']" class="link footer-link">Create Account</a>
                   </h6>
                 </div>
                 <div class="pull-right mr-3 mb-3">
@@ -48,3 +108,4 @@
     </div>
   </div>
 </div>
+<p-toast></p-toast>

@@ -57,10 +57,22 @@ export class LoginEffects {
      this.actions$.pipe(
         ofType(setInfo),
         tap(() =>{
+          if (this.router.url=='/login') {
           var returnUrl = this.route.snapshot.queryParams['return'] || '/';
           this.router.navigate([returnUrl]);
+        }
         }),
     ), { dispatch: false });
+
+    Logout$ = createEffect(() =>
+     this.actions$.pipe(
+        ofType(logout),
+        tap(() =>{
+          localStorage.removeItem('token');
+          this.router.navigate(['/']);
+        }),
+    ), { dispatch: false });
+
 
 
 

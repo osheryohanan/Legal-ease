@@ -1,30 +1,38 @@
 import  {Schema,model} from 'mongoose';
 
-interface lawyer extends Document{
+export interface Ilawyer{
     email:string,
     firstname:string,
     lastname:string,
     birstday?:Date,
-    telephone:string,
-    companyPhone:string,
-    imagePath:string,
+    phone?:string,
+    companyPhone?:string,
+    imagePath?:string,
     lawyerNum:string,
-    createdAt:Date,
-    address:string,
+    createdAt?:Date,
+    address?:string,
+    password:string,
+    gid?:string,
 
-    articlesPath:string,
-    videosPath:string,
-    picturesPath:string,
-    AreasOfPractice:string,
-    comments:string,//id
-    meetingDiary:string,//id  ARRY
-    payments:string,//id  ARRY
-    workArea:string,
-    vacancySchedule:string, //Dates and times for meetings
-    zoomDetails:string,
-    morInfo:string,
-    bankDetails:string
+
+    
+    articlesPath?:string,
+    videosPath?:string,
+    picturesPath?:string,
+    AreasOfPractice?:string,
+    comments?:string,//id
+    meetingDiary?:string,//id  ARRY
+    payments?:string,//id  ARRY
+    workArea?:string,
+    vacancySchedule?:string, //Dates and times for meetings
+    zoomDetails?:string,
+    morInfo?:string,
+    bankDetails?:string
   
+}
+
+export interface IlawyerD extends Ilawyer, Document{
+
 }
 
 
@@ -33,14 +41,17 @@ interface lawyer extends Document{
 
 let lawyerSchema:Schema = new Schema({
     email:{type: Schema.Types.String ,required: true},
+    password:{type: Schema.Types.String ,required: true},
     firstname:{type: Schema.Types.String ,required: true},
     lastname:{type: Schema.Types.String ,required: true},
-    birstday:{type: Schema.Types.Date},
-    telephone:{type: Schema.Types.String ,required: true},
-    companyPhone:{type: Schema.Types.String ,required: true},
-    imagePath:{type: Schema.Types.String ,required: true},
-    createdAt: {type: Date,default: Date.now()},
     lawyerNum:{type: Schema.Types.String ,required: true},
+    address:{type: Schema.Types.String },
+    phone:{type: Schema.Types.String },
+    companyPhone:{type: Schema.Types.String ,},
+    imagePath:{type: Schema.Types.String ,},
+    birstday:{type: Schema.Types.Date},
+    createdAt: {type: Date,default: Date.now()},
+    gid:{type: Schema.Types.String },
 
 });
 

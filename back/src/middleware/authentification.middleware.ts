@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { errorHandler } from '../interfaces/error.interfaces';
 import { User } from '../model/user.model';
+import { Lawyer } from './../model/lawyer.model';
 
 var cert = fs.readFileSync(path.join(__dirname, '../../', 'public.key'));
 
@@ -52,6 +53,23 @@ export var checkUser = async (req, res, next) => {
 
 }
 
+export var checkLawyer = async (req, res, next) => {
+    var userID = req.user.id;
+    let user = await Lawyer.findOne({
+        _id: userID
+    });
+    if (!user) {
+        var error: errorHandler = {
+            status: 500,
+            message: `The user not exist`,
+            type: 'Anth Error'
+        }
+        return res.status(error.status).send(error);
+    }
+    req.user=user;
+    next();
+
+}
 
 
 

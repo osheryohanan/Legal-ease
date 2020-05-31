@@ -1,3 +1,4 @@
+import { lawyerRoute } from './routes/lawyer.route';
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -21,6 +22,7 @@ app.use(cors());
 InitiateMongoServer();
 
 app.use("/user", new userRoute().router);
+app.use("/lawyer", new lawyerRoute().router);
 app.use("/comments", new commentsRoute().router);
 
 

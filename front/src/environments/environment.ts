@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiURL:'http://localhost:8080/'
+  apiURL:'http://localhost:8080/',
+  GID:"802321656680-tu39g3vtn7qnf0itslvs1969eiv1f169.apps.googleusercontent.com",
+
 };
 
 /*

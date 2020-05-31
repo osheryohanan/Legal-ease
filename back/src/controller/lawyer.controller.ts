@@ -15,15 +15,17 @@ import {
 import {
     errorHandler
 } from '../interfaces/error.interfaces';
+
 import {
-    User,
-    Iuser
-} from "../model/user.model";
+    Ilawyer,
+    IlawyerD,
+    Lawyer
+} from '../model/lawyer.model';
 
 var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
 
 
-export class userController {
+export class lawyerController {
     constructor() {
 
     }
@@ -45,11 +47,12 @@ export class userController {
             firstname,
             lastname,
             phone,
+            lawyerNum,
             gid
         } = req.body;
 
         try {
-            let c = await User.findOne({
+            let c = await Lawyer.findOne({
                 "email": email
             });
             if (c) {
@@ -63,21 +66,22 @@ export class userController {
                 return res.status(error.status).send(error);
             }
             const salt = await bcrypt.genSalt(10);
-            let user: Iuser = {
+            let lawyer: Ilawyer = {
                 firstname: firstname,
                 lastname: lastname,
                 phone: phone,
                 password: await bcrypt.hash(password, salt),
                 email: email,
+                lawyerNum: lawyerNum
 
             };
-            let userModel = new User(user);
+            let lawyerModel = new Lawyer(lawyer);
 
-            userModel.save();
+            await lawyerModel.save();
             const payload = {
                 user: {
-                    type:'user',
-                    id: userModel._id
+                    type:'lawyer',
+                    id: lawyerModel._id
                 }
             };
             res.status(200).json({
@@ -94,6 +98,7 @@ export class userController {
                 status: 500,
                 message: `We occured an error during saving, please try again later.`,
                 type: 'DataBasing',
+                all:error
 
             }
             return res.status(error.status).send(error);
@@ -117,7 +122,7 @@ export class userController {
             longtime
         } = req.body;
         try {
-            let user: any = await User.findOne({
+            let user: any = await Lawyer.findOne({
                 email
             });
             if (!user) {
@@ -141,7 +146,7 @@ export class userController {
             }
             const payload = {
                 user: {
-                    type:'user',
+                    type:'lawyer',
                     id: user.id
                 }
             };
@@ -195,14 +200,14 @@ export class userController {
             const guser = ticket.getPayload();
             const gid = guser['sub'];
 
-            let user = await User.findOne({
+            let user = await Lawyer.findOne({
                 gid
             });
             if (!user) {
-                user = await User.findOne({
+                user = await Lawyer.findOne({
                     email: guser['email']
                 });
-                if (user) await User.findByIdAndUpdate(user._id, {
+                if (user) await Lawyer.findByIdAndUpdate(user._id, {
                     $set: {
                         gid
                     }
@@ -210,38 +215,17 @@ export class userController {
 
             }
             if (!user) {
+                var error: errorHandler = {
+                    status: 400,
+                    message: `You didn't have an account! Please register.`,
+                    type: 'Anth Error',
 
-                const salt = await bcrypt.genSalt(10);
-                let nuser: Iuser = {
-                    firstname: guser.given_name,
-                    lastname: guser.family_name,
-                    phone: '0',
-                    password: await bcrypt.hash('LegalEase', salt),
-                    email: guser.email,
-                    gid: guser.sub,
-                    imagePath: guser.picture
-                };
-                let userModel = new User(nuser);
-
-                userModel.save();
-                const payload = {
-                    user: {
-                    type:'user',
-                    id: userModel._id
-                    }
-                };
-                return res.status(200).json({
-                    type: 'success',
-                    message: `We are successful create profile for ${nuser.email}!`,
-                    token: await jwt.sign(payload, privateKey, {
-                        expiresIn: 10000,
-                        algorithm: 'RS256'
-                    })
-                });   
+                }
+                return res.status(error.status).send(error);
             }
             const payload = {
                 user: {
-                    type:'user',
+                    type:'lawyer',
                     id: user._id
                 }
             };
@@ -276,7 +260,7 @@ export class userController {
         if (req.body._id) delete req.body._id;
         if (req.body.imagePath) delete req.body.imagePath;
 
-        User.findByIdAndUpdate(req.user._id, {
+        Lawyer.findByIdAndUpdate(req.user._id, {
             $set: req.body
         }, function (err, product) {
             if (err) {
@@ -294,7 +278,7 @@ export class userController {
         });
     };
     getDetails(req: Request, res: Response) {
-        User.findById(req.params.id, function (err, user) {
+        Lawyer.findById(req.params.id, function (err, user) {
             if (err) {
                 // handle
             }
@@ -302,7 +286,7 @@ export class userController {
         })
     };
     me(req: any, res: Response) {
-        User.findById(req.user._id, '-password', function (err, user) {
+        Lawyer.findById(req.user._id, '-password', function (err, user) {
             if (err) {
                 var error: errorHandler = {
                     status: 400,
@@ -316,7 +300,7 @@ export class userController {
         })
     };
     delete(req: Request, res: Response) {
-        User.findByIdAndRemove(req.params.id, function (err) {
+        Lawyer.findByIdAndRemove(req.params.id, function (err) {
             if (err) {
                 // handle
             }
@@ -326,7 +310,7 @@ export class userController {
     uploadImage(req: any, res: Response) {
         try {
             if (req.file) {
-                User.findById(req.user._id, function (err, doc: any) {
+                Lawyer.findById(req.user._id, function (err, doc: any) {
                     if (err) {
                         var error: errorHandler = {
                             status: 400,
@@ -432,7 +416,7 @@ export class userController {
             var cert = fs.readFileSync(path.join(__dirname, '../../', 'public.key'));
             const decoded = jwt.verify(req.body.token, cert);
             const salt = await bcrypt.genSalt(10);
-            User.findOneAndUpdate({
+            Lawyer.findOneAndUpdate({
                 email: decoded.email
             }, {
                 $set: {

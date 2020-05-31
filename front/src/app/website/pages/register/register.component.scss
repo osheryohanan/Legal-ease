@@ -1,24 +1,107 @@
-::ng-deep .mat-form-field {
-  .mat-input-element {
-      color: white;
-  }
-  .mat-form-field-label {
-      color: white;
-  }
-  .mat-form-field-underline {
-      background-color: white;
-  }
-  .mat-form-field-ripple {
-      background-color: white;
-  }
-  .mat-form-field-required-marker {
-      color: white;
-  }
-  ::placeholder{
-    color: white;
-  }
+.form-check-radio .form-check-sign::before {
+  border-radius: 8%;
 }
 
-.form-check-radio .form-check-sign::before{
-    border-radius: 8%;
+
+.selectRegister {
+  // width: 400px;
+  //   height: 100px;
+  background: #f3f0f1;
+  position: relative;
+  background: #f3f0f1;
+  margin-bottom: 25px;
+  border-radius: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+
+  span {
+    line-height: 44px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    font-weight: semibold;
+  }
+
+  & {
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
+      6px 6px 10px rgba(0, 0, 0, 0.2);
+    color: #6f6cde;
+
+    &:hover {
+      opacity: 0.3;
+      box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
+        6px 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      opacity: 1;
+      box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5),
+        inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+      color: #79e3b6;
+    }
+  }
+
+  &.cliked {
+
+    border: 2px solid #79e3b6;
+    box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5),
+      inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+    color: #79e3b6;
+
+    &:hover {
+      opacity: 1;
+      box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
+        6px 6px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+}
+
+
+
+$white: #fff;
+$google-blue: #4285f4;
+$button-active-blue: #1669F2;
+
+.google-btn {
+  width: 184px;
+  height: 42px;
+  background-color: $google-blue;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .25);
+
+  .google-icon-wrapper {
+    position: absolute;
+    margin-top: 1px;
+    margin-left: 1px;
+    width: 40px;
+    height: 40px;
+    border-radius: 2px;
+    background-color: $white;
+  }
+
+  .google-icon {
+    // position: absolute;
+    margin-top: 11px;
+    margin-left: 11px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-text {
+    float: right;
+    margin: 11px 11px 0 0;
+    color: $white;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    font-family: "Roboto";
+  }
+
+  &:hover {
+    box-shadow: 0 0 6px $google-blue;
+  }
+
+  &:active {
+    background: $button-active-blue;
+  }
 }

@@ -47,3 +47,48 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .navbar.bg-primary {
   background-color: #22575d !important;
 }
+
+.mat-form-field {
+  width: 100%;
+  .mat-input-element {
+      color: white;
+  }
+  .mat-form-field-label {
+      color: white;
+  }
+  .mat-form-field-underline {
+      background-color: white;
+  }
+  .mat-form-field-ripple {
+      background-color: white;
+  }
+  .mat-form-field-required-marker {
+      color: white;
+  }
+  ::placeholder{
+    color: white;
+  }
+  &.mat-focused .mat-form-field-label {
+    color: #fff;
+}
+}
+
+.link.footer-link{
+  color: white;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(61, 43, 43, 0) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

@@ -20,6 +20,12 @@ export class UserService {
   login(email,password,longtime?){
      return this.api.post('user/login',{email:email,password:password,longtime:longtime?1:0})
   }
+  loginG(token){
+    return this.api.post('user/loginG',{tokenid:token})
+  }
+  register(data){
+    return this.api.post('user/create',data)
+  }
   logout(){
     this.store.dispatch(logout())
   }

@@ -1,26 +1,46 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light navbar-transparent" id="navbar">
   <a class="navbar-brand" [routerLink]="['/']"><img class="logo" src="./assets/img/logo.svg" alt=""></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav ">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/']" routerLinkActive="active">Home</a>
+        <a class="nav-link" [routerLink]="['/']" [routerLinkActiveOptions]="{exact: true}"
+          routerLinkActive="active">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active" >Login</a>
+        <a class="nav-link" [routerLink]="['/search']" routerLinkActive="active">חיפוש עורך דין <mat-icon>search</mat-icon></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/register']" routerLinkActive="active">Register</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <div class="navbar-nav ml-auto" *ngIf="!user;else connected">
+      <button class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['/login']" routerLinkActive="active"
+        type="submit">התחבר</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['/register']" routerLinkActive="active"
+        type="submit">הרשם</button>
+    </div>
+    <ng-template #connected>
+
+
+      <div class="navbar-nav ml-auto">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+          {{user.firstname}} {{user.lastname}}
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>dialpad</mat-icon>
+            <span>Logout</span>
+          </button>
+
+        </mat-menu>
+      </div>
+    </ng-template>
+
   </div>
 </nav>
-
-

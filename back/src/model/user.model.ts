@@ -21,6 +21,13 @@ export interface Iuser{
     //crditcard details?
 }
 
+export interface IuserD extends Iuser, Document{
+
+}
+
+
+
+
 let userSchema:Schema = new Schema({
     email:{type: Schema.Types.String ,required: true},
     password:{type: Schema.Types.String ,required: true},

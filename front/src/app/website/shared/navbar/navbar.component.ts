@@ -2,6 +2,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import {  Event,  NavigationCancel,  NavigationEnd,  NavigationError,  NavigationStart,Router, RouterEvent} from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { logout } from 'src/app/stores/user/action.store';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -14,14 +17,28 @@ export class NavbarComponent implements OnInit {
   // mode: ProgressBarMode = 'determinate';
   private toggleButton: any;
   private sidebarVisible: boolean;
+  user:any=null;
+  auth: Subscription;
 
-  constructor(public location: Location, private element: ElementRef, private router: Router,) {
+  constructor(public location: Location, private element: ElementRef, private router: Router, private store:Store<{user:any}>) {
     this.sidebarVisible = false;
+    this.auth = this.store.pipe(select('user')).subscribe(
+      ((state) => {
+        if (state) {
+          this.user=state.user;
+        }
+      }));
+
+   }
+   logout(){
+     this.store.dispatch(logout())
+
    }
 
   ngOnInit() {
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+
   }
   sidebarOpen() {
     const toggleButton = this.toggleButton;
