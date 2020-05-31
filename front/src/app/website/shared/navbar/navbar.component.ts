@@ -20,8 +20,10 @@ export class NavbarComponent implements OnInit {
   user:any=null;
   auth: Subscription;
 
+
   constructor(public location: Location, private element: ElementRef, private router: Router, private store:Store<{user:any}>) {
     this.sidebarVisible = false;
+
     this.auth = this.store.pipe(select('user')).subscribe(
       ((state) => {
         if (state) {
