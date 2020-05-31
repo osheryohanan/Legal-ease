@@ -89,3 +89,4 @@ typings/
 #privateKey
 LegalEase
 LegalEasePrivate.ppk
+.env.old
