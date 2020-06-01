@@ -8,7 +8,9 @@ const routes: Routes = [
     path: '',
     component:WebsiteLayoutComponent,
     loadChildren: () => import('./website/website.module').then(m => m.WebsiteModule)
-  }
+  },
+
+
 ];
 
 @NgModule({

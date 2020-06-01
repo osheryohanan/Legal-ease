@@ -5,7 +5,7 @@ export interface Ilawyer{
     firstname:string,
     lastname:string,
     birstday?:Date,
-    phone?:string,
+    phone:string,
     companyPhone?:string,
     imagePath?:string,
     lawyerNum:string,
@@ -16,18 +16,27 @@ export interface Ilawyer{
 
 
     
-    articlesPath?:string,
-    videosPath?:string,
-    picturesPath?:string,
-    AreasOfPractice?:string,
-    comments?:string,//id
-    meetingDiary?:string,//id  ARRY
+    articlesPath?:string, //many
+    videosPath?:string, //many
+    picturesPath?:string, //many
+
+    category?:string, // Cest quoi les troum? ObjectID
+
+    meetingDiary?:string,//id  ARRY Cest rendez vous faire base de donner a cote ObjectID
+
+    workArea?:string, //Darom Tsafon
+
+    morInfo?:string,
+
+
+
+    
     payments?:string,//id  ARRY
-    workArea?:string,
+    bankDetails?:string
     vacancySchedule?:string, //Dates and times for meetings
     zoomDetails?:string,
-    morInfo?:string,
-    bankDetails?:string
+
+
   
 }
 
@@ -46,7 +55,7 @@ let lawyerSchema:Schema = new Schema({
     lastname:{type: Schema.Types.String ,required: true},
     lawyerNum:{type: Schema.Types.String ,required: true},
     address:{type: Schema.Types.String },
-    phone:{type: Schema.Types.String },
+    phone:{type: Schema.Types.String,required: true },
     companyPhone:{type: Schema.Types.String ,},
     imagePath:{type: Schema.Types.String ,},
     birstday:{type: Schema.Types.Date},
