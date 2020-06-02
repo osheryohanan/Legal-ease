@@ -12,6 +12,8 @@ import { _user_reducer, LoginEffects } from './stores/user/user.store';
 
 //Component
 import { WebsiteLayoutComponent} from "./website/layout/website-layout.component";
+import { LawyerLayoutComponent } from './lawyer/layout/lawyer-layout.component';
+
 import { AppComponent } from './app.component';
 
 //Module
@@ -23,14 +25,18 @@ import { UserService } from './services/api/user.service';
 import { ApiHttpService } from './services/api/base.services';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { AnthService } from './services/api/common.service';
+import { LawyerService } from './services/api/lawyer.service';
+import { ComponentsModule } from "./lawyer/components/components.module";
+import { ToastrModule } from "ngx-toastr";
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    WebsiteLayoutComponent
+    WebsiteLayoutComponent,
+    LawyerLayoutComponent
   ],
   imports: [
     SharedModule,
@@ -41,10 +47,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StoreModule.forRoot({user:_user_reducer}, {}),
     EffectsModule.forRoot([LoginEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    ToastrModule.forRoot(),
     BrowserAnimationsModule,
+    ComponentsModule
 
   ],
-  providers: [Helper,UserService,ApiHttpService],
+  providers: [Helper,UserService,LawyerService,ApiHttpService,AnthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

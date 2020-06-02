@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/services/api/user.service';
 import { Store, select } from '@ngrx/store';
-import { Login } from 'src/app/stores/user/action.store';
+import { LoginUser } from 'src/app/stores/user/action.store';
 import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -40,7 +41,7 @@ export class RegisterComponent implements OnInit {
           if (user.token) {
             this.messageService.add({ severity: 'success', summary: user.type, detail: user.message });
             localStorage.setItem('token', user.token);
-            this.store.dispatch(Login(null))
+            this.store.dispatch(LoginUser(null))
           }
         },
           error => {
@@ -67,7 +68,7 @@ export class RegisterComponent implements OnInit {
         if (user.token) {
           this.messageService.add({ severity: 'success', summary: user.type, detail: user.message });
           localStorage.setItem('token', user.token);
-          this.store.dispatch(Login(null))
+          this.store.dispatch(LoginUser(null))
         }
       },
         error => {

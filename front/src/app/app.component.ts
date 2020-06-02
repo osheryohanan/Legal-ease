@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {  UserService} from "./services/api/user.service";
+import { AnthService } from './services/api/common.service';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,11 @@ import {  UserService} from "./services/api/user.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private userservice:UserService){
+  constructor(private authservice:AnthService){
 
   }
   ngOnInit(): void {
-    this.userservice.check();
+
 
   }
   title = 'lease-ease';

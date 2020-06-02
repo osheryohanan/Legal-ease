@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <div class=" navbar-minimize-fixed d-inline" (click)="minimizeSidebar()">
+    <button class=" minimize-sidebar btn btn-link btn-just-icon" placement="right">
+      <i class=" tim-icons icon-align-center visible-on-sidebar-regular"> </i>
+      <i class=" tim-icons icon-bullet-list-67 visible-on-sidebar-mini"> </i>
+    </button>
+  </div>
+  <div class="sidebar">
+    <app-lawyer-sidebar></app-lawyer-sidebar>
+  </div>
+  <div class="main-panel">
+    <app-lawyer-navbar></app-lawyer-navbar>
+    <router-outlet></router-outlet>
+    <app-lawyer-footer *ngIf="router.url != '/maps/full-screen'"></app-lawyer-footer>
+  </div>
+</div>
+<app-fixed-lawyer-plugin></app-fixed-lawyer-plugin>

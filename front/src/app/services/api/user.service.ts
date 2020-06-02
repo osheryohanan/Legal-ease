@@ -1,7 +1,7 @@
 // Angular Modules
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { logout, Login } from 'src/app/stores/user/action.store';
+import { logout, LoginLawyer } from 'src/app/stores/user/action.store';
 import { ApiHttpService } from "./base.services";
 import {  map,catchError} from 'rxjs/operators';
 @Injectable()
@@ -11,9 +11,10 @@ export class UserService {
 
   }
   check(){
+
     if (localStorage.token)
       {
-        this.store.dispatch(Login(null));
+        this.store.dispatch(LoginLawyer(null));
       }
   }
 

@@ -7,18 +7,22 @@ import {  UserService} from "../../services/api/user.service";
 import {   map,switchMap,tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import {  logout, setInfo, Login } from "./action.store";
+import {  logout, setInfoUser, LoginUser, setInfoLawyer, LoginLawyer } from "./action.store";
+import { LawyerService } from './../../services/api/lawyer.service';
 
 
 //REDUCER
 export const initialState = {
   isAuthentified: false,
   user: null,
+  type: null,
+
 }
 const _userReducer = createReducer(
   initialState,
   on(logout,()=>(initialState)),
-  on(setInfo,(state,{user})=>({...state,user:user,isAuthentified:true})),
+  on(setInfoUser,(state,{user})=>({...state,user:user,isAuthentified:true,type:'user'})),
+  on(setInfoLawyer,(state,{user})=>({...state,user:user,isAuthentified:true,type:'lawyer'})),
 );
 
 export function _user_reducer(state, action) {
@@ -34,28 +38,26 @@ export function _user_reducer(state, action) {
 @Injectable()
 export class LoginEffects {
 
-  LoginName$: Observable <Action> = createEffect(
+  LoginNameUser$: Observable <Action> = createEffect(
     () => this.actions$.pipe(
-      ofType(Login),
+      ofType(LoginUser),
       switchMap(
-        playload => this.userService.getUserInfo().pipe(map(user => setInfo({user})))
+        playload => this.userService.getUserInfo().pipe(map(user => setInfoUser({user})))
+      )
+    )
+  )
+  LoginNameLawyer$: Observable <Action> = createEffect(
+    () => this.actions$.pipe(
+      ofType(LoginLawyer),
+      switchMap(
+        playload => this.lawyerService.getLwaerInfo().pipe(map(user => setInfoLawyer({user})))
       )
     )
   )
 
-
-  // LoginName$ = createEffect(
-  //   ()=>this.actions$.pipe(
-  //     ofType(Login),
-  //     switchMap(
-  //       () => this.userService.getUserInfo().pipe(map(user => setInfo({user})))
-  //     )
-  //   )
-  // )
-
-  LoginSuccess$ = createEffect(() =>
+  LoginSuccessUser$ = createEffect(() =>
      this.actions$.pipe(
-        ofType(setInfo),
+        ofType(setInfoUser),
         tap(() =>{
           if (this.router.url=='/login') {
           var returnUrl = this.route.snapshot.queryParams['return'] || '/';
@@ -63,6 +65,22 @@ export class LoginEffects {
         }
         }),
     ), { dispatch: false });
+
+
+    LoginSuccessLawyer$ = createEffect(() =>
+    this.actions$.pipe(
+       ofType(setInfoLawyer),
+       tap(() =>{
+         if (this.router.url=='/login') {
+         this.router.navigate(['/lawyer']);
+       }
+       }),
+   ), { dispatch: false });
+
+
+
+
+
 
     Logout$ = createEffect(() =>
      this.actions$.pipe(
@@ -80,6 +98,7 @@ export class LoginEffects {
     private router: Router,
     private route: ActivatedRoute,
     private actions$: Actions,
-    private userService: UserService
+    private userService: UserService,
+    private lawyerService: LawyerService
   ) {}
 }

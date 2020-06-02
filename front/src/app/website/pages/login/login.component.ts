@@ -1,9 +1,11 @@
+
+import { LawyerService } from './../../../services/api/lawyer.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/api/user.service';
-import { Store, select } from '@ngrx/store';
-import { Login } from 'src/app/stores/user/action.store';
+import { Store, select, Action, ActionCreator } from '@ngrx/store';
+import { LoginUser ,LoginLawyer} from 'src/app/stores/user/action.store';
 import { MessageService } from 'primeng/api/';
 import { FacebookLoginProvider, GoogleLoginProvider, AuthService } from "angularx-social-login";
 
@@ -16,7 +18,10 @@ import { FacebookLoginProvider, GoogleLoginProvider, AuthService } from "angular
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   auth: any;
-  constructor(private authService: AuthService, private messageService: MessageService, private formBuilder: FormBuilder, private userservice: UserService, private store: Store<{ user: any }>, private router: Router, private route: ActivatedRoute, ) {
+  lawyer:boolean=false;
+  api;
+  dispatcherLogin;
+  constructor(private authService: AuthService, private lawyerservice: LawyerService, private messageService: MessageService, private formBuilder: FormBuilder, private userservice: UserService, private store: Store<{ user: any }>, private router: Router, private route: ActivatedRoute, ) {
     this.auth = this.store.pipe(select('user')).subscribe(
       ((state) => {
         if (state && state.isAuthentified) {
@@ -24,6 +29,9 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl(returnUrl);
         }
       }));
+
+   this.api=userservice;
+   this.dispatcherLogin=LoginUser;
   }
 
   ngOnInit(): void {
@@ -34,11 +42,11 @@ export class LoginComponent implements OnInit {
     });
     this.authService.authState.subscribe((user) => {
       if (user && user.idToken) {
-        this.userservice.loginG(user.idToken).subscribe((user: any) => {
+        this.api.loginG(user.idToken).subscribe((user: any) => {
           if (user.token) {
             this.messageService.add({ severity: 'success', summary: user.type, detail: user.message });
             localStorage.setItem('token', user.token);
-            this.store.dispatch(Login(null))
+            this.store.dispatch(this.dispatcherLogin(null))
           }
         },
           error => {
@@ -57,21 +65,45 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-
-
     if (this.loginForm.valid) {
-      this.userservice.login(this.f.email.value, this.f.password.value).subscribe((user: any) => {
+      this.api.login(this.f.email.value, this.f.password.value).subscribe((user: any) => {
         if (user.token) {
           this.messageService.add({ severity: 'success', summary: user.type, detail: user.message });
           localStorage.setItem('token', user.token);
-          this.store.dispatch(Login(null))
+          this.store.dispatch(this.dispatcherLogin(null))
         }
       },
         error => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-          console.error(error);
+
 
         })
+    }
+
+  }
+  changeLU(type){
+    switch (type) {
+      case 'user':
+        {
+          this.api=this.userservice;
+          this.lawyer=false;
+          this.dispatcherLogin=LoginUser;
+          break;
+
+        }
+        case 'lawyer':
+        {
+          this.api=this.lawyerservice;
+          this.lawyer=true;
+          this.dispatcherLogin=LoginLawyer;
+
+          break;
+
+        }
+
+
+      default:
+        break;
     }
 
   }
