@@ -7,7 +7,7 @@ import {  UserService} from "../../services/api/user.service";
 import {   map,switchMap,tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import {  logout, setInfoUser, LoginUser, setInfoLawyer, LoginLawyer } from "./action.store";
+import {  logout, setInfoUser, LoginUser, setInfoLawyer, LoginLawyer, reloadData } from "./action.store";
 import { LawyerService } from './../../services/api/lawyer.service';
 
 
@@ -49,6 +49,14 @@ export class LoginEffects {
   LoginNameLawyer$: Observable <Action> = createEffect(
     () => this.actions$.pipe(
       ofType(LoginLawyer),
+      switchMap(
+        playload => this.lawyerService.getLwaerInfo().pipe(map(user => setInfoLawyer({user})))
+      )
+    )
+  )
+  reloadDataLawyer$: Observable <Action> = createEffect(
+    () => this.actions$.pipe(
+      ofType(reloadData),
       switchMap(
         playload => this.lawyerService.getLwaerInfo().pipe(map(user => setInfoLawyer({user})))
       )

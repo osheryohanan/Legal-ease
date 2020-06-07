@@ -1,3 +1,4 @@
+import { zoomApiController } from './controller/zoomapi.controller';
 import { lawyerRoute } from './routes/lawyer.route';
 import express from "express";
 import cors from "cors";
@@ -25,6 +26,47 @@ app.use("/user", new userRoute().router);
 app.use("/lawyer", new lawyerRoute().router);
 app.use("/comments", new commentsRoute().router);
 
+var test=new zoomApiController();
+app.get('/test/api', async (req,res)=>{
+
+  try {
+  let tokens=await test.getAccessToken(req.query.code)
+  let user=await test.checkuser(tokens.access_token)
+  res.send({user,tokens});  
+  } catch (error) {
+    res.send({error:'true',type:error})
+  }
+})
+app.get('/test/refresh_token', async (req,res)=>{
+
+  try {
+  let tokens=await test.refreshAccessToken(req.query.refresh_token);
+  let sawait= await test.saveRefreshToken(tokens,'5ed3d805f399e42330d7f885')
+  res.send({tokens,sawait});  
+  } catch (error) {
+    res.send({error:'true',type:error})
+  }
+})
+
+app.get('/test/meeting', async (req,res)=>{
+
+  try {
+  let meeing = await test.addMeeting() 
+  res.send({meeing});  
+  } catch (error) {
+    res.send({error:'true',type:error})
+  }
+})
+app.get('/test/mymeeting', async (req,res)=>{
+
+  try {
+  let meeing = await test.myMeeting(req.query.access_token) 
+  res.send({meeing});  
+  } catch (error) {
+    res.send({error:'true',type:error})
+  }
+})
+
 
 
 var website=express();
@@ -47,6 +89,9 @@ try {
 }
 });
 app.use('/',website);
+
+
+
 
 
 

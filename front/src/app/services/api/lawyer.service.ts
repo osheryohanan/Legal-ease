@@ -29,6 +29,9 @@ export class LawyerService {
   register(data){
     return this.api.post('lawyer/create',data)
   }
+  update(data){
+    return this.api.put('lawyer/update',data)
+  }
   logout(){
     this.store.dispatch(logout())
   }

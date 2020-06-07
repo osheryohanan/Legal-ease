@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit {
       ((state) => {
         if (state) {
           this.user=state.user;
+
         }
       }));
 
