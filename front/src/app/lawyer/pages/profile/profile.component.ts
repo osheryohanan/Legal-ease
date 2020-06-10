@@ -3,15 +3,32 @@ import { LawyerService } from './../../../services/api/lawyer.service';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api/';
 import { ToastrService } from 'ngx-toastr';
 import swal from "sweetalert2";
+import { Injectable } from '@angular/core';
+@Injectable({providedIn: 'root'})
+export class ValidatorService {
+  constructor() { }
+  minLengthArray(min: number) {
+    return (c: AbstractControl): {[key: string]: any} => {
+
+        if (c.value.length >= min)
+            return null;
+
+        return { 'minLengthArray': {valid: false }};
+    }
+}
+
+}
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  providers:[ValidatorService]
 })
 export class ProfileComponent implements OnInit {
   model: NgbDateStruct;
@@ -19,7 +36,11 @@ export class ProfileComponent implements OnInit {
   user: any;
   userForm: FormGroup;
   submited: boolean=false;
-  constructor(private store:Store<{user:any}>,private formBuilder: FormBuilder,public toastr: ToastrService,public lawyerService:LawyerService) {
+  cateE:boolean=false;
+  category:Array<any>;
+
+  constructor(private validationService:ValidatorService,private store:Store<{user:any}>,private formBuilder: FormBuilder,public toastr: ToastrService,public lawyerService:LawyerService) {
+      this.lawyerService.category().subscribe((arg:Array<any>) => {this.category = arg;this.getdata()});
 
    }
 
@@ -35,11 +56,25 @@ export class ProfileComponent implements OnInit {
       email:[{value: '', disabled: true}],
       address:['',[]],
       morInfo:['',[]],
+      category:['',[this.validationService.minLengthArray(1)]],
     });
+
+
+
+
+
+  }
+  getdata(){
     this.auth = this.store.pipe(select('user')).subscribe(
       ((state) => {
         if (state && state.isAuthentified) {
           this.user=state.user;
+
+
+          // let cate=this.category.filter((user)=>{
+          //   let ids=this.user.category.map(x=>x._id)
+          //   if(user._id in ids)return true;return false;
+          // },{})
 
           this.userForm.patchValue({
             firstname:this.user.firstname,
@@ -51,19 +86,21 @@ export class ProfileComponent implements OnInit {
             lawyerNum:this.user.lawyerNum||'',
             address:this.user.address||'',
             morInfo:this.user.morInfo||'',
+            category:this.user.category||''
+
 
 
           })
         }
       }));
-
-
-
   }
   submit(){
     this.submited=true;
+    // console.log(this.userForm.getRawValue());return;
+    var form=this.userForm.getRawValue();
+    // delete form.category;
     if(this.userForm.valid){
-      this.lawyerService.update(this.userForm.getRawValue()).subscribe((data:any)=>{
+      this.lawyerService.update(form).subscribe((data:any)=>{
         swal.fire({
           title: "Saved!",
           text: "We saved the changes!",
@@ -123,3 +160,4 @@ export class ProfileComponent implements OnInit {
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+

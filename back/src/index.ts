@@ -1,6 +1,6 @@
 import { zoomApiController } from './controller/zoomapi.controller';
 import { lawyerRoute } from './routes/lawyer.route';
-import express from "express";
+import express,{Application,Router} from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { userRoute } from "./routes/user.route";
@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 import { errorHandler } from "./interfaces/error.interfaces";
 require("dotenv").config();
-const app = express();
+const app:Application = express();
 
 //json -POST
 app.use(bodyParser.json());
@@ -69,7 +69,7 @@ app.get('/test/mymeeting', async (req,res)=>{
 
 
 
-var website=express();
+var website:Application=express();
 website.get('*', (req, res) => {
 try {
   if (fs.existsSync(path.join(__dirname, "../../", "front/dist/lease-ease/index.html"))) {

@@ -1,30 +1,16 @@
-import {
-    Request,
-    Response
-} from 'express';
-import {
-    validationResult
-} from "express-validator";
+import { Request, Response } from 'express';
+import { validationResult } from "express-validator";
 import * as bcrypt from "bcryptjs";
 import * as jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
-import {
-    OAuth2Client
-} from "google-auth-library";
-import {
-    errorHandler
-} from '../interfaces/error.interfaces';
-
-import {
-    Ilawyer,
-    IlawyerD,
-    Lawyer
-} from '../model/lawyer.model';
-
+import { OAuth2Client } from "google-auth-library";
+import { errorHandler } from '../interfaces/error.interfaces';
+import { Ilawyer, IlawyerD, Lawyer } from '../model/lawyer.model';
+import { Category, Icategory, IcategoryD } from './../model/category.model';
 var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
 
-
+import mongoose,{  } from "mongoose";
 export class lawyerController {
     constructor() {
 
@@ -42,21 +28,14 @@ export class lawyerController {
 
         }
         const {
-            email,
-            password,
-            firstname,
-            lastname,
-            phone,
-            lawyerNum,
-            gid
-        } = req.body;
+            email, password, firstname, lastname, phone, lawyerNum, gid } = req.body;
 
         try {
             let c = await Lawyer.findOne({
                 "email": email
             });
             if (c) {
-                let msg: Array < string > = [];
+                let msg: Array<string> = [];
                 msg.push('Email Already Exists');
                 var error: errorHandler = {
                     status: 400,
@@ -80,7 +59,7 @@ export class lawyerController {
             await lawyerModel.save();
             const payload = {
                 user: {
-                    type:'lawyer',
+                    type: 'lawyer',
                     id: lawyerModel._id
                 }
             };
@@ -98,7 +77,7 @@ export class lawyerController {
                 status: 500,
                 message: `We occured an error during saving, please try again later.`,
                 type: 'DataBasing',
-                all:error
+                all: error
 
             }
             return res.status(error.status).send(error);
@@ -146,7 +125,7 @@ export class lawyerController {
             }
             const payload = {
                 user: {
-                    type:'lawyer',
+                    type: 'lawyer',
                     id: user.id
                 }
             };
@@ -155,9 +134,9 @@ export class lawyerController {
             return jwt.sign(
                 payload,
                 privateKey, {
-                    expiresIn: expiresIn,
-                    algorithm: 'RS256',
-                },
+                expiresIn: expiresIn,
+                algorithm: 'RS256',
+            },
 
                 (err, token) => {
                     if (err) throw err;
@@ -225,16 +204,16 @@ export class lawyerController {
             }
             const payload = {
                 user: {
-                    type:'lawyer',
+                    type: 'lawyer',
                     id: user._id
                 }
             };
             return jwt.sign(
                 payload,
                 privateKey, {
-                    expiresIn: 10000,
-                    algorithm: 'RS256',
-                },
+                expiresIn: 10000,
+                algorithm: 'RS256',
+            },
 
                 (err, token) => {
                     if (err) throw err;
@@ -259,7 +238,11 @@ export class lawyerController {
         if (req.body.meetingDiary) delete req.body.meetingDiary;
         if (req.body._id) delete req.body._id;
         if (req.body.imagePath) delete req.body.imagePath;
-
+        if(req.body.category){
+            let category:Array<any>= req.body.category;
+            req.body.category=category.map(x=>mongoose.Types.ObjectId(x._id))
+        }
+        
         Lawyer.findByIdAndUpdate(req.user._id, {
             $set: req.body
         }, function (err, product) {
@@ -286,7 +269,7 @@ export class lawyerController {
         })
     };
     me(req: any, res: Response) {
-        Lawyer.findById(req.user._id, '-password', function (err, user) {
+        Lawyer.findById(req.user._id, '-password').populate('category').exec(function (err, user) {
             if (err) {
                 var error: errorHandler = {
                     status: 400,
@@ -376,9 +359,9 @@ export class lawyerController {
             jwt.sign(
                 payload,
                 privateKey, {
-                    expiresIn: 10000,
-                    algorithm: 'RS256',
-                },
+                expiresIn: 10000,
+                algorithm: 'RS256',
+            },
 
                 (err, token) => {
                     if (err) throw err;
@@ -451,6 +434,42 @@ export class lawyerController {
 
 
     }
+    async getCategory(req: Request, res: Response) {
+        try {
 
 
+
+            Category.find({}, (err, product) => {
+                res.send(product)
+            })
+            //    res.send(await Category.find());
+
+        } catch (error) {
+            var error: errorHandler = {
+                status: 500,
+                message: `We occured an error during saving, please try again later.`,
+                type: 'DataBasing',
+
+            }
+            return res.status(error.status).send(error);
+        }
+    }
+    
+    addcategory(req: Request, res: Response) {
+
+        // Lawyer.find({ _id: "5ed3d805f399e42330d7f885" },(err,pro)=>{res.send(pro)})$
+        
+        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $addToSet: {category:[mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52f")] }}, (err, pro) => {
+            res.send(pro)
+           
+        })
+
+    }
+    deletecategory(req: Request, res: Response){
+        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $pull: {category:mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52e") }}, (err, pro) => {
+            res.send(pro)
+           
+        })
+    }
+  
 }

@@ -19,8 +19,12 @@ export class lawyerRoute {
         this.router.post('/loginG',[checkDbConnection,check('tokenid','Please enter you gid').notEmpty()], this.controller.loginGid);
         this.router.post('/profileImageUpdate',[auth,checkDbConnection,checkLawyer,upload.single('photo')], this.controller.uploadImage);
         this.router.post('/me',[auth,checkDbConnection,checkLawyer], this.controller.me);
-        this.router.put('/update',[auth,checkDbConnection,checkLawyer], this.controller.update);
+        this.router.put('/update',[auth,checkDbConnection,checkLawyer,body('category').custom(function(value) {return Array.isArray(value);})], this.controller.update);
         this.router.delete('/remove/:id',[auth], this.controller.delete);
+        this.router.get('/category',[checkDbConnection],this.controller.getCategory)
+        this.router.get('/addcategory',this.controller.addcategory)
+        this.router.get('/deletecategory',this.controller.deletecategory)
+
     }
 }
 

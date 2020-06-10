@@ -14,13 +14,13 @@ export interface Ilawyer{
     password:string,
     gid?:string,
     morInfo?:string,
-
+    category?:object,
 
     
     articlesPath?:string, //many
     videosPath?:string, //many
     picturesPath?:string, //many
-    category?:string, // Cest quoi les troum? ObjectID
+
     meetingDiary?:string,//id  ARRY Cest rendez vous faire base de donner a cote ObjectID
     workArea?:string, //Darom Tsafon
 
@@ -59,6 +59,7 @@ let lawyerSchema:Schema = new Schema({
     gid:{type: Schema.Types.String },
     morInfo:{type: Schema.Types.String },
     zoomDetails:{type: Object },
+    category:[{ type : Schema.Types.ObjectId, ref: 'categories' }],
 
 });
 

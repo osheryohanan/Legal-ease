@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { MeetingsComponent } from './pages/meetings/meetings.component';
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 
 @NgModule({
   declarations: [DashboardComponent, ProfileComponent, MeetingsComponent],
@@ -19,7 +20,8 @@ import { MeetingsComponent } from './pages/meetings/meetings.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    AngularMultiSelectModule
 
 
   ],

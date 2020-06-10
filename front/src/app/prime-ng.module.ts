@@ -8,6 +8,7 @@ import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import {MenubarModule} from 'primeng/menubar';
+import {MultiSelectModule} from 'primeng/multiselect';
 @NgModule({
   exports: [
     DialogModule,
@@ -15,6 +16,7 @@ import {MenubarModule} from 'primeng/menubar';
     MenubarModule,
     StepsModule,
     DropdownModule,
+    MultiSelectModule,
     ToastModule,
     ConfirmDialogModule
   ],
@@ -25,6 +27,7 @@ import {MenubarModule} from 'primeng/menubar';
     MenubarModule,
     StepsModule,
     DropdownModule,
+    MultiSelectModule,
     ToastModule
   ],
   providers:[ConfirmationService]

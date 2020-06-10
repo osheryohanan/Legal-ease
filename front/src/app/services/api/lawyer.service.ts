@@ -35,6 +35,12 @@ export class LawyerService {
   logout(){
     this.store.dispatch(logout())
   }
+  category(){
+    return this.api.get('lawyer/category')
+  }
+  updatecategy(data){
+    return this.api.post('lawyer/tamer',data);
+  }
 
   getLwaerInfo(token?){
     if(localStorage.getItem('token')){

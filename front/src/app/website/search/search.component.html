@@ -10,9 +10,9 @@
             </div>
           </div>
           <div class="row">
-            <div class="troum">
+            <div class="troum" *ngFor="let item of category" >
               <img src="assets/img/legalEaseLogo.png" alt="">
-              <p class="description text-center">DSFSDFSDFSDFSDFSD</p>
+              <p class="description text-center">{{item.name}}</p>
             </div>
           </div>
         </div>
