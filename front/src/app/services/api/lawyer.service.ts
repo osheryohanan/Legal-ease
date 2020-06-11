@@ -38,8 +38,8 @@ export class LawyerService {
   category(){
     return this.api.get('lawyer/category')
   }
-  updatecategy(data){
-    return this.api.post('lawyer/tamer',data);
+  getbycategory(id){
+    return this.api.get(`lawyer/bycategory?id=${id}`);
   }
 
   getLwaerInfo(token?){

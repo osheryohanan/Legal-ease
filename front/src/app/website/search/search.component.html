@@ -10,10 +10,25 @@
             </div>
           </div>
           <div class="row">
-            <div class="troum" *ngFor="let item of category" >
-              <img src="assets/img/legalEaseLogo.png" alt="">
-              <p class="description text-center">{{item.name}}</p>
+            <div class="col-6 col-md-2" *ngFor="let item of category" (click)="redirect(item._id)">
+              <div class="troum"  >
+
+                <div class="row">
+                  <div class="col d-flex justify-content-center ">
+                    <div class="pimf">
+                      <img src="assets/img/legalEaseLogo.png" alt="">
+                    </div>
+                  </div>
+                </div>
+                <div class="row ds">
+                  <div class="col">
+                    <p class="description text-center">{{item.name}}</p>
+                  </div>
+                </div>
+
+              </div>
             </div>
+
           </div>
         </div>
       </div>

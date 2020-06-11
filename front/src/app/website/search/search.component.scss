@@ -1,8 +1,37 @@
 .troum{
-  padding: 2rem;
+  margin-top: 14px;
+  padding: 1rem;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.582);
   .description{
     color: #000;
   }
 }
+
+
+.pimf{
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+  overflow: hidden;
+}
+ .ds{
+  width: 7rem;
+  height: 3rem;
+  max-height: 3rem;
+  max-width: 7rem;
+ }
+ @media (min-width :787px){
+   .troum{
+    max-width: 7rem !important;
+   }
+ }
+
+ @media (max-width :787px){
+
+  .page-header{
+    max-height: fit-content !important;
+  }
+ }

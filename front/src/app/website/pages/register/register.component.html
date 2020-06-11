@@ -111,14 +111,14 @@
                   <p>
                     <mat-form-field appearance="legacy">
                       <mat-label>*שם פרטי</mat-label>
-                      <input matInput formControlName="firstname" placeholder="">
+                      <input matInput formControlName="firstname" placeholder="" autocomplete="given-name">
                       <mat-error *ngIf="fUser.firstname.invalid">Not a valid firstname</mat-error>
                     </mat-form-field>
                   </p>
                   <p>
                     <mat-form-field appearance="legacy">
                       <mat-label>*שם משפחה</mat-label>
-                      <input matInput formControlName="lastname" placeholder="">
+                      <input matInput formControlName="lastname" placeholder="" autocomplete="family-name">
                       <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                       <mat-error *ngIf="fUser.lastname.invalid">Not a valid lastname</mat-error>
                     </mat-form-field>
@@ -126,14 +126,14 @@
                   <p>
                     <mat-form-field appearance="legacy">
                       <mat-label>*אימייל</mat-label>
-                      <input matInput type="email" formControlName="email" placeholder="">
+                      <input matInput type="email" formControlName="email" placeholder=""  autocomplete="email">
                       <mat-error *ngIf="fUser.email.invalid">Not a valid email</mat-error>
                     </mat-form-field>
                   </p>
                   <p>
                     <mat-form-field appearance="legacy">
                       <mat-label>*מספר עורך דין</mat-label>
-                      <input matInput formControlName="text" placeholder="">
+                      <input matInput formControlName="text" placeholder=""  >
                       <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                       <mat-error *ngIf="fUser.password.invalid">Not a valid </mat-error>
                     </mat-form-field>
@@ -141,7 +141,7 @@
                   <p>
                     <mat-form-field appearance="legacy">
                       <mat-label>*טלפון</mat-label>
-                      <input matInput type="text" formControlName="phone" placeholder="">
+                      <input matInput type="text" formControlName="phone" placeholder="" autocomplete="tel">
                       <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                       <mat-error *ngIf="fUser.phone.invalid">Not a valid phone number</mat-error>
                     </mat-form-field>
@@ -149,7 +149,7 @@
                   <p>
                     <mat-form-field appearance="legacy">
                       <mat-label>*סיסמא</mat-label>
-                      <input matInput formControlName="password" placeholder="">
+                      <input matInput formControlName="password" placeholder="" autocomplete="new-password" type="password">
                       <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                       <mat-error *ngIf="fUser.password.invalid">Not a valid </mat-error>
                     </mat-form-field>
@@ -157,7 +157,7 @@
                   <p>
                     <mat-form-field appearance="legacy">
                       <mat-label>*אישור סיסמא</mat-label>
-                      <input matInput formControlName="repassword" placeholder="">
+                      <input matInput formControlName="repassword" placeholder="" type="password">
                       <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                     </mat-form-field>
                   </p>

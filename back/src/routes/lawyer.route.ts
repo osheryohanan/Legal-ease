@@ -1,6 +1,6 @@
 import express from 'express';
 import { lawyerController } from "../controller/lawyer.controller";
-import { check,body } from 'express-validator';
+import { check,body, param, query } from 'express-validator';
 import multer from 'multer';
 var uploadMulter = multer();
 import { checkDbConnection,upload } from "../middleware/all.middleware";
@@ -22,8 +22,7 @@ export class lawyerRoute {
         this.router.put('/update',[auth,checkDbConnection,checkLawyer,body('category').custom(function(value) {return Array.isArray(value);})], this.controller.update);
         this.router.delete('/remove/:id',[auth], this.controller.delete);
         this.router.get('/category',[checkDbConnection],this.controller.getCategory)
-        this.router.get('/addcategory',this.controller.addcategory)
-        this.router.get('/deletecategory',this.controller.deletecategory)
+        this.router.get('/bycategory',[auth,checkDbConnection,query('id','Please enter an ids').notEmpty()],this.controller.getbycategory)
 
     }
 }

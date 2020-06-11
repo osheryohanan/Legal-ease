@@ -2,6 +2,8 @@ import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/services/api/user.service';
+import { LawyerService } from './../../../services/api/lawyer.service';
+
 import { Store, select } from '@ngrx/store';
 import { LoginUser } from 'src/app/stores/user/action.store';
 import { MessageService } from 'primeng/api';
@@ -25,6 +27,7 @@ export class RegisterComponent implements OnInit {
     public router: Router,
     private formBuilder: FormBuilder,
     private userservice: UserService,
+    private lawyerservice: LawyerService,
     private route: ActivatedRoute,
     private store: Store<{ user: any }>,
     private messageService: MessageService) {
@@ -85,8 +88,24 @@ export class RegisterComponent implements OnInit {
 
   }
   onLawyerSubmit() {
-    alert('under construction');
-    console.log(this.fLawyer);
+    if (this.registeLawyerForm.valid) {
+      this.lawyerservice.register(this.registeUserForm.getRawValue()).subscribe((user: any) => {
+        if (user.token) {
+          this.messageService.add({ severity: 'success', summary: user.type, detail: user.message });
+          localStorage.setItem('token', user.token);
+          this.store.dispatch(LoginUser(null))
+        }
+      },
+        error => {
+          // console.error(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+          // console.clear();
+
+        })
+    }
 
 
   }

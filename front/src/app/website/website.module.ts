@@ -14,6 +14,7 @@ import { PrimeNGModule } from '../prime-ng.module';
 import { SearchComponent } from './search/search.component';
 import { Title } from '@angular/platform-browser';
 import { SocialLoginModule, AuthServiceConfig,GoogleLoginProvider } from "angularx-social-login";
+import { LawyersListComponent } from './pages/lawyers-list/lawyers-list.component';
 
 export function provideConfig() {
   return  new AuthServiceConfig([
@@ -30,7 +31,7 @@ export function provideConfig() {
 
 
 @NgModule({
-  declarations: [ LoginComponent, RegisterComponent, IndexComponent, SearchComponent],
+  declarations: [ LoginComponent, RegisterComponent, IndexComponent, SearchComponent, LawyersListComponent],
   imports: [
     CommonModule,
     WebsiteRoutingModule,

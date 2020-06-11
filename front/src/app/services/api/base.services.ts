@@ -15,9 +15,7 @@ export class ApiHttpService {
     return new HttpHeaders(obj);
   }
   public get(url: string) {
-    return this.http.get(environment.apiURL + url, {
-      headers: this.getHeader(),
-    });
+    return this.http.get(environment.apiURL + url, {headers: this.getHeader()});
   }
   public post(url: string, data: any) {
 

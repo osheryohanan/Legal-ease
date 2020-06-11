@@ -38,9 +38,10 @@ export class ProfileComponent implements OnInit {
   submited: boolean=false;
   cateE:boolean=false;
   category:Array<any>;
+  subs: Subscription[]=[];
 
   constructor(private validationService:ValidatorService,private store:Store<{user:any}>,private formBuilder: FormBuilder,public toastr: ToastrService,public lawyerService:LawyerService) {
-      this.lawyerService.category().subscribe((arg:Array<any>) => {this.category = arg;this.getdata()});
+      this.subs.push(this.lawyerService.category().subscribe((arg:Array<any>) => {this.category = arg;this.getdata()}));
 
    }
 
@@ -65,7 +66,7 @@ export class ProfileComponent implements OnInit {
 
   }
   getdata(){
-    this.auth = this.store.pipe(select('user')).subscribe(
+    this.subs.push(this.auth = this.store.pipe(select('user')).subscribe(
       ((state) => {
         if (state && state.isAuthentified) {
           this.user=state.user;
@@ -92,7 +93,7 @@ export class ProfileComponent implements OnInit {
 
           })
         }
-      }));
+      })));
   }
   submit(){
     this.submited=true;
@@ -100,7 +101,7 @@ export class ProfileComponent implements OnInit {
     var form=this.userForm.getRawValue();
     // delete form.category;
     if(this.userForm.valid){
-      this.lawyerService.update(form).subscribe((data:any)=>{
+      this.subs.push(this.lawyerService.update(form).subscribe((data:any)=>{
         swal.fire({
           title: "Saved!",
           text: "We saved the changes!",
@@ -114,7 +115,7 @@ export class ProfileComponent implements OnInit {
       error=>{
         console.error(error);
 
-      })
+      }))
       return;
     }
     this.toastr.error(
@@ -152,6 +153,10 @@ export class ProfileComponent implements OnInit {
   get description(){
     if (!this.user) return '';
     return this.user.morInfo? this.user.morInfo : ''
+  }
+  ngOnDestroy() {
+
+    this.subs.forEach(elem=>elem.unsubscribe());
   }
 
 }

@@ -444,7 +444,7 @@ export class lawyerController {
             })
             //    res.send(await Category.find());
 
-        } catch (error) {
+        } catch (err) {
             var error: errorHandler = {
                 status: 500,
                 message: `We occured an error during saving, please try again later.`,
@@ -470,6 +470,37 @@ export class lawyerController {
             res.send(pro)
            
         })
+    }
+    async getbycategory(req: Request, res: Response){
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            var error: errorHandler = {
+                status: 400,
+                message: `We need to specified all attributes`,
+                type: 'Requirement',
+                all: errors.array()
+            }
+            return res.status(error.status).send(error);
+        }
+        try {
+            var ids:string=req.query.id.toString();
+          
+            let lawyer=await Lawyer.find({ category: { "$in" : [ids]} }).populate('category').select('-password -__v -zoomDetails')
+            res.send(lawyer);
+            
+        } catch (err) {
+            var error: errorHandler = {
+                status: 500,
+                message: `We occured an error during saving, please try again later.`,
+                type: 'DataBasing',
+                all:err
+
+            }
+            return res.status(error.status).send(error);
+            
+        }
+   
+
     }
   
 }
