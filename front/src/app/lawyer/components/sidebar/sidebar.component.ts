@@ -104,6 +104,14 @@ export const ROUTES: RouteInfo[] = [
         title: "User Profile",
         type: "link",
         smallTitle: "UP"
+      },
+      {
+        path: "availability",
+        rtlTitle: "ملف تعريفي للمستخدم",
+        rtlSmallTitle: " شع",
+        title: "Availability",
+        type: "link",
+        smallTitle: "AV"
       }
     ]
   },

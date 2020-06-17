@@ -1,0 +1,86 @@
+<div class="wrapper">
+  <div class="cd-section">
+    <div class="header header-1">
+      <div class="page-header header-filter">
+        <div class="page-header-image" style="background-image: url('assets/img/bac1.png');"></div>
+        <div class="container">
+          <div class="row" *ngIf="error.length>0">
+            <div class="col" *ngFor="let item of error">
+              <div class="alert alert-danger" role="alert">
+                {{item}}
+              </div>
+            </div>
+          </div>
+          <div *ngIf="lawyer">
+            <div class="row" *ngIf="!dispo" [@inOutAnimation]>
+              <div class="col" >
+                <div class="card" >
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6 col-12">
+                        <div class="usercard__avatar-wrap" [style.background-image]="'url('+lawyer.imagePath+')'">
+                          <!-- <img class="usercard__avatar" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/186499/default-avatar.png" alt="avatar"> -->
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-12">
+                        <div class="row">
+                          <div class="col">
+                            <h1>
+                              {{lawyer.firstname +' ' +lawyer.lastname}}
+                            </h1>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <span class="fa fa-star" [class.checked]="lawyer.rating.score>1?'checked':''"></span>
+                            <span class="fa fa-star" [class.checked]="lawyer.rating.score>2?'checked':''"></span>
+                            <span class="fa fa-star" [class.checked]="lawyer.rating.score>3?'checked':''"></span>
+                            <span class="fa fa-star" [class.checked]="lawyer.rating.score>4?'checked':''"></span>
+                            <span class="fa fa-star" [class.checked]="lawyer.rating.score>5?'checked':''"></span>
+                            <p>{{lawyer.rating.score}} average based on {{lawyer.rating.all}} reviews.</p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <h2>I can help you</h2>
+                            <div class="alert alert-lease" role="alert" *ngFor="let item of lawyer.category" >
+                              {{item.name}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <h2>About</h2>
+                            <div class="info utile">
+                              <p>{{lawyer.morInfo}}</p>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+                    <div class="row ">
+                      <div class="col d-flex align-items-center justify-content-center">
+                        <button type="button" class="btn btn-primary" (click)="dispo=true;" >View disponibility</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="dispo" >
+              <div class="card">
+                <div class="card-body">
+                  <button type="button" class="btn btn-primary" (click)="dispo=false;">View disponibility</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader *ngIf="loading"></app-loader>

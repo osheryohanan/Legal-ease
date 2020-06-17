@@ -1,6 +1,6 @@
-db thoumim -  
+OK - db thoumim -  
 
-select thoumim 
+OK - select thoumim 
 
 Zman panouille 
 

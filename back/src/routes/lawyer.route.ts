@@ -4,7 +4,7 @@ import { check,body, param, query } from 'express-validator';
 import multer from 'multer';
 var uploadMulter = multer();
 import { checkDbConnection,upload } from "../middleware/all.middleware";
-import { auth,checkLawyer } from "../middleware/authentification.middleware";
+import { auth,checkLawyer,checkUser } from "../middleware/authentification.middleware";
 
 
 export class lawyerRoute {
@@ -23,6 +23,7 @@ export class lawyerRoute {
         this.router.delete('/remove/:id',[auth], this.controller.delete);
         this.router.get('/category',[checkDbConnection],this.controller.getCategory)
         this.router.get('/bycategory',[auth,checkDbConnection,query('id','Please enter an ids').notEmpty()],this.controller.getbycategory)
+        this.router.get('/getinfo/:id',[auth,checkDbConnection,checkUser,param('id','Please enter an id').notEmpty()], this.controller.getlawyerbyid);
 
     }
 }

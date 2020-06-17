@@ -42,6 +42,10 @@ export class LawyerService {
     return this.api.get(`lawyer/bycategory?id=${id}`);
   }
 
+  getLawyerInfoUser(id){
+    return this.api.get(`lawyer/getinfo/${id}`);
+  }
+
   getLwaerInfo(token?){
     if(localStorage.getItem('token')){
       return this.api.post('lawyer/me',null).pipe(

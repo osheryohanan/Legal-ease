@@ -15,7 +15,7 @@ export interface Ilawyer{
     gid?:string,
     morInfo?:string,
     category?:object,
-
+    availability?:object,
     
     articlesPath?:string, //many
     videosPath?:string, //many
@@ -26,6 +26,7 @@ export interface Ilawyer{
 
 
 
+    
     
     payments?:string,//id  ARRY
     bankDetails?:string
@@ -53,12 +54,13 @@ let lawyerSchema:Schema = new Schema({
     address:{type: Schema.Types.String },
     phone:{type: Schema.Types.String,required: true },
     companyPhone:{type: Schema.Types.String ,},
-    imagePath:{type: Schema.Types.String ,},
+    imagePath:{type: Schema.Types.String ,default:'/assets/img/profile.png'},
     birstday:{type: Schema.Types.Date},
     createdAt: {type: Date,default: Date.now()},
     gid:{type: Schema.Types.String },
     morInfo:{type: Schema.Types.String },
     zoomDetails:{type: Object },
+    availability:{type: Object },
     category:[{ type : Schema.Types.ObjectId, ref: 'categories' }],
 
 });

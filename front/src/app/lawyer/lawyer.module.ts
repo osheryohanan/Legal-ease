@@ -10,9 +10,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
+import { AvailabilityComponent } from './pages/availability/availability.component';
 
 @NgModule({
-  declarations: [DashboardComponent, ProfileComponent, MeetingsComponent],
+  declarations: [DashboardComponent, ProfileComponent, MeetingsComponent, AvailabilityComponent],
   imports: [
     CommonModule,
     PrimeNGModule,

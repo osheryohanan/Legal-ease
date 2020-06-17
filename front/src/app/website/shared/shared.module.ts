@@ -5,16 +5,17 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from "../../material.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoaderComponent } from './loader/loader.component';
 
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent],
+  declarations: [NavbarComponent, FooterComponent, LoaderComponent],
   imports: [
     MaterialModule,
     CommonModule,
     NgbModule,
     RouterModule
   ],
-  exports:[NavbarComponent, FooterComponent],
+  exports:[NavbarComponent, FooterComponent,LoaderComponent],
 })
 export class SharedModule { }

@@ -11,10 +11,12 @@ import { ApiHttpService } from '../services/api/base.services';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '../material.module';
 import { PrimeNGModule } from '../prime-ng.module';
-import { SearchComponent } from './search/search.component';
+import { SearchComponent } from './pages/search/search.component';
 import { Title } from '@angular/platform-browser';
 import { SocialLoginModule, AuthServiceConfig,GoogleLoginProvider } from "angularx-social-login";
 import { LawyersListComponent } from './pages/lawyers-list/lawyers-list.component';
+import { LawyerComponent } from './pages/lawyer/lawyer.component';
+import { SharedModule } from './shared/shared.module';
 
 export function provideConfig() {
   return  new AuthServiceConfig([
@@ -31,7 +33,7 @@ export function provideConfig() {
 
 
 @NgModule({
-  declarations: [ LoginComponent, RegisterComponent, IndexComponent, SearchComponent, LawyersListComponent],
+  declarations: [ LoginComponent, RegisterComponent, IndexComponent, SearchComponent, LawyersListComponent, LawyerComponent],
   imports: [
     CommonModule,
     WebsiteRoutingModule,
@@ -40,7 +42,8 @@ export function provideConfig() {
     HttpClientModule,
     MaterialModule,
     PrimeNGModule,
-    SocialLoginModule
+    SocialLoginModule,
+    SharedModule,
 
   ],
    providers: [

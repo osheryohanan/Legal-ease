@@ -502,5 +502,52 @@ export class lawyerController {
    
 
     }
+
+
+    async getlawyerbyid(req: Request, res: Response){
+        const errors = validationResult(req);
+        let validID=mongoose.Types.ObjectId.isValid(req.params.id);
+        if (!errors.isEmpty()||!validID) {
+
+            var error: errorHandler = {
+                status: 400,
+                message: validID?`We need to specified all attributes`:'Lawyer id not valid',
+                type: 'Requirement',
+                all: errors.array()
+            }
+            return res.status(error.status).send(error);
+        }
+        try {
+            let user: any = await Lawyer.findOne({
+                _id:mongoose.Types.ObjectId(req.params.id)
+            }).select('-password -zoomDetails -birstday').populate('category');
+            if (!user) {
+                var error: errorHandler = {
+                    status: 400,
+                    message: `Lawyer not exist!.`,
+                    type: 'Anth Error',
+                }
+                return res.status(error.status).send(error);
+            }
+            
+            if(!user.imagePath)user.set('imagePath','/assets/img/profile.png',{strict:false})
+            user.firstname=user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1); 
+            user.lastname=user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1); 
+
+            user.set('rating',{
+                score:4.1,
+                all:343
+                
+            },
+            {strict:false})
+        
+            return res.send(user);
+            
+        } catch (error) {
+            
+        }
+        
+    }
+
   
 }
