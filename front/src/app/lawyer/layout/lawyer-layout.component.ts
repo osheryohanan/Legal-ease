@@ -16,7 +16,7 @@ var misc: any = {
 export class LawyerLayoutComponent implements OnInit {
   constructor(public router: Router, public toastr: ToastrService) {}
   @HostListener("window:scroll", ["$event"])
-  showNavbarButton = () => {
+  showNavbarButton = (event=null) => {
     var mainPanel: any = document.getElementsByClassName("main-panel")[0];
     var navbarMinimize: any = document.getElementsByClassName(
       "navbar-minimize-fixed"

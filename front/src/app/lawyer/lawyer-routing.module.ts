@@ -10,8 +10,12 @@ import { AvailabilityComponent } from './pages/availability/availability.compone
 const routes: Routes = [
   { path: '', component: DashboardComponent,/*canActivate:[UserActivateService]*/ },
   { path: 'profile', component: ProfileComponent,/*canActivate:[UserActivateService]*/ },
-  { path: 'mymeetings', component: MeetingsComponent,/*canActivate:[UserActivateService]*/ },
+
   { path: 'availability', component: AvailabilityComponent,/*canActivate:[UserActivateService]*/ },
+  {
+    path: "mymeetings",
+    loadChildren: () => import('./pages/meetings/meetings.module').then(m => m.MeetingsModule)
+  },
 
 ]
 

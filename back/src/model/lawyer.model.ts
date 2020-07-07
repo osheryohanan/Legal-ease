@@ -16,6 +16,8 @@ export interface Ilawyer{
     morInfo?:string,
     category?:object,
     availability?:object,
+    rating?:object,
+    priceHourly?:number,
     
     articlesPath?:string, //many
     videosPath?:string, //many
@@ -61,6 +63,7 @@ let lawyerSchema:Schema = new Schema({
     morInfo:{type: Schema.Types.String },
     zoomDetails:{type: Object },
     availability:{type: Object },
+    priceHourly:{type: Object },
     category:[{ type : Schema.Types.ObjectId, ref: 'categories' }],
 
 });

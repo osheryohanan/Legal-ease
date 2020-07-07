@@ -1,0 +1,19 @@
+<div class="row" *ngIf="availability" >
+  <div class="col-12" *ngFor="let item of availability" >
+    <p-checkbox name="group1" [value]="item" [label]="item" [(ngModel)]="selectedValues" [disabled]="readOnly(item)" (onChange)="change($event,item)" [inputId]="item" ></p-checkbox>
+  </div>
+</div>
+<div class="row" *ngIf="priceHourly&&priceHourly>0" >
+  <div class="col-md-6">
+     <p> <span>Total:</span>{{total()}}₪</p>
+  </div>
+  <div class="col-md-6">
+    ({{this.priceHourly/2}}*{{this.selectedValues.length}})
+  </div>
+</div>
+
+<div class="row d-flex justify-content-center">
+  <div class="col-auto d-flex align-items-center">
+    <button class=" btn btn-success btn-simple btn-sm btn-round mr-1">Confirm the meeting</button>
+  </div>
+</div>

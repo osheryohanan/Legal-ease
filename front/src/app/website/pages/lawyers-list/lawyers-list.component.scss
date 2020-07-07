@@ -1,0 +1,93 @@
+.img.img-raised {
+  border-radius: 50% !important;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
+}
+
+.decal {
+
+  position: relative;
+  height: 600px;
+  overflow: auto;
+
+}
+
+.btnease {
+  background-position: top right;
+  /* background-color: #e14eca; */
+  transition: all 0.15s ease;
+  box-shadow: none;
+  color: #ffffff;
+  border-width: 0px;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  margin: 4px 1px;
+  border-radius: 0.4285rem;
+
+  &.clear {
+    background: #86a4a9;
+    background-image: linear-gradient(to bottom left,
+        #86a4a9,
+        #86a4a9,
+        #86a4a9);
+    background-size: 210% 210%;
+  }
+
+  &.fonce {}
+
+  &.rounded {
+    width: 100%;
+    border-radius: 50% !important;
+  }
+}
+
+::ng-deep {
+  .light-blue-backdrop {
+    background-color: #01b2d1;
+  }
+
+  .easeModal {
+    .modal-content {
+      background-color: #292b2c00;
+      color: white;
+    }
+  }
+
+  .cardEase {
+    background: #2a3a54eb !important;
+  }
+
+  @media only screen and (max-width: 787px) {
+    .cardEase {
+      background: #2a3a54 !important;
+    }
+  }
+
+  .card-profile {
+    &.profile-bg {
+      .card-header {
+        .close {
+          font-size: 34px;
+        }
+
+        margin-bottom: 1rem;
+
+        .card-avatar {
+          margin: auto !important;
+        }
+      }
+    }
+  }
+}
+
+
+:host ::ng-deep {
+
+  p-calendar {
+    width: 100%;
+  }
+  .ui-datepicker{
+    background-color: #ffffff9d;
+  }
+
+}

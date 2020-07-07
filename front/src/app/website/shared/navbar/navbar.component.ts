@@ -5,6 +5,7 @@ import {  Event,  NavigationCancel,  NavigationEnd,  NavigationError,  Navigatio
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { logout } from 'src/app/stores/user/action.store';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -21,7 +22,7 @@ export class NavbarComponent implements OnInit {
   auth: Subscription;
 
 
-  constructor(public location: Location, private element: ElementRef, private router: Router, private store:Store<{user:any}>) {
+  constructor(public location: Location, private element: ElementRef, private router: Router, private store:Store<{user:any}>,public translate: TranslateService) {
     this.sidebarVisible = false;
 
     this.auth = this.store.pipe(select('user')).subscribe(
@@ -37,7 +38,12 @@ export class NavbarComponent implements OnInit {
      this.store.dispatch(logout())
 
    }
+   public setLanguage = (language) => {
 
+
+    console.log('[LANGUAGE SWITCH TRIGGERED] setting language value to '+language);
+    this.translate.use(language);
+}
   ngOnInit() {
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];

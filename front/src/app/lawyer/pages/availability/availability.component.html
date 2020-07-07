@@ -1,11 +1,66 @@
 <div class="content">
   <h2 class="text-center">Availability</h2>
-  <div class="row">
+  <div class="row" *ngIf="availability" >
     <div class="col">
       <div class="card">
         <div class=" card-body text-center">
-          <p class=" card-text">Basic example</p>
+          <div class="dispo">
+            <div class="row">
+              <div class=" col-md-12 mb-5">
+                <div class=" card card-plain">
+                  <div class="card-header">
+                    <button class=" btn btn-primary btn-round mr-1" (click)="update()" ><i
+                        class=" tim-icons icon-cloud-upload-94"></i> Save </button>
+                  </div>
+                  <div class=" card-body">
+                    <div class="table-responsive">
+                      <table class=" table tablesorter" id="plain-table">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th></th>
 
+                            <th *ngFor="let item of daysInWeek">{{item.name}}</th>
+                          </tr>
+                        </thead>
+                        <tbody class="table-body">
+                          <tr>
+                            <td></td>
+                            <td *ngFor="let item of daysInWeek">
+                              <div class="row">
+                                <div class="col-12">
+                                  <button class=" btn btn-success btn-simple btn-sm btn-round mr-1" (click)="activate_all(item.key,[7,12])"> 7h-12h
+                                  </button>
+                                </div>
+
+                                <div class="col-12">
+                                  <button class=" btn btn-success btn-simple btn-sm btn-round mr-1" (click)="activate_all(item.key,[12,17])"> 12h-17h
+                                  </button>
+                                </div>
+                                <div class="col-12">
+                                  <button class=" btn btn-success btn-simple btn-sm btn-round mr-1" (click)="activate_all(item.key,[17,21])"> 17h-21h
+                                  </button>
+                                </div>
+
+                              </div>
+                            </td>
+                          </tr>
+                          <tr *ngFor="let hours of arrayFor(availability.fri.length);let i = index">
+                            <td>{{gethour(i)}}</td>
+                            <td *ngFor="let item of daysInWeek">
+                              <bSwitch [switch-on-color]="'danger'" [switch-off-color]="'danger'"
+                                [switch-off-text]="iconOff" [switch-on-text]="iconOn"
+                                [(ngModel)]="availability[item.key][i]" (changeState)="onChange($event)">
+                              </bSwitch>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -53,3 +53,8 @@
 
   }
 }
+
+
+.form-group:not(.has-danger):not(.has-success) .form-control:focus, .form-group:not(.has-danger):not(.has-success) .input-group-append .input-group-text, .form-group:not(.has-danger):not(.has-success) .input-group-prepend .input-group-text, .input-group-focus:not(.has-danger):not(.has-success) .form-control:focus, .input-group-focus:not(.has-danger):not(.has-success) .input-group-append .input-group-text, .input-group-focus:not(.has-danger):not(.has-success) .input-group-prepend .input-group-text {
+   border-color: #fd5d9200;
+}

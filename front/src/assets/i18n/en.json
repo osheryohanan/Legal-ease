@@ -1,0 +1,16 @@
+{
+
+  "WEBSITE": {
+    "LAWYER":{
+      "ABOUT":"About"
+    },
+    "NAVBAR":{
+      "HOME":"Home",
+      "FIND":"Find a lawyer",
+      "REGISTER":"Register",
+      "LOGIN":"Login"
+
+    }
+
+  }
+}

@@ -14,16 +14,17 @@ export class lawyerRoute {
         this.initializeRoutes()
     }
     private initializeRoutes() {
-        this.router.post('/create',[uploadMulter.none(),checkDbConnection,body('email','Please enter you email').notEmpty(),body('password','Please enter you password').notEmpty(),body('lawyerNum','Please enter you laywerNum').notEmpty(),body('firstname','Please enter you firstname').notEmpty(),body('lastname','Please enter you lastname').notEmpty(),body('phone','Please enter you phone').notEmpty()], this.controller.signup)
-        this.router.post('/login',[uploadMulter.none(),checkDbConnection,body("email", "Please enter a valid email").isEmail(),body('password').notEmpty()], this.controller.login)
-        this.router.post('/loginG',[checkDbConnection,check('tokenid','Please enter you gid').notEmpty()], this.controller.loginGid);
-        this.router.post('/profileImageUpdate',[auth,checkDbConnection,checkLawyer,upload.single('photo')], this.controller.uploadImage);
-        this.router.post('/me',[auth,checkDbConnection,checkLawyer], this.controller.me);
-        this.router.put('/update',[auth,checkDbConnection,checkLawyer,body('category').custom(function(value) {return Array.isArray(value);})], this.controller.update);
-        this.router.delete('/remove/:id',[auth], this.controller.delete);
-        this.router.get('/category',[checkDbConnection],this.controller.getCategory)
-        this.router.get('/bycategory',[auth,checkDbConnection,query('id','Please enter an ids').notEmpty()],this.controller.getbycategory)
-        this.router.get('/getinfo/:id',[auth,checkDbConnection,checkUser,param('id','Please enter an id').notEmpty()], this.controller.getlawyerbyid);
+        this.router.post('/create',[uploadMulter.none(),checkDbConnection,body('email','Please enter you email').notEmpty(),body('password','Please enter you password').notEmpty(),body('lawyerNum','Please enter you laywerNum').notEmpty(),body('firstname','Please enter you firstname').notEmpty(),body('lastname','Please enter you lastname').notEmpty(),body('phone','Please enter you phone').notEmpty()],(req,res)=>{ this.controller.signup(req,res)})
+        this.router.post('/login',[uploadMulter.none(),checkDbConnection,body("email", "Please enter a valid email").isEmail(),body('password').notEmpty()], (req,res)=>{this.controller.login(req,res)})
+        this.router.post('/loginG',[checkDbConnection,check('tokenid','Please enter you gid').notEmpty()], (req,res)=>{this.controller.loginGid(req,res)});
+        this.router.post('/profileImageUpdate',[auth,checkDbConnection,checkLawyer,upload.single('photo')],(req,res)=>{ this.controller.uploadImage(req,res)});
+        this.router.post('/me',[auth,checkDbConnection,checkLawyer], (req,res)=>{this.controller.me(req,res)});
+        this.router.put('/update',[auth,checkDbConnection,checkLawyer,body('category').custom(function(value) {return Array.isArray(value);})], (req,res)=>{this.controller.update(req,res)});
+        this.router.delete('/remove/:id',[auth], (req,res)=>{this.controller.delete(req,res)});
+        this.router.get('/category',[checkDbConnection],(req,res)=>{this.controller.getCategory(req,res)})
+        this.router.get('/bycategory',[auth,checkDbConnection,query('id','Please enter an ids').notEmpty()],(req,res)=>{this.controller.getbycategory(req,res)})
+        this.router.get('/getinfo/:id',[auth,checkDbConnection,checkUser,param('id','Please enter an id').notEmpty()], (req,res)=>{this.controller.getlawyerbyid(req,res)});
+        this.router.get('/getavailability/:id',[auth,checkDbConnection,checkUser,param('id','Please enter an id').notEmpty()], (req,res)=>{this.controller.getAvailability(req,res)});
 
     }
 }

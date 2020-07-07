@@ -1,0 +1,47 @@
+<!-- <ng-template #content let-modal>
+  <div class="card cardEase card-profile profile-bg" *ngIf="currentLawyer">
+    <div class="card-header">
+      <h1 class="text-center" style="text-decoration:underline;">Schedule a meeting with:</h1>
+      <div class="card-avatar">
+        <a href="javascript:;">
+          <img class="img img-raised" [src]="currentLawyer.imagePath">
+        </a>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title"> {{currentLawyer.firstname}} {{currentLawyer.lastname}}</h3>
+
+      <div class="row" style="text-align: start;" *ngIf="!selectedP">
+        <div class="col-12">
+          <h1><strong> Specialty</strong></h1>
+          <p> <span *ngFor="let item of currentLawyer.category"> {{item.name+'/'}}</span> </p>
+        </div>
+        <div class="col-12">
+          <h1><strong>Experience</strong></h1>
+        </div>
+        <div class="col-12">
+          <h1><strong>Price</strong></h1>
+        </div>
+        <div class="col-12">
+          <h1><strong>User's rating</strong></h1>
+          <div *ngIf="currentLawyer.rating;else noRating">
+            <app-rating [rating]="currentLawyer.rating"></app-rating>
+          </div>
+          <ng-template #noRating>No rating available for this user</ng-template>
+        </div>
+      </div>
+      <div class="row" *ngIf="selectedP">
+        <div class="col-12">
+        <p-calendar [(ngModel)]="date14" [locale]="en" [inline]="true" [showTransitionOptions]="'1ms'" [hideTransitionOptions]="'1ms'" [monthNavigator]="true" [minDate]="yesterday" [yearNavigator]="true" yearRange="yearsRange" [showWeek]="true"></p-calendar>
+      </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+
+    </div>
+  </div>
+</ng-template> -->

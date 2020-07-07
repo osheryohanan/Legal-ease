@@ -1,3 +1,4 @@
+
 import { environment } from './../../environments/environment.prod';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,18 +9,23 @@ import { IndexComponent } from './pages/index/index.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from '../services/api/user.service';
 import { ApiHttpService } from '../services/api/base.services';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MaterialModule } from '../material.module';
 import { PrimeNGModule } from '../prime-ng.module';
 import { SearchComponent } from './pages/search/search.component';
 import { Title } from '@angular/platform-browser';
-import { SocialLoginModule, AuthServiceConfig,GoogleLoginProvider } from "angularx-social-login";
+import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angularx-social-login";
 import { LawyersListComponent } from './pages/lawyers-list/lawyers-list.component';
 import { LawyerComponent } from './pages/lawyer/lawyer.component';
 import { SharedModule } from './shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
 
+import { ComponentsModule } from '../website/components/components.module';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 export function provideConfig() {
-  return  new AuthServiceConfig([
+  return new AuthServiceConfig([
     {
       id: GoogleLoginProvider.PROVIDER_ID,
       provider: new GoogleLoginProvider(environment.GID)
@@ -31,27 +37,45 @@ export function provideConfig() {
   ]);;
 }
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
 
 @NgModule({
-  declarations: [ LoginComponent, RegisterComponent, IndexComponent, SearchComponent, LawyersListComponent, LawyerComponent],
+  declarations: [LoginComponent, RegisterComponent, IndexComponent, SearchComponent, LawyersListComponent, LawyerComponent],
   imports: [
     CommonModule,
+    ComponentsModule,
     WebsiteRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    FontAwesomeModule,
     PrimeNGModule,
     SocialLoginModule,
+    NgbModule,
     SharedModule,
+    TranslateModule.forChild({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+
+
+      }
+  })
 
   ],
-   providers: [
-  Title,
-  {
-    provide: AuthServiceConfig,
-    useFactory: provideConfig
-  }
-]
+  providers: [
+    TranslateService,
+    Title,
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
+  ]
 })
 export class WebsiteModule { }

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from "../../material.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderComponent } from './loader/loader.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { LoaderComponent } from './loader/loader.component';
     MaterialModule,
     CommonModule,
     NgbModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   exports:[NavbarComponent, FooterComponent,LoaderComponent],
 })

@@ -9,9 +9,11 @@ import { errorHandler } from '../interfaces/error.interfaces';
 import { Ilawyer, IlawyerD, Lawyer } from '../model/lawyer.model';
 import { Category, Icategory, IcategoryD } from './../model/category.model';
 var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
+import { availability_default } from '../../../front/src/app/lawyer/pages/availability/default.availability';
 
-import mongoose,{  } from "mongoose";
+import mongoose, { } from "mongoose";
 export class lawyerController {
+    color;
     constructor() {
 
     }
@@ -238,11 +240,11 @@ export class lawyerController {
         if (req.body.meetingDiary) delete req.body.meetingDiary;
         if (req.body._id) delete req.body._id;
         if (req.body.imagePath) delete req.body.imagePath;
-        if(req.body.category){
-            let category:Array<any>= req.body.category;
-            req.body.category=category.map(x=>mongoose.Types.ObjectId(x._id))
+        if (req.body.category) {
+            let category: Array<any> = req.body.category;
+            req.body.category = category.map(x => mongoose.Types.ObjectId(x._id))
         }
-        
+
         Lawyer.findByIdAndUpdate(req.user._id, {
             $set: req.body
         }, function (err, product) {
@@ -454,24 +456,24 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
     }
-    
+
     addcategory(req: Request, res: Response) {
 
         // Lawyer.find({ _id: "5ed3d805f399e42330d7f885" },(err,pro)=>{res.send(pro)})$
-        
-        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $addToSet: {category:[mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52f")] }}, (err, pro) => {
+
+        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $addToSet: { category: [mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52f")] } }, (err, pro) => {
             res.send(pro)
-           
+
         })
 
     }
-    deletecategory(req: Request, res: Response){
-        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $pull: {category:mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52e") }}, (err, pro) => {
+    deletecategory(req: Request, res: Response) {
+        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $pull: { category: mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52e") } }, (err, pro) => {
             res.send(pro)
-           
+
         })
     }
-    async getbycategory(req: Request, res: Response){
+    async getbycategory(req: Request, res: Response) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             var error: errorHandler = {
@@ -483,35 +485,49 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
         try {
-            var ids:string=req.query.id.toString();
-          
-            let lawyer=await Lawyer.find({ category: { "$in" : [ids]} }).populate('category').select('-password -__v -zoomDetails')
+            var ids: string = req.query.id.toString();
+
+            let lawyer:any = await Lawyer.find({ category: { "$in": [ids] } }).populate('category').select('-password -__v -zoomDetails')
+            for (let index = 0; index < lawyer.length; index++) {
+                
+                lawyer[index].set('rating', {
+                    score: 4.1,
+                    all: 343
+
+                },
+                    { strict: false });
+
+                    let availability = lawyer[index].availability || availability_default;
+                    var result=this.getAv(availability);
+                    lawyer[index].set('availability', result,{ strict: false })
+            }
+
             res.send(lawyer);
-            
+
         } catch (err) {
             var error: errorHandler = {
                 status: 500,
                 message: `We occured an error during saving, please try again later.`,
                 type: 'DataBasing',
-                all:err
+                all: err
 
             }
             return res.status(error.status).send(error);
-            
+
         }
-   
+
 
     }
 
 
-    async getlawyerbyid(req: Request, res: Response){
+    async getlawyerbyid(req: Request, res: Response) {
         const errors = validationResult(req);
-        let validID=mongoose.Types.ObjectId.isValid(req.params.id);
-        if (!errors.isEmpty()||!validID) {
+        let validID = mongoose.Types.ObjectId.isValid(req.params.id);
+        if (!errors.isEmpty() || !validID) {
 
             var error: errorHandler = {
                 status: 400,
-                message: validID?`We need to specified all attributes`:'Lawyer id not valid',
+                message: validID ? `We need to specified all attributes` : 'Lawyer id not valid',
                 type: 'Requirement',
                 all: errors.array()
             }
@@ -519,7 +535,7 @@ export class lawyerController {
         }
         try {
             let user: any = await Lawyer.findOne({
-                _id:mongoose.Types.ObjectId(req.params.id)
+                _id: mongoose.Types.ObjectId(req.params.id)
             }).select('-password -zoomDetails -birstday').populate('category');
             if (!user) {
                 var error: errorHandler = {
@@ -529,25 +545,96 @@ export class lawyerController {
                 }
                 return res.status(error.status).send(error);
             }
-            
-            if(!user.imagePath)user.set('imagePath','/assets/img/profile.png',{strict:false})
-            user.firstname=user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1); 
-            user.lastname=user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1); 
 
-            user.set('rating',{
-                score:4.1,
-                all:343
-                
+            if (!user.imagePath) user.set('imagePath', '/assets/img/profile.png', { strict: false })
+            user.firstname = user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1);
+            user.lastname = user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1);
+
+            user.set('rating', {
+                score: 4.1,
+                all: 343
+
             },
-            {strict:false})
-        
+                { strict: false })
+
+            let availability = user.availability || availability_default;
+            var result=this.getAv(availability);
+            user.set('availability', result,{ strict: false })
+
             return res.send(user);
-            
+
         } catch (error) {
-            
+
         }
-        
+
+    }
+    async getAvailability(req: Request, res: Response) {
+        const errors = validationResult(req);
+        let validID = mongoose.Types.ObjectId.isValid(req.params.id);
+        if (!errors.isEmpty() || !validID) {
+
+            var error: errorHandler = {
+                status: 400,
+                message: validID ? `We need to specified all attributes` : 'Lawyer id not valid',
+                type: 'Requirement',
+                all: errors.array()
+            }
+            return res.status(error.status).send(error);
+        }
+        try {
+            let user: any = await Lawyer.findOne({
+                _id: mongoose.Types.ObjectId(req.params.id)
+            }).select('availability')
+            if (!user) {
+                var error: errorHandler = {
+                    status: 400,
+                    message: `Lawyer not exist!.`,
+                    type: 'Anth Error',
+                }
+                return res.status(error.status).send(error);
+            }
+
+
+            let availability = user.availability || availability_default;
+            var result=this.getAv(availability);
+            return res.json(result);
+
+
+        } catch (error) {
+
+        }
     }
 
-  
+
+    getAv(availability) {
+        var resultat: {} = {};
+        Object.keys(availability).forEach(key => {
+            resultat[key] = [];
+            availability[key].forEach((element, index) => {
+                if (element) {
+                    var result: string = "";
+                    var decimalTime = (index * 30) / 60;
+                    decimalTime = decimalTime * 60 * 60;
+                    var hours = Math.floor((decimalTime / (60 * 60)));
+                    decimalTime = decimalTime - (hours * 60 * 60);
+                    var minutes = Math.floor((decimalTime / 60));
+                    if (hours < 10) {
+                        result += "0";
+                    }
+                    result += hours + ':';
+                    if (minutes < 10) {
+                        result += "0";
+                    }
+                    result += minutes;
+                    resultat[key].push(result);
+
+
+                }
+
+            });
+        });
+        return resultat;
+    }
+
+
 }

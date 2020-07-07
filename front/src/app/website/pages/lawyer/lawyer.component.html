@@ -2,7 +2,7 @@
   <div class="cd-section">
     <div class="header header-1">
       <div class="page-header header-filter">
-        <div class="page-header-image" style="background-image: url('assets/img/bac1.png');"></div>
+        <div class="page-header-image" style="background-image: url('assets/img/bac1.png');"  ></div>
         <div class="container">
           <div class="row" *ngIf="error.length>0">
             <div class="col" *ngFor="let item of error">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="row">
                           <div class="col">
-                            <h2>I can help you</h2>
+                            <h2 i18n="@@help">I can help you</h2>
                             <div class="alert alert-lease" role="alert" *ngFor="let item of lawyer.category" >
                               {{item.name}}
                             </div>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="row">
                           <div class="col">
-                            <h2>About</h2>
+                            <h2> {{ 'WEBSITE.LAWYER.ABOUT' | translate }}</h2>
                             <div class="info utile">
                               <p>{{lawyer.morInfo}}</p>
                             </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="row ">
                       <div class="col d-flex align-items-center justify-content-center">
-                        <button type="button" class="btn btn-primary" (click)="dispo=true;" >View disponibility</button>
+                        <button type="button" class="btn btn-primary" (click)="dispo=true;" i18n="@@viewDispo" >View disponibility</button>
                       </div>
                     </div>
 
@@ -73,7 +73,7 @@
             <div class="row" *ngIf="dispo" >
               <div class="card">
                 <div class="card-body">
-                  <button type="button" class="btn btn-primary" (click)="dispo=false;">View disponibility</button>
+                  <button type="button" class="btn btn-primary" (click)="dispo=false;" i18n="@@viewDispo">View disponibility</button>
                 </div>
               </div>
             </div>

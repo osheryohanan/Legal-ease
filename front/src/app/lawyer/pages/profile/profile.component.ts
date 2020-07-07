@@ -9,9 +9,14 @@ import { MessageService } from 'primeng/api/';
 import { ToastrService } from 'ngx-toastr';
 import swal from "sweetalert2";
 import { Injectable } from '@angular/core';
+import { faShekelSign, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
 @Injectable({providedIn: 'root'})
 export class ValidatorService {
-  constructor() { }
+
+  constructor() {
+
+  }
   minLengthArray(min: number) {
     return (c: AbstractControl): {[key: string]: any} => {
 
@@ -39,6 +44,7 @@ export class ProfileComponent implements OnInit {
   cateE:boolean=false;
   category:Array<any>;
   subs: Subscription[]=[];
+  faShekelSign:IconDefinition=faShekelSign;
 
   constructor(private validationService:ValidatorService,private store:Store<{user:any}>,private formBuilder: FormBuilder,public toastr: ToastrService,public lawyerService:LawyerService) {
       this.subs.push(this.lawyerService.category().subscribe((arg:Array<any>) => {this.category = arg;this.getdata()}));
@@ -58,6 +64,7 @@ export class ProfileComponent implements OnInit {
       address:['',[]],
       morInfo:['',[]],
       category:['',[this.validationService.minLengthArray(1)]],
+      priceHourly:['',[Validators.required,Validators.min(0), Validators.max(Infinity)]],
     });
 
 
@@ -87,7 +94,8 @@ export class ProfileComponent implements OnInit {
             lawyerNum:this.user.lawyerNum||'',
             address:this.user.address||'',
             morInfo:this.user.morInfo||'',
-            category:this.user.category||''
+            category:this.user.category||'',
+            priceHourly:this.user.priceHourly||''
 
 
 

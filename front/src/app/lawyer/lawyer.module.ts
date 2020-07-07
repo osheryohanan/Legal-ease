@@ -8,12 +8,13 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
-import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { AvailabilityComponent } from './pages/availability/availability.component';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [DashboardComponent, ProfileComponent, MeetingsComponent, AvailabilityComponent],
+  declarations: [DashboardComponent, ProfileComponent, AvailabilityComponent],
   imports: [
     CommonModule,
     PrimeNGModule,
@@ -21,8 +22,10 @@ import { AvailabilityComponent } from './pages/availability/availability.compone
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    FontAwesomeModule,
     BsDatepickerModule.forRoot(),
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    JwBootstrapSwitchNg2Module
 
 
   ],

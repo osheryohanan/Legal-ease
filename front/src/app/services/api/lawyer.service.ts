@@ -45,6 +45,9 @@ export class LawyerService {
   getLawyerInfoUser(id){
     return this.api.get(`lawyer/getinfo/${id}`);
   }
+  getAvailability(id){
+    return this.api.get(`lawyer/getavailability/${id}`)
+  }
 
   getLwaerInfo(token?){
     if(localStorage.getItem('token')){

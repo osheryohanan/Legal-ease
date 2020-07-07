@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
+import { TranslateService,TranslatePipe } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-lawyer',
   templateUrl: './lawyer.component.html',
@@ -38,11 +40,12 @@ export class LawyerComponent implements OnInit {
   lawyer = null;
   error: Array<string> = [];
   dispo:boolean=false;
-  constructor(private lawyerService: LawyerService, private route: ActivatedRoute) { }
+  constructor(private lawyerService: LawyerService, private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
     this.getlawyerinfo();
   }
+
 
   getlawyerinfo() {
     this.error = new Array();
