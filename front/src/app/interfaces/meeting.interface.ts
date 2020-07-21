@@ -1,7 +1,7 @@
 export interface Imeeting{
 
   // personalID:number,
-  _id:string|object|any,
+  _id?:string|object|any,
   lawyerID:string|object|any,
   userID:string|object|any,
   date:Date,

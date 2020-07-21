@@ -12,6 +12,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import { finalize } from 'rxjs/operators';
 import { UserService } from '../../../services/api/user.service';
 import { MessageService } from 'primeng/api/';
+import { Iuser } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'app-lawyers-list',
@@ -22,7 +23,7 @@ import { MessageService } from 'primeng/api/';
 
 export class LawyersListComponent implements OnInit {
   lawyers: Ilawyer[];
-  currentUser = null;
+  currentUser:Iuser = null;
   subs: Subscription[] = [];
   faEllipsisH = faEllipsisH;
   currentLawyer: Ilawyer = null;
