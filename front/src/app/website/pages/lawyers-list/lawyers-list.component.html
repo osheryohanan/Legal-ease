@@ -2,29 +2,19 @@
   <div class="cd-section">
     <div class="header header-1">
       <div class="page-header header-filter">
-        <div
-          class="page-header-image"
-          style="background-image: url('assets/img/bac1.png');"
-        ></div>
+        <div class="page-header-image" style="background-image: url('assets/img/bac1.png');"></div>
         <div class="container">
-          <div
-            class="decal"
-            *ngIf="
+          <div class="decal" *ngIf="
               lawyers && lawyers.length > 0 && !loading;
               else noLawyerFound
-            "
-          >
+            ">
             <div class="row">
               <div class="col-6 col-md-2 mb-4" *ngFor="let item of lawyers">
                 <div class="troum">
                   <div class="row">
                     <div class="col d-flex justify-content-center">
                       <div class="pimf">
-                        <img
-                          [src]="item.imagePath"
-                          alt=""
-                          class="img img-raised"
-                        />
+                        <img [src]="item.imagePath" alt="" class="img img-raised" />
                       </div>
                     </div>
                   </div>
@@ -37,19 +27,13 @@
                     <div class="col-12">
                       <div class="row">
                         <div class="col-6 d-flex justify-content-center">
-                          <button
-                            class="btnease clear rounded"
-                            (click)="openModal(content, item)"
-                          >
+                          <button class="btnease clear rounded" (click)="openModal(content, item)">
                             <fa-icon [icon]="faEllipsisH"></fa-icon>
                           </button>
                         </div>
                         <div class="col-6">
-                          <button
-                            class="btnease clear"
-                            [routerLink]="'/lawyerinfo/' + item._id"
-                          >
-                            Schedule a meeting
+                          <button class="btnease clear" [routerLink]="'/lawyerinfo/' + item._id">
+                            {{ 'WEBSITE.LAWYER-LIST.SHEDULE' | translate }}
                           </button>
                         </div>
                       </div>
@@ -61,7 +45,7 @@
           </div>
           <ng-template #noLawyerFound>
             <h1>
-              We have not found lawyer in the category
+              {{ 'WEBSITE.LAWYER-LIST.NOTLAFOUND' | translate }}
             </h1>
           </ng-template>
         </div>
@@ -73,18 +57,13 @@
   <div class="card cardEase card-profile profile-bg" *ngIf="currentLawyer">
     <div class="card-header">
       <h1 class="text-center" style="text-decoration: underline;">
-        Schedule a meeting with:
+        {{ 'WEBSITE.LAWYER-LIST.SHEDULEWITH' | translate }}
       </h1>
       <div class="card-avatar">
         <a href="javascript:;">
           <img class="img img-raised" [src]="currentLawyer.imagePath" />
         </a>
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="closeModal(modal)"
-        >
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -96,58 +75,61 @@
 
       <div class="row" style="text-align: start;" *ngIf="!selectedP">
         <div class="col-12">
-          <h1><strong> Specialty</strong></h1>
+          <h1><strong> {{ 'WEBSITE.LAWYER-LIST.SPECIAL' | translate }}</strong></h1>
           <p>
             <span *ngFor="let item of currentLawyer.category">
-              {{ item.name + "/" }}</span
-            >
+              {{ item.name + "/" }}</span>
           </p>
         </div>
         <div class="col-12">
-          <h1><strong>Experience</strong></h1>
+          <h1><strong>{{ 'WEBSITE.LAWYER-LIST.EXPERIENCE' | translate }}</strong></h1>
         </div>
         <div class="col-12">
-          <h1><strong>Price</strong></h1>
+          <h1><strong>{{ 'WEBSITE.LAWYER-LIST.PRICE' | translate }}</strong></h1>
+          <p>
+            <span *ngIf="currentLawyer.priceHourly" >
+              {{currentLawyer.priceHourly}}  ₪
+
+            </span>
+          </p>
         </div>
         <div class="col-12">
-          <h1><strong>User's rating</strong></h1>
+          <h1><strong>{{ 'WEBSITE.LAWYER-LIST.USERRAT' | translate }}</strong></h1>
           <div *ngIf="currentLawyer.rating; else noRating">
             <app-rating [rating]="currentLawyer.rating"></app-rating>
           </div>
-          <ng-template #noRating>No rating available for this user</ng-template>
+          <ng-template #noRating>{{ 'WEBSITE.LAWYER-LIST.NORAT' | translate }}</ng-template>
         </div>
       </div>
       <div class="row" *ngIf="selectedP">
         <div class="col-12">
-          <p-calendar
-            [(ngModel)]="date14"
-            (ngModelChange)="getAvailability($event)"
-            [locale]="en"
-            [inline]="true"
-            [showTransitionOptions]="'1ms'"
-            [hideTransitionOptions]="'1ms'"
-            [monthNavigator]="true"
-            [yearNavigator]="true"
-            yearRange="yearsRange"
-            [showWeek]="true"
-            [minDate]="minDate"
-            [maxDate]="maxDate"
-            [readonlyInput]="true"
-          ></p-calendar>
+          <p-calendar [(ngModel)]="date14" (ngModelChange)="getAvailability($event)" [locale]="en" [inline]="true"
+            [showTransitionOptions]="'1ms'" [hideTransitionOptions]="'1ms'" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="yearsRange" [showWeek]="true" [minDate]="minDate" [maxDate]="maxDate"
+            [readonlyInput]="true"></p-calendar>
         </div>
         <div class="col-12" *ngIf="disponibility">
           <div *ngIf="disponibility.length>0;else pasDisponible">
-            <app-select-hour-meeting [availability]="disponibility" [priceHourly]="currentLawyer.priceHourly"></app-select-hour-meeting>
+            <app-select-hour-meeting [availability]="disponibility" [priceHourly]="currentLawyer.priceHourly" (sendValue)="receiveSelectedValue($event)">
+            </app-select-hour-meeting>
           </div>
           <ng-template #pasDisponible>
-              <ngb-alert type="danger" >We didn't find any availability at this date.</ngb-alert>
+            <ngb-alert type="danger">{{ 'WEBSITE.LAWYER-LIST.NOTAVA' | translate }}</ngb-alert>
           </ng-template>
 
         </div>
       </div>
+      <button class="btnease" style="color: black;" *ngIf="selectedP"  (click)="selectedP=!selectedP">
+        {{ 'WEBSITE.LAWYER-LIST.DETAILS' | translate }}
+      </button>
+      <button class="btnease" style="color: black;" *ngIf="!selectedP"  (click)="selectedP=!selectedP">
+        {{ 'WEBSITE.LAWYER-LIST.SHEDULE' | translate }}
+      </button>
+
     </div>
 
     <div class="card-footer"></div>
   </div>
 </ng-template>
+<p-toast></p-toast>
 <app-loader *ngIf="loading"></app-loader>

@@ -1,4 +1,4 @@
-import  {Schema,model} from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface Ilawyer{
     email:string,
@@ -14,7 +14,7 @@ export interface Ilawyer{
     password:string,
     gid?:string,
     morInfo?:string,
-    category?:object,
+    category?:object|[mongoose.Types.ObjectId]|mongoose.Types.ObjectId,
     availability?:object,
     rating?:object,
     priceHourly?:number,
@@ -69,5 +69,5 @@ let lawyerSchema:Schema = new Schema({
 });
 
 
-export let Lawyer= model('lawyers', lawyerSchema);
+export let Lawyer= mongoose.model<IlawyerD>('lawyers', lawyerSchema);
 

@@ -24,6 +24,7 @@ import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate
 import { ComponentsModule } from '../website/components/components.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MymeetingComponent } from './pages/mymeeting/mymeeting.component';
 export function provideConfig() {
   return new AuthServiceConfig([
     {
@@ -44,7 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, IndexComponent, SearchComponent, LawyersListComponent, LawyerComponent],
+  declarations: [LoginComponent, RegisterComponent, IndexComponent, SearchComponent, LawyersListComponent, LawyerComponent, MymeetingComponent],
   imports: [
     CommonModule,
     ComponentsModule,

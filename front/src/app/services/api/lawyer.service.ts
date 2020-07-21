@@ -45,8 +45,8 @@ export class LawyerService {
   getLawyerInfoUser(id){
     return this.api.get(`lawyer/getinfo/${id}`);
   }
-  getAvailability(id){
-    return this.api.get(`lawyer/getavailability/${id}`)
+  getAvailability(laywerId,date){
+    return this.api.post(`meeting/checkLawyerAvability`,{date,laywerId})
   }
 
   getLwaerInfo(token?){

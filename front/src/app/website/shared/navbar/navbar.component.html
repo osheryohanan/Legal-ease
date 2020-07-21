@@ -28,9 +28,9 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/search']" routerLinkActive="active">{{ 'WEBSITE.NAVBAR.FIND' | translate }}<mat-icon>search</mat-icon></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/register']" routerLinkActive="active">{{ 'WEBSITE.NAVBAR.REGISTER' | translate }}</a>
-      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/register']"  routerLinkActive="active">{{ 'WEBSITE.NAVBAR.REGISTER' | translate }}</a>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" (click)="setLanguage('he')" routerLinkActive="active">Hebrew</a>
       </li>
@@ -48,8 +48,8 @@
 
 
       <div class="navbar-nav ml-auto">
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
-          {{user.firstname}} {{user.lastname}}
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
@@ -58,7 +58,15 @@
             <span>Logout</span>
           </button>
 
-        </mat-menu>
+        </mat-menu> -->
+        <div class="d-inline-block" ngbDropdown>
+          <button class="btn btn-outline-primary mr-2" id="dropdownManual" ngbDropdownToggle>{{user.firstname}} {{user.lastname}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownManual">
+            <button ngbDropdownItem routerLinkActive="btn btn-outline-primary" [routerLink]="['/mymeeting']">My meetings</button>
+            <button ngbDropdownItem (click)="logout()">Logout</button>
+          </div>
+        </div>
+
       </div>
     </ng-template>
 

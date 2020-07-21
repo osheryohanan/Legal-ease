@@ -10,6 +10,18 @@
       "REGISTER":"Register",
       "LOGIN":"Login"
 
+    },
+    "LAWYER-LIST":{
+      "SHEDULE":"Schedule a meeting",
+      "DETAILS":"View details",
+      "NOTAVA":"We didn't find any availability at this date.",
+      "NORAT":"No rating available for this user",
+      "USERRAT":"User's rating",
+      "EXPERIENCE":"Experience",
+      "PRICE":"Price",
+      "SPECIAL":"Specialty",
+      "SHEDULEWITH":"Schedule a meeting with:",
+      "NOTLAFOUND":" We have not found lawyer in the category"
     }
 
   }

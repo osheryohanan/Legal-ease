@@ -7,6 +7,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { UserActivateService } from '../services/guards/authentified.guard';
 import { LawyersListComponent } from './pages/lawyers-list/lawyers-list.component';
 import { LawyerComponent } from './pages/lawyer/lawyer.component';
+import { MymeetingComponent } from './pages/mymeeting/mymeeting.component';
 
 
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent, },
   { path: 'search', component: SearchComponent ,canActivate:[UserActivateService] },
+  { path: 'mymeeting', component: MymeetingComponent ,canActivate:[UserActivateService] },
   { path: 'lawyerList/:id', component: LawyersListComponent ,canActivate:[UserActivateService] },
   { path: 'lawyerinfo/:id', component: LawyerComponent ,canActivate:[UserActivateService] },
 ]

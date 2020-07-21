@@ -60,7 +60,7 @@ export class lawyerController {
 
             await lawyerModel.save();
             const payload = {
-                user: {
+                laywer: {
                     type: 'lawyer',
                     id: lawyerModel._id
                 }
@@ -103,10 +103,10 @@ export class lawyerController {
             longtime
         } = req.body;
         try {
-            let user: any = await Lawyer.findOne({
+            let laywer: any = await Lawyer.findOne({
                 email
             });
-            if (!user) {
+            if (!laywer) {
                 var error: errorHandler = {
                     status: 400,
                     message: `You didn't have an account! Please register.`,
@@ -115,7 +115,7 @@ export class lawyerController {
                 }
                 return res.status(error.status).send(error);
             }
-            const isMatch = await bcrypt.compare(password, user.password);
+            const isMatch = await bcrypt.compare(password, laywer.password);
             if (!isMatch) {
                 var error: errorHandler = {
                     status: 400,
@@ -126,9 +126,9 @@ export class lawyerController {
                 return res.status(error.status).send(error);
             }
             const payload = {
-                user: {
+                laywer: {
                     type: 'lawyer',
-                    id: user.id
+                    id: laywer.id
                 }
             };
             let expiresIn: string = '1d';
@@ -178,24 +178,24 @@ export class lawyerController {
                 idToken: req.body.tokenid,
                 audience: process.env.GOOGLEID,
             });
-            const guser = ticket.getPayload();
-            const gid = guser['sub'];
+            const glaywer = ticket.getPayload();
+            const gid = glaywer['sub'];
 
-            let user = await Lawyer.findOne({
+            let laywer = await Lawyer.findOne({
                 gid
             });
-            if (!user) {
-                user = await Lawyer.findOne({
-                    email: guser['email']
+            if (!laywer) {
+                laywer = await Lawyer.findOne({
+                    email: glaywer['email']
                 });
-                if (user) await Lawyer.findByIdAndUpdate(user._id, {
+                if (laywer) await Lawyer.findByIdAndUpdate(laywer._id, {
                     $set: {
                         gid
                     }
                 })
 
             }
-            if (!user) {
+            if (!laywer) {
                 var error: errorHandler = {
                     status: 400,
                     message: `You didn't have an account! Please register.`,
@@ -205,9 +205,9 @@ export class lawyerController {
                 return res.status(error.status).send(error);
             }
             const payload = {
-                user: {
+                laywer: {
                     type: 'lawyer',
-                    id: user._id
+                    id: laywer._id
                 }
             };
             return jwt.sign(
@@ -245,7 +245,7 @@ export class lawyerController {
             req.body.category = category.map(x => mongoose.Types.ObjectId(x._id))
         }
 
-        Lawyer.findByIdAndUpdate(req.user._id, {
+        Lawyer.findByIdAndUpdate(req.laywer._id, {
             $set: req.body
         }, function (err, product) {
             if (err) {
@@ -263,15 +263,15 @@ export class lawyerController {
         });
     };
     getDetails(req: Request, res: Response) {
-        Lawyer.findById(req.params.id, function (err, user) {
+        Lawyer.findById(req.params.id, function (err, laywer) {
             if (err) {
                 // handle
             }
-            res.send(user);
+            res.send(laywer);
         })
     };
     me(req: any, res: Response) {
-        Lawyer.findById(req.user._id, '-password').populate('category').exec(function (err, user) {
+        Lawyer.findById(req.laywer._id, '-password').populate('category').exec(function (err, laywer) {
             if (err) {
                 var error: errorHandler = {
                     status: 400,
@@ -281,7 +281,7 @@ export class lawyerController {
                 }
                 return res.status(error.status).send(error);
             }
-            res.status(200).json(user);
+            res.status(200).json(laywer);
         })
     };
     delete(req: Request, res: Response) {
@@ -295,7 +295,7 @@ export class lawyerController {
     uploadImage(req: any, res: Response) {
         try {
             if (req.file) {
-                Lawyer.findById(req.user._id, function (err, doc: any) {
+                Lawyer.findById(req.laywer._id, function (err, doc: any) {
                     if (err) {
                         var error: errorHandler = {
                             status: 400,
@@ -457,22 +457,22 @@ export class lawyerController {
         }
     }
 
-    addcategory(req: Request, res: Response) {
+    // addcategory(req: Request, res: Response) {
 
-        // Lawyer.find({ _id: "5ed3d805f399e42330d7f885" },(err,pro)=>{res.send(pro)})$
+    //     // Lawyer.find({ _id: "5ed3d805f399e42330d7f885" },(err,pro)=>{res.send(pro)})$
 
-        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $addToSet: { category: [mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52f")] } }, (err, pro) => {
-            res.send(pro)
+    //     Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $addToSet: { category: [mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52f")] } }, (err, pro) => {
+    //         res.send(pro)
 
-        })
+    //     })
 
-    }
-    deletecategory(req: Request, res: Response) {
-        Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $pull: { category: mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52e") } }, (err, pro) => {
-            res.send(pro)
+    // }
+    // deletecategory(req: Request, res: Response) {
+    //     Lawyer.updateOne({ _id: "5ed3d805f399e42330d7f885" }, { $pull: { category: mongoose.Types.ObjectId("5ee12cc9d8232f45e4ebd52e") } }, (err, pro) => {
+    //         res.send(pro)
 
-        })
-    }
+    //     })
+    // }
     async getbycategory(req: Request, res: Response) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -534,10 +534,10 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
         try {
-            let user: any = await Lawyer.findOne({
+            let laywer: any = await Lawyer.findOne({
                 _id: mongoose.Types.ObjectId(req.params.id)
             }).select('-password -zoomDetails -birstday').populate('category');
-            if (!user) {
+            if (!laywer) {
                 var error: errorHandler = {
                     status: 400,
                     message: `Lawyer not exist!.`,
@@ -546,22 +546,23 @@ export class lawyerController {
                 return res.status(error.status).send(error);
             }
 
-            if (!user.imagePath) user.set('imagePath', '/assets/img/profile.png', { strict: false })
-            user.firstname = user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1);
-            user.lastname = user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1);
+            if (!laywer.imagePath) laywer.set('imagePath', '/assets/img/profile.png', { strict: false })
+            laywer.firstname = laywer.firstname.charAt(0).toUpperCase() + laywer.firstname.slice(1);
+            laywer.lastname = laywer.lastname.charAt(0).toUpperCase() + laywer.lastname.slice(1);
 
-            user.set('rating', {
+            laywer.set('rating', {
                 score: 4.1,
                 all: 343
 
             },
                 { strict: false })
 
-            let availability = user.availability || availability_default;
+            let availability = laywer.availability || availability_default;
             var result=this.getAv(availability);
-            user.set('availability', result,{ strict: false })
+            
+            laywer.set('availability', result,{ strict: false })
 
-            return res.send(user);
+            return res.send(laywer);
 
         } catch (error) {
 
@@ -582,10 +583,10 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
         try {
-            let user: any = await Lawyer.findOne({
+            let laywer: any = await Lawyer.findOne({
                 _id: mongoose.Types.ObjectId(req.params.id)
             }).select('availability')
-            if (!user) {
+            if (!laywer) {
                 var error: errorHandler = {
                     status: 400,
                     message: `Lawyer not exist!.`,
@@ -595,7 +596,7 @@ export class lawyerController {
             }
 
 
-            let availability = user.availability || availability_default;
+            let availability = laywer.availability || availability_default;
             var result=this.getAv(availability);
             return res.json(result);
 
@@ -604,6 +605,7 @@ export class lawyerController {
 
         }
     }
+    
 
 
     getAv(availability) {

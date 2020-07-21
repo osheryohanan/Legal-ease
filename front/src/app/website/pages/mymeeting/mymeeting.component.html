@@ -1,0 +1,69 @@
+<div class="wrapper">
+  <div class="cd-section">
+    <div class="header header-1">
+      <div class="page-header header-filter">
+        <div
+          class="page-header-image"
+          style="background-image: url('assets/img/bac1.png');"
+        ></div>
+        <div class="container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">#</th>
+                <th>Date</th>
+                <th>Confirmation</th>
+                <th>Hours</th>
+                <th class="text-right">Price</th>
+                <th class="text-center">Payed</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr  *ngFor="let item of meetings; let i = index">
+                <td class="text-center">{{i+1}}</td>
+                <td>{{item.lawyerID[0].firstname}} {{item.lawyerID[0].lastname}} </td>
+                <td>
+                  <span *ngIf="item.confirmed==0"  class="badge badge-warning">Awaiting confirmation</span>
+                  <span *ngIf="item.confirmed==1" class="badge badge-success">Confirmed</span>
+                  <span *ngIf="item.confirmed==2" class="badge badge-danger">Refused</span>
+                </td>
+                <td>{{item.hour.length/2}} Hours</td>
+                <td class="text-right" [innerHTML]="calculePrice(item.lawyerID[0],item.hour)"></td>
+                <td class="text-right">
+                  <span *ngIf="paymentConfirmation(item.paymentinfo)===0"  class="badge badge-pill badge-warning">No transaction performed</span>
+                  <span *ngIf="paymentConfirmation(item.paymentinfo)===1" class="badge badge-pill badge-success">Payment confirmed</span>
+                  <span *ngIf="paymentConfirmation(item.paymentinfo)===2"class="badge badge-pill badge-danger">Payment refused</span>
+                </td>
+                <td class="td-actions text-right">
+                  <button
+                    type="button" *ngIf="paymentConfirmation(item.paymentinfo)!==1"
+                    ngbTooltip="Pay by credit card"
+                    class="btn btn-info btn-icon btn-sm btn-simple"
+                    data-original-title=""
+                    title=""
+                  >
+                    <i class="tim-icons icon-credit-card"></i>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="confirmDelete(item._id)"
+                    ngbTooltip="Remove"
+                    class="btn btn-danger btn-icon btn-sm btn-simple"
+                    data-original-title=""
+                    title=""
+                  >
+                    <i class="tim-icons icon-simple-remove"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<app-loader *ngIf="loading"></app-loader>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

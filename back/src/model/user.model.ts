@@ -1,9 +1,9 @@
-import  {Schema,model} from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 
 
 export interface Iuser{
-    
+    // id?:string|mongoose.Types.ObjectId,
     // personalID:number,
     email:string,
     firstname:string,
@@ -45,5 +45,5 @@ let userSchema:Schema = new Schema({
 });
 
 
-export let User= model('users', userSchema);
+export let User= mongoose.model<IuserD>('users', userSchema);
 

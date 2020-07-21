@@ -1,5 +1,6 @@
 import { zoomApiController } from './controller/zoomapi.controller';
 import { lawyerRoute } from './routes/lawyer.route';
+import { meetingsRoute } from './routes/meeting.route';
 import express,{Application,Router} from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -25,6 +26,7 @@ InitiateMongoServer();
 app.use("/user", new userRoute().router);
 app.use("/lawyer", new lawyerRoute().router);
 app.use("/comments", new commentsRoute().router);
+app.use("/meeting", new meetingsRoute().router);
 
 var test=new zoomApiController();
 app.get('/test/api', async (req,res)=>{
@@ -104,7 +106,18 @@ app.all("*", (req, res) => {
   res.status(error.status).send(error);
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log("Listen on port " + PORT);
-});
+require('greenlock-express').create({
+  email: 'Oad.sh551@gmail.com'     // The email address of the ACME user / hosting provider
+, agreeTos: true                    // You must accept the ToS as the host which handles the certs
+, configDir: './certi'      // Writable directory where certs will be saved
+, communityMember: true             // Join the community to get notified of important updates
+, telemetry: true                   // Contribute telemetry data to the project
+, store: require('greenlock-store-fs') 
+, app
+
+}).listen(80, 443);
+
+// const PORT = process.env.PORT || 8080;
+// app.listen(PORT, () => {
+//   console.log("Listen on port " + PORT);
+// });

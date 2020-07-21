@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-select-hour-meeting',
@@ -8,8 +8,17 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SelectHourMeetingComponent implements OnInit {
   selectedValues: string[] = [];
   @Input() availability;
+  @Output() sendValue= new EventEmitter();
+
+  ngOnChanges(changes: SimpleChanges) {
+    const _availability: SimpleChange = changes.availability;
+    this.availability = _availability.currentValue;
+    this.selectedValues=[];
+  }
+
   @Input() priceHourly:number;
   constructor() { }
+
 
   ngOnInit(): void {
   }
@@ -43,5 +52,9 @@ export class SelectHourMeetingComponent implements OnInit {
       return !(itemtoInt === lastItemInt);
     };
     return false;
+  }
+
+  submit(){
+    this.sendValue.emit(this.selectedValues);
   }
 }

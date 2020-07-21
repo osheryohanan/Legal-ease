@@ -30,7 +30,6 @@ export class UserService {
   logout(){
     this.store.dispatch(logout())
   }
-
   getUserInfo(token?){
     if(localStorage.getItem('token')){
       return this.api.post('user/me',null).pipe(
@@ -48,5 +47,14 @@ export class UserService {
         })
       )
     }
+  }
+  saveMeeting(data){
+    return this.api.post('meeting/addMeeting',data)
+  }
+  getMeeting(userID){
+    return this.api.post('meeting/getMeetingsForUser',{userID})
+  }
+  deleteMeeting(meetingID){
+    return this.api.delete(`meeting/remove/${meetingID}`)
   }
 }
