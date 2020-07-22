@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 import { Request, Response } from 'express';
-import { availability_default } from '../../../front/src/app/lawyer/pages/availability/default.availability';
+import { availability_default } from '../helpers/default.availability';
 import { validationResult } from "express-validator";
 import { errorHandler } from "../interfaces/error.interfaces";
 import { Ilawyer, IlawyerD, Lawyer } from '../model/lawyer.model';

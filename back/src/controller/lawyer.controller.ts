@@ -9,7 +9,7 @@ import { errorHandler } from '../interfaces/error.interfaces';
 import { Ilawyer, IlawyerD, Lawyer } from '../model/lawyer.model';
 import { Category, Icategory, IcategoryD } from './../model/category.model';
 var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
-import { availability_default } from '../../../front/src/app/lawyer/pages/availability/default.availability';
+import { availability_default } from '../helpers/default.availability';
 
 import mongoose, { } from "mongoose";
 export class lawyerController {
