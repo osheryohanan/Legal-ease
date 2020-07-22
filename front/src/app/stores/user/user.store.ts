@@ -79,7 +79,7 @@ export class LoginEffects {
     this.actions$.pipe(
        ofType(setInfoLawyer),
        tap(() =>{
-         if (this.router.url=='/login') {
+         if (this.router.url=='/login'||this.router.url=='/register') {
          this.router.navigate(['/lawyer']);
        }
        }),

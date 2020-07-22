@@ -5,7 +5,7 @@ import { UserService } from 'src/app/services/api/user.service';
 import { LawyerService } from './../../../services/api/lawyer.service';
 
 import { Store, select } from '@ngrx/store';
-import { LoginUser } from 'src/app/stores/user/action.store';
+import { LoginUser,LoginLawyer } from 'src/app/stores/user/action.store';
 import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
   registeLawyerForm: FormGroup;
   lawyer: boolean = false;
   subs: Array<Subscription>=[];
+  loginAction;
 
   constructor(
     private authService: AuthService,
@@ -92,7 +93,7 @@ export class RegisterComponent implements OnInit {
         if (user.token) {
           this.messageService.add({ severity: 'success', summary: user.type, detail: user.message });
           localStorage.setItem('token', user.token);
-          this.store.dispatch(LoginUser(null))
+          this.store.dispatch(LoginLawyer(null))
         }
       },
         error => {
