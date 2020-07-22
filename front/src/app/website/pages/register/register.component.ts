@@ -49,7 +49,6 @@ export class RegisterComponent implements OnInit {
         },
           error => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-            console.error(error);
 
           })
 
@@ -89,7 +88,7 @@ export class RegisterComponent implements OnInit {
   }
   onLawyerSubmit() {
     if (this.registeLawyerForm.valid) {
-      this.lawyerservice.register(this.registeUserForm.getRawValue()).subscribe((user: any) => {
+      this.lawyerservice.register(this.registeLawyerForm.getRawValue()).subscribe((user: any) => {
         if (user.token) {
           this.messageService.add({ severity: 'success', summary: user.type, detail: user.message });
           localStorage.setItem('token', user.token);
@@ -128,6 +127,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email],],
       password: ['', [Validators.required, Validators.minLength(6)],],
       repassword: ['', [Validators.required, Validators.minLength(6)],],
+      lawyerNum: ['', [Validators.required, Validators.minLength(6)],],
       phone: ['', [Validators.required, Validators.minLength(6)],],
     });
   }

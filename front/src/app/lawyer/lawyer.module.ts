@@ -12,6 +12,13 @@ import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { AvailabilityComponent } from './pages/availability/availability.component';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ProgressbarModule } from "ngx-bootstrap/progressbar";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslationModule } from '../moduleTranslation.module';
+
+
 
 @NgModule({
   declarations: [DashboardComponent, ProfileComponent, AvailabilityComponent],
@@ -25,8 +32,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FontAwesomeModule,
     BsDatepickerModule.forRoot(),
     AngularMultiSelectModule,
-    JwBootstrapSwitchNg2Module
-
+    JwBootstrapSwitchNg2Module,
+    ProgressbarModule.forRoot(),
+    TranslationModule
 
   ],
   providers:[MessageService]

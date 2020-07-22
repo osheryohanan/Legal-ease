@@ -1,3 +1,4 @@
+import { CalendarEvent } from './../model/meeting.model';
 import mongoose, { Document } from "mongoose";
 import { Request, Response } from 'express';
 import { availability_default } from '../helpers/default.availability';
@@ -123,6 +124,50 @@ export class meetingController {
             }).populate({ path: 'lawyerID', select: 'firstname lastname _id priceHourly' });
 
             res.status(200).send(meetings);
+
+        } catch (error) {
+            var error: errorHandler = {
+                status: 500,
+                message: `We occured an error, please try again later.`,
+                type: 'BUG',
+                all: error
+
+            }
+            return res.status(error.status).send(error);
+
+        }
+    }
+    public async getMeetingsForLawyer(req: Request, res: Response) {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            var error: errorHandler = {
+                status: 400,
+                message: `We need to specified all attributes`,
+                type: 'Requirement',
+                all: errors.array()
+            }
+            return res.status(error.status).send(error);
+
+        }
+        try {
+
+            let meetings: ImeetingD[] = await Meeting.find({
+                lawyerID: mongoose.Types.ObjectId(req.body.laywerId),
+                removed: { $ne: 1 }
+            }).populate({ path: 'userID', select: 'firstname lastname _id priceHourly' });
+
+            let calendarEvent:CalendarEvent[]=[];
+
+            meetings.forEach(meeting=>{
+                let cEvent:CalendarEvent={
+                    title:'dq'
+                };
+                cEvent.description='ds';
+                cEvent.title='ds';
+                calendarEvent.push(cEvent)
+            })
+            res.status(200).send(calendarEvent);
 
         } catch (error) {
             var error: errorHandler = {

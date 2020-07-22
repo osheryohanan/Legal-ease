@@ -17,6 +17,18 @@ export interface Imeeting{
 
 }
 
+export interface CalendarEvent {
+    
+            id?: number,
+            title:string,
+            start?:string,
+            end?:string,
+            className?:string,
+            description?:string,
+            allDay?:boolean
+          
+}
+
 export interface ImeetingD extends Imeeting, Document{
 
 }
