@@ -32,7 +32,7 @@
                           </button>
                         </div>
                         <div class="col-6">
-                          <button class="btnease clear" [routerLink]="'/lawyerinfo/' + item._id">
+                          <button class="btnease clear"(click)="openModal(content, item);selectedP = true;">
                             {{ 'WEBSITE.LAWYER-LIST.SHEDULE' | translate }}
                           </button>
                         </div>

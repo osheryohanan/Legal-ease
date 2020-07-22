@@ -28,7 +28,7 @@ export class LawyersListComponent implements OnInit {
   faEllipsisH = faEllipsisH;
   currentLawyer: Ilawyer = null;
   loading: boolean = false;
-  selectedP: boolean = true;
+  selectedP: boolean = false;
   minDate: Date;
   maxDate: Date;
   date14: Date;

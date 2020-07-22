@@ -129,6 +129,10 @@ export class lawyerController {
                 laywer: {
                     type: 'lawyer',
                     id: laywer.id
+                },
+                user: {
+                    type: 'lawyer',
+                    id: laywer.id
                 }
             };
             let expiresIn: string = '1d';
@@ -208,6 +212,10 @@ export class lawyerController {
                 laywer: {
                     type: 'lawyer',
                     id: laywer._id
+                },
+                user: {
+                    type: 'lawyer',
+                    id: laywer.id
                 }
             };
             return jwt.sign(

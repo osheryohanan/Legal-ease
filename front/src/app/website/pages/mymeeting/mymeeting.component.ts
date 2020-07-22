@@ -7,6 +7,7 @@ import { MessageService, ConfirmationService } from 'primeng/api/';
 import { Imeeting } from 'src/app/interfaces/meeting.interface';
 import { finalize } from 'rxjs/operators';
 import { Ilawyer } from 'src/app/interfaces/lawyer.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mymeeting',
@@ -36,7 +37,8 @@ export class MymeetingComponent implements OnInit {
     private store: Store<{ user: any }>,
     private messageService: MessageService,
     private userService: UserService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    public translate: TranslateService
   ) {
     this.subs.push(this.store.pipe(select('user')).subscribe(
       ((state) => {
@@ -84,8 +86,8 @@ export class MymeetingComponent implements OnInit {
 
   confirmDelete(_id) {
     this.confirmationService.confirm({
-        message: 'Are you sure that you want to delete this meetting(You will not be refunded)?',
-        header:`Delete the meetting ${_id}`,
+        message: this.translate.instant('WEBSITE.MYMEETING.TSDELETEMESS'),
+        header:`${this.translate.instant('WEBSITE.MYMEETING.TSDELETEHEAD')} ${_id}`,
         icon: 'pi pi-info-circle',
         accept: () => {
           this.subs.push(this.userService.deleteMeeting(_id).subscribe(

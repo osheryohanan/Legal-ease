@@ -2,6 +2,7 @@ import { Component, OnInit,ViewEncapsulation, ViewChild, Renderer2,Inject } from
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 // import { routerTransition } from '../route-animation';
 import { DOCUMENT } from '@angular/common';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-website-layout',
@@ -10,9 +11,13 @@ import { DOCUMENT } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 export class WebsiteLayoutComponent implements OnInit {
+  lang:string='';
 
   @ViewChild(NavbarComponent) navbar: NavbarComponent;
-  constructor(private renderer : Renderer2,  @Inject(DOCUMENT) document) {
+  constructor(private renderer : Renderer2,  @Inject(DOCUMENT) document,public translate: TranslateService) {
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang=event.lang;
+    });
   }
   listenerFn: () => void;
   ngOnInit(){

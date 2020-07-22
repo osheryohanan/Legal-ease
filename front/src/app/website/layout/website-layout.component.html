@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<main >
+<main [attr.dir]="lang=='he' ? 'rtl' : null">
     <router-outlet></router-outlet>
 </main>
 <app-footer></app-footer>

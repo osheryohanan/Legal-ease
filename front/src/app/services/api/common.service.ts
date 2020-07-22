@@ -19,7 +19,7 @@ export class AnthService {
     if (localStorage.token) {
       try {
         var decode = jwt_decode(localStorage.token);
-        this.type = decode.user.type
+        this.type = decode.user.type|| decode.laywer.type
         if (this.type == "user") return this.userservice.check()
         if (this.type == "lawyer") return this.lawyerservice.check()
         throw 'error';

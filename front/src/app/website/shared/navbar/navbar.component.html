@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+
     <ul class="navbar-nav ">
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/']" [routerLinkActiveOptions]="{exact: true}"
@@ -28,13 +29,10 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/search']" routerLinkActive="active">{{ 'WEBSITE.NAVBAR.FIND' | translate }}<mat-icon>search</mat-icon></a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/register']"  routerLinkActive="active">{{ 'WEBSITE.NAVBAR.REGISTER' | translate }}</a>
-      </li> -->
-      <li class="nav-item">
+      <li class="nav-item ml-auto">
         <a class="nav-link" (click)="setLanguage('he')" routerLinkActive="active">Hebrew</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item ml-auto">
         <a class="nav-link" (click)="setLanguage('en')"  routerLinkActive="active">English</a>
       </li>
     </ul>
@@ -48,22 +46,11 @@
 
 
       <div class="navbar-nav ml-auto">
-        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
-
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="logout()">
-            <mat-icon>dialpad</mat-icon>
-            <span>Logout</span>
-          </button>
-
-        </mat-menu> -->
         <div class="d-inline-block" ngbDropdown>
           <button class="btn btn-outline-primary mr-2" id="dropdownManual" ngbDropdownToggle>{{user.firstname}} {{user.lastname}}</button>
           <div ngbDropdownMenu aria-labelledby="dropdownManual">
-            <button ngbDropdownItem routerLinkActive="btn btn-outline-primary" [routerLink]="['/mymeeting']">My meetings</button>
-            <button ngbDropdownItem (click)="logout()">Logout</button>
+            <button ngbDropdownItem routerLinkActive="btn btn-outline-primary" [routerLink]="['/mymeeting']">{{ 'WEBSITE.NAVBAR.MYMEETING' | translate }}</button>
+            <button ngbDropdownItem (click)="logout()">{{ 'WEBSITE.NAVBAR.LOGOUT' | translate }}</button>
           </div>
         </div>
 

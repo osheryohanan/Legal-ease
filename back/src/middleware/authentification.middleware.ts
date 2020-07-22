@@ -21,7 +21,8 @@ export var auth = (req, res, next) => {
     }
     try {
         const decoded = jwt.verify(token, cert);
-        req.user = decoded.user;
+        req.user = decoded.user||decoded.laywer;
+        req.laywer=decoded.laywer||decoded.user;
         next();
     } catch (error) {
         var error: errorHandler = {
@@ -67,6 +68,7 @@ export var checkLawyer = async (req, res, next) => {
         return res.status(error.status).send(error);
     }
     req.user=user;
+    req.laywer=user;
     next();
 
 }
