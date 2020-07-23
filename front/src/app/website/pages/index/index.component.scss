@@ -42,3 +42,21 @@ ul.custom-header-ul {
     color: #ffffff;
   }
 }
+.p25{
+  padding: 25px;
+}
+.btnhome{
+  background-image: linear-gradient(to bottom left, #ffffff2b, rgba(255, 255, 255, 0.4), #ffffff29)!important;
+  background-color: rgba(255, 255, 255, 0)!important;
+  border-radius: 0rem!important;
+}
+@media(max-width:787px){
+  .order1{
+    order:1;
+  }
+  .order2{
+    order:2;
+  }
+}
+
+

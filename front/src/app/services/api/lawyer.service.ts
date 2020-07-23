@@ -48,6 +48,16 @@ export class LawyerService {
   getAvailability(laywerId,date){
     return this.api.post(`meeting/checkLawyerAvability`,{date,laywerId})
   }
+  getMeetingsForLawyer(){
+    return this.api.post(`meeting/getMeetingsForLawyer`,{})
+  }
+  updateMeetingsStatus(id,status){
+    return this.api.put(`meeting/confirmRejectMeeting/${id}`,{status})
+  }
+
+  updateImage(image){
+    return this.api.putFD(`lawyer/profileImageUpdate`,image);
+  }
 
   getLwaerInfo(token?){
     if(localStorage.getItem('token')){

@@ -1,11 +1,10 @@
-import { CalendarEvent } from './../model/meeting.model';
 import mongoose, { Document } from "mongoose";
 import { Request, Response } from 'express';
 import { availability_default } from '../helpers/default.availability';
 import { validationResult } from "express-validator";
 import { errorHandler } from "../interfaces/error.interfaces";
 import { Ilawyer, IlawyerD, Lawyer } from '../model/lawyer.model';
-import { Meeting, Imeeting, ImeetingD } from '../model/meeting.model';
+import { Meeting, Imeeting, ImeetingD ,CalendarEvent} from '../model/meeting.model';
 import $dateformat from "dateformat";
 
 export class meetingController {
@@ -137,7 +136,7 @@ export class meetingController {
 
         }
     }
-    public async getMeetingsForLawyer(req: Request, res: Response) {
+    public async getMeetingsForLawyer(req: any, res: Response) {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -152,22 +151,29 @@ export class meetingController {
         }
         try {
 
-            let meetings: ImeetingD[] = await Meeting.find({
-                lawyerID: mongoose.Types.ObjectId(req.body.laywerId),
+            let meetings: Imeeting[] = await Meeting.find({
+                lawyerID: mongoose.Types.ObjectId(req.laywer._id),
                 removed: { $ne: 1 }
             }).populate({ path: 'userID', select: 'firstname lastname _id priceHourly' });
 
-            let calendarEvent:CalendarEvent[]=[];
+            let calendarEvent: CalendarEvent[] = [];
 
-            meetings.forEach(meeting=>{
-                let cEvent:CalendarEvent={
-                    title:'dq'
+             meetings.forEach((meeting:any) => {
+                let {start,end}=meetingController.dateStartEnd(meeting.date,Array.from(meeting.hour).map(v => v[0]));
+                let cEvent: CalendarEvent = {
+                    title: `${meeting.userID[0].firstname} ${meeting.userID[0].lastname}`,
+                    start,
+                    end,
+                    description:meeting._id,
+                    allDay:false
+
                 };
-                cEvent.description='ds';
-                cEvent.title='ds';
                 calendarEvent.push(cEvent)
+                // meeting.set('CalendarEvent', cEvent,{ strict: false });
+                
             })
-            res.status(200).send(calendarEvent);
+     
+            res.status(200).json( {meetings,calendarEvent} );
 
         } catch (error) {
             var error: errorHandler = {
@@ -180,6 +186,37 @@ export class meetingController {
             return res.status(error.status).send(error);
 
         }
+    }
+    confirmRejectMeeting(req: Request, res: Response){
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            var error: errorHandler = {
+                status: 400,
+                message: `We need to specified all attributes`,
+                type: 'Requirement',
+                all: errors.array()
+            }
+            return res.status(error.status).send(error);
+
+        }
+        Meeting.findByIdAndUpdate(req.params.id, {
+            $set: { confirmed: req.body.status }
+        }, function (err, product) {
+            if (err) {
+                var error: errorHandler = {
+                    status: 500,
+                    message: `We occured an error during saving, please try again later.`,
+                    type: 'DataBasing',
+                    all: err
+
+                }
+                return res.status(error.status).send(error);
+
+            }
+            return res.json(product);
+        })
+
+
     }
     delete(req: Request, res: Response) {
         const errors = validationResult(req);
@@ -240,6 +277,18 @@ export class meetingController {
             });
         });
         return resultat;
+    }
+    static dateStartEnd(dates:string, plageHour:string[]) {
+        let start:Date=new Date();
+        let end = new Date();
+        let date:any=dates.split('/');
+        start.setUTCFullYear(Number(date[2]));start.setUTCMonth(Number(date[1])-1);start.setUTCDate(Number(date[0]));
+        end.setUTCFullYear(Number(date[2]));end.setUTCMonth(Number(date[1])-1);end.setUTCDate(Number(date[0]));
+        let startHours:string[]=plageHour[0].split(':');
+        let endHours=plageHour[plageHour.length-1].split(':');
+        start.setUTCHours(Number(startHours[0]));start.setUTCMinutes(Number(startHours[1]));start.setUTCSeconds(0o0);
+        end.setUTCHours(Number(endHours[0])-3);end.setUTCMinutes(Number(endHours[1]));end.setUTCSeconds(0o0);
+        return {start,end}
     }
     static getDay(date: Date) {
         var weekday = new Array(7);

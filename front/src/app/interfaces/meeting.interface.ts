@@ -13,3 +13,15 @@ export interface Imeeting{
 
 
 }
+
+export interface CalendarEvent {
+
+  id?: number,
+  title:string,
+  start?:string|Date,
+  end?:string|Date,
+  className?:string,
+  description?:string,
+  allDay?:boolean
+
+}

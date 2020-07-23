@@ -5,9 +5,9 @@
         <div class="page-header-image" style="background-image: url('assets/img/bac1.png');"></div>
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 order2">
               <h1>איך זה עובד?</h1>
-              <div class="featured-image image-logo-head">
+              <div class="featured-image image-logo-head order1">
                 <img src="assets/img/step.svg" alt="">
               </div>
             </div>
@@ -15,17 +15,33 @@
               <div class="featured-image image-logo-head">
                 <img src="assets/img/logo.png" alt="">
               </div>
-              <ul dir="RTL" class="custom-header-ul">
+
+              <!-- <ul dir="RTL" class="custom-header-ul">
                 <li><i class="tim-icons icon-check-2"></i> ייעוץ משפטי ראשוני</li>
                 <li><i class="tim-icons icon-check-2"></i> הזמנת פגישה דיגיטלית מידית עם עורך-דין</li>
                 <li><i class="tim-icons icon-check-2"></i> תזמון שיחת ווידאו מהירה</li>
                 <li><i class="tim-icons icon-check-2"></i>מערכת דירוג המבטיחה איכות</li>
                 <li><i class="tim-icons icon-check-2"></i> תשלום בלחיצת כפתור</li>
-              </ul>
-              <button type="button" class="btnlegal btn-outline-primary-legal" [routerLink]="['/register']" routerLinkActive="router-link-active" >התחל</button>
+              </ul> -->
+              <div class="row d-flex justify-content-start p25">
+                <div class="col-12"><i class="tim-icons icon-check-2"></i><p>{{ 'WEBSITE.INDEX.D1' | translate }}</p></div>
+                <div class="col-12"><p>{{ 'WEBSITE.INDEX.D2' | translate }}</p><i class="tim-icons icon-check-2"></i></div>
+                <div class="col-12"><p>{{ 'WEBSITE.INDEX.D3' | translate }}</p><i class="tim-icons icon-check-2"></i></div>
+                <div class="col-12"><p>{{ 'WEBSITE.INDEX.D4' | translate }}</p><i class="tim-icons icon-check-2"></i></div>
+                <div class="col-12"><p>{{ 'WEBSITE.INDEX.D5' | translate }}</p><i class="tim-icons icon-check-2"></i></div>
+              </div>
+              <div class="row justify-content-center">
+              <button type="button" class="col-2 btnlegal btn-outline-primary-legal btnhome" [routerLink]="['/register']" routerLinkActive="router-link-active" >{{ 'WEBSITE.INDEX.START' | translate }}</button>
             </div>
           </div>
+          </div>
         </div>
+        <!-- <div class="row">
+          <div class="row social-network social-circle">
+            <div class="col-12"><li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li></div>
+            <div class="col-12"><li><a href="#" class="icoLinkedin" title="Linkedin"><i class="fa fa-linkedin"></i></a></li></div>
+          </div>
+        </div> -->
       </div>
     </div>
   </div>

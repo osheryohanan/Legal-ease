@@ -104,7 +104,7 @@
             (click)="$event.preventDefault()"
           >
             <div class=" photo">
-              <img alt="Profile Photo" src="assets/img/mike.jpg" />
+              <img alt="Profile Photo" [src]="profileImg" />
             </div>
             <b class=" caret d-none d-lg-block d-xl-block"> </b>
             <p class=" d-lg-none">Log out</p>
@@ -114,18 +114,18 @@
             *dropdownMenu
           >
             <li class=" nav-link">
-              <a class=" nav-item dropdown-item" href="javascript:void(0)">
+              <a class=" nav-item dropdown-item" [routerLink]="['/lawyer/profile']" routerLinkActive="active">
                 Profile
               </a>
             </li>
             <li class=" nav-link">
-              <a class=" nav-item dropdown-item" href="javascript:void(0)">
+              <a class=" nav-item dropdown-item" [routerLink]="['/lawyer/availability']" routerLinkActive="active">
                 Settings
               </a>
             </li>
             <li class=" dropdown-divider"></li>
             <li class=" nav-link">
-              <a class=" nav-item dropdown-item" href="javascript:void(0)">
+              <a class=" nav-item dropdown-item" (click)="logout()">
                 Log out
               </a>
             </li>

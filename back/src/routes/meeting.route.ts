@@ -17,7 +17,8 @@ export class meetingsRoute {
         this.router.post('/addMeeting',[checkDbConnection,auth,checkUser,body('lawyerID','Please confirm the laywer id').notEmpty(),body('userID','Please confirm the user id').notEmpty(),body('confirmed','Please confirm the laywer id').notEmpty(),body('hour','Please confirm the laywer id').notEmpty(),body('date','Please confirm the laywer id').notEmpty()], this.controller.addMeeting)
         this.router.post('/checkLawyerAvability',[checkDbConnection,auth,checkUser,body('date','Please confirm the laywer id').notEmpty(),body('laywerId','Please confirm the laywer id').notEmpty()], this.controller.checkLawyerAvability)
         this.router.post('/getMeetingsForUser',[checkDbConnection,auth,checkUser,body('userID','Please confirm the user id').notEmpty()], this.controller.getMeetingsForUser)
-        this.router.post('/getMeetingsForLawyer',[checkDbConnection,auth,checkLawyer,body('laywerId','Please confirm the laywer id').notEmpty()], this.controller.getMeetingsForLawyer)
+        this.router.post('/getMeetingsForLawyer',[checkDbConnection,auth,checkLawyer], this.controller.getMeetingsForLawyer)
+        this.router.put('/confirmRejectMeeting/:id',[checkDbConnection,auth,checkLawyer,param('id','Please enter a valid id').notEmpty().custom(val=>Types.ObjectId.isValid(val)),body('status','Please send the status').notEmpty().isNumeric()], this.controller.confirmRejectMeeting)
         this.router.delete('/remove/:id',[checkDbConnection,auth,checkUser,param('id','Please enter a valid id').custom(val=>Types.ObjectId.isValid(val))], this.controller.delete)
       
         

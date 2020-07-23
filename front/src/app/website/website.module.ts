@@ -20,7 +20,7 @@ import { LawyerComponent } from './pages/lawyer/lawyer.component';
 import { SharedModule } from './shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
-
+import { NgPaymentCardModule } from 'ng-payment-card';
 import { ComponentsModule } from '../website/components/components.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -59,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SocialLoginModule,
     NgbModule,
     SharedModule,
+    NgPaymentCardModule,
     TranslateModule.forChild({
       loader: {
           provide: TranslateLoader,

@@ -44,7 +44,7 @@ export const ROUTES: RouteInfo[] = [
     path: "/lawyer/mymeetings",
     title: "My Meetings",
     type: "link",
-    icontype: "tim-icons icon-chart-pie-36",
+    icontype: "tim-icons icon-time-alarm",
     rtlTitle: "המפגשים שלי"
   },
   {

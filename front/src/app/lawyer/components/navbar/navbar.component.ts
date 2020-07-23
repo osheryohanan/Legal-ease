@@ -3,6 +3,10 @@ import { ROUTES } from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { Subscription } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { logout } from 'src/app/stores/user/action.store';
+import { environment } from 'src/environments/environment';
 
 var misc: any = {
   sidebar_mini_active: true
@@ -18,14 +22,33 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   private toggleButton: any;
   public isCollapsed = true;
+  auth: Subscription;
+  user: any = null;
 
   constructor(
     location: Location,
     private element: ElementRef,
     private router: Router,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private store: Store<{ user: any }>,
   ) {
     this.location = location;
+    this.auth = this.store.pipe(select('user')).subscribe(
+      ((state) => {
+        if (state) {
+          this.user = state.user;
+
+        }
+      }));
+
+  }
+  logout() {
+    this.store.dispatch(logout())
+
+  }
+  get profileImg(){
+    if (!this.user) return 'assets/img/profile.png';
+    return this.user.imagePath?  environment.apiURL+'photo/'+this.user.imagePath : 'assets/img/profile.png'
   }
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)
   updateColor = () => {
@@ -57,12 +80,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     // we simulate the window Resize so the charts will get updated in realtime.
-    const simulateWindowResize = setInterval(function() {
+    const simulateWindowResize = setInterval(function () {
       window.dispatchEvent(new Event("resize"));
     }, 180);
 
     // we stop the simulation of Window Resize after the animations are completed
-    setTimeout(function() {
+    setTimeout(function () {
       clearInterval(simulateWindowResize);
     }, 1000);
   }
@@ -90,6 +113,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     window.removeEventListener("resize", this.updateColor);
+    this.auth.unsubscribe();
   }
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
@@ -114,7 +138,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       body.style.position = "fixed";
     }
 
-    setTimeout(function() {
+    setTimeout(function () {
       toggleButton.classList.add("toggled");
     }, 500);
 
@@ -124,19 +148,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
 
     if (html.getElementsByTagName('body')) {
-        document.getElementsByTagName('body')[0].appendChild($layer);
+      document.getElementsByTagName('body')[0].appendChild($layer);
     }
     var $toggle = document.getElementsByClassName("navbar-toggler")[0];
-    $layer.onclick = function() { //asign a function
+    $layer.onclick = function () { //asign a function
       html.classList.remove('nav-open');
-      setTimeout(function() {
-          $layer.remove();
-          $toggle.classList.remove('toggled');
+      setTimeout(function () {
+        $layer.remove();
+        $toggle.classList.remove('toggled');
       }, 400);
-      const mainPanel =  <HTMLElement>document.getElementsByClassName('main-panel')[0];
+      const mainPanel = <HTMLElement>document.getElementsByClassName('main-panel')[0];
 
       if (window.innerWidth < 991) {
-        setTimeout(function(){
+        setTimeout(function () {
           mainPanel.style.position = '';
         }, 500);
       }
@@ -152,7 +176,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     );
 
     if (window.innerWidth < 991) {
-      setTimeout(function() {
+      setTimeout(function () {
         body.style.position = "";
       }, 500);
     }
@@ -163,4 +187,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
     html.classList.remove("nav-open");
   }
+
 }

@@ -8,6 +8,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { DxVectorMapModule } from "devextreme-angular";
 import { JwBootstrapSwitchNg2Module } from "jw-bootstrap-switch-ng2";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
@@ -18,6 +19,8 @@ import { AuthNavbarComponent } from "./auth-navbar/auth-navbar.component";
 import { RtlNavbarComponent } from "./rtl-navbar/rtl-navbar.component";
 import { RtlSidebarComponent } from "./rtl-sidebar/rtl-sidebar.component";
 import { FixedPluginComponent } from "./fixed-plugin/fixed-plugin.component";
+import { LawyerService } from 'src/app/services/api/lawyer.service';
+import { UserService } from 'src/app/services/api/user.service';
 
 @NgModule({
   imports: [
@@ -29,7 +32,8 @@ import { FixedPluginComponent } from "./fixed-plugin/fixed-plugin.component";
     DxVectorMapModule,
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    FontAwesomeModule,
   ],
   declarations: [
     FooterComponent,
@@ -52,6 +56,7 @@ import { FixedPluginComponent } from "./fixed-plugin/fixed-plugin.component";
     RtlNavbarComponent,
     RtlSidebarComponent,
     FixedPluginComponent
-  ]
+  ],
+  providers:[LawyerService,UserService]
 })
 export class ComponentsModule {}

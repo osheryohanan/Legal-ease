@@ -9,6 +9,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { LawyerService } from 'src/app/services/api/lawyer.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const MeetingsRoutes: Routes = [
   {
@@ -36,11 +38,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     RouterModule.forChild(MeetingsRoutes),
     ModalModule.forRoot(),
     TranslationModule,
+    NgbModule,
 
 
   ],providers:[
     MessageService,
-    ConfirmationService
+    ConfirmationService,
+    LawyerService
 
   ]
 })

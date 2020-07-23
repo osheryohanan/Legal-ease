@@ -11,14 +11,28 @@
             <thead>
               <tr>
                 <th class="text-center">#</th>
-                <th class="text-center">{{ 'WEBSITE.MYMEETING.NAME' | translate }}</th>
-                <th class="text-center">{{ 'WEBSITE.MYMEETING.DATE' | translate }}</th>
-                <th class="text-center">{{ 'WEBSITE.MYMEETING.CONFIRM' | translate }}</th>
-                <th class="text-center">{{ 'WEBSITE.MYMEETING.HOURS' | translate }}</th>
-                <th class="text-center">{{ 'WEBSITE.MYMEETING.PRICE' | translate }}</th>
-                <th class="text-center">{{ 'WEBSITE.MYMEETING.PAYED' | translate }}</th>
+                <th class="text-center">
+                  {{ "WEBSITE.MYMEETING.NAME" | translate }}
+                </th>
+                <th class="text-center">
+                  {{ "WEBSITE.MYMEETING.DATE" | translate }}
+                </th>
+                <th class="text-center">
+                  {{ "WEBSITE.MYMEETING.CONFIRM" | translate }}
+                </th>
+                <th class="text-center">
+                  {{ "WEBSITE.MYMEETING.HOURS" | translate }}
+                </th>
+                <th class="text-center">
+                  {{ "WEBSITE.MYMEETING.PRICE" | translate }}
+                </th>
+                <th class="text-center">
+                  {{ "WEBSITE.MYMEETING.PAYED" | translate }}
+                </th>
                 <th class="text-center">ZOOM LINK</th>
-                <th class="text-center">{{ 'WEBSITE.MYMEETING.ACTION' | translate }}</th>
+                <th class="text-center">
+                  {{ "WEBSITE.MYMEETING.ACTION" | translate }}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -29,20 +43,29 @@
                   {{ item.lawyerID[0].lastname }}
                 </td>
                 <td>
-                  {{item.date}}
+                  {{ item.date }}
                 </td>
                 <td>
-                  <span *ngIf="item.confirmed == 0" class="badge badge-warning"
-                    >{{ 'WEBSITE.MYMEETING.AWAIT' | translate }}</span
+                  <span
+                    *ngIf="item.confirmed == 0"
+                    class="badge badge-warning"
+                    >{{ "WEBSITE.MYMEETING.AWAIT" | translate }}</span
                   >
-                  <span *ngIf="item.confirmed == 1" class="badge badge-success"
-                    >{{ 'WEBSITE.MYMEETING.CONFIRMED' | translate }}</span
+                  <span
+                    *ngIf="item.confirmed == 1"
+                    class="badge badge-success"
+                    >{{ "WEBSITE.MYMEETING.CONFIRMED" | translate }}</span
                   >
-                  <span *ngIf="item.confirmed == 2" class="badge badge-danger"
-                    >{{ 'WEBSITE.MYMEETING.REFUSED' | translate }}</span
+                  <span
+                    *ngIf="item.confirmed == 2"
+                    class="badge badge-danger"
+                    >{{ "WEBSITE.MYMEETING.REFUSED" | translate }}</span
                   >
                 </td>
-                <td>{{ item.hour.length / 2 }} {{ 'WEBSITE.MYMEETING.HOURS' | translate }}</td>
+                <td>
+                  {{ item.hour.length / 2 }}
+                  {{ "WEBSITE.MYMEETING.HOURS" | translate }}
+                </td>
                 <td
                   class="text-right"
                   [innerHTML]="calculePrice(item.lawyerID[0], item.hour)"
@@ -51,24 +74,35 @@
                   <span
                     *ngIf="paymentConfirmation(item.paymentinfo) === 0"
                     class="badge badge-pill badge-warning"
-                    >{{ 'WEBSITE.MYMEETING.NOTRANS' | translate }}</span
+                    >{{ "WEBSITE.MYMEETING.NOTRANS" | translate }}</span
                   >
                   <span
                     *ngIf="paymentConfirmation(item.paymentinfo) === 1"
                     class="badge badge-pill badge-success"
-                    >{{ 'WEBSITE.MYMEETING.PAYCONF' | translate }}</span
+                    >{{ "WEBSITE.MYMEETING.PAYCONF" | translate }}</span
                   >
                   <span
                     *ngIf="paymentConfirmation(item.paymentinfo) === 2"
                     class="badge badge-pill badge-danger"
-                    >{{ 'WEBSITE.MYMEETING.PAYREF' | translate }}</span
+                    >{{ "WEBSITE.MYMEETING.PAYREF" | translate }}</span
                   >
                 </td>
-                <td><a [attr.href]="item.zoomDetails?item.zoomDetails.link:'https://zoom.us/'">Link</a><td>
+                <td>
+                  <a
+                    [attr.href]="
+                      item.zoomDetails
+                        ? item.zoomDetails.link
+                        : 'https://zoom.us/'
+                    "
+                    >Link</a
+                  >
+                </td>
+                <td></td>
                 <td class="td-actions text-right">
                   <button
                     type="button"
                     *ngIf="paymentConfirmation(item.paymentinfo) !== 1"
+                    (click)="openModal(payment)"
                     ngbTooltip="Pay by credit card"
                     class="btn btn-info btn-icon btn-sm btn-simple"
                     data-original-title=""
@@ -94,9 +128,9 @@
             <div class="row">
               <div class="col text-center">
                 <p>
-                  {{ 'WEBSITE.MYMEETING.NORDV1' | translate }}
+                  {{ "WEBSITE.MYMEETING.NORDV1" | translate }}
                   <span [routerLink]="['/search']">
-                    {{ 'WEBSITE.MYMEETING.NORDV2' | translate }}
+                    {{ "WEBSITE.MYMEETING.NORDV2" | translate }}
                   </span>
                 </p>
               </div>
@@ -107,6 +141,29 @@
     </div>
   </div>
 </div>
+<ng-template #payment let-modal>
+  <div class="card cardEase card-profile profile-bg">
+    <div class="card-header">
+      <div class="card-avatar">
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="closeModal(modal)"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <ng-payment-card
+        [ccNumMissingTxt]="'Please provide card number'"
+        [cardExpiredTxt]="'Payment card has expired'"
+      >
+      </ng-payment-card>
+    </div>
+  </div>
+</ng-template>
 <p-toast></p-toast>
 <app-loader *ngIf="loading"></app-loader>
 <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>

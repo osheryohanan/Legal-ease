@@ -1,54 +1,68 @@
 {
 
   "WEBSITE": {
-    "LAWYER":{
-      "ABOUT":"About"
+    "LAWYER": {
+      "ABOUT": "About"
     },
-    "NAVBAR":{
-      "HOME":"Home",
-      "FIND":"Find a lawyer",
-      "REGISTER":"Register",
-      "LOGIN":"Login",
-      "MYMEETING":"My meetings",
-      "LOGOUT":"Logout"
+    "NAVBAR": {
+      "HOME": "Home",
+      "FIND": "Find a lawyer",
+      "REGISTER": "Register",
+      "LOGIN": "Login",
+      "MYMEETING": "My meetings",
+      "LOGOUT": "Logout"
 
     },
-    "LAWYER-LIST":{
-      "SHEDULE":"Schedule a meeting",
-      "DETAILS":"View details",
-      "NOTAVA":"We didn't find any availability at this date.",
-      "NORAT":"No rating available for this user",
-      "USERRAT":"User's rating",
-      "EXPERIENCE":"Experience",
-      "PRICE":"Price",
-      "SPECIAL":"Specialty",
-      "SHEDULEWITH":"Schedule a meeting with:",
-      "NOTLAFOUND":" We have not found lawyer in the category"
-    }    ,
-    "SEARCH":{
-      "CATEGORYSELECT":"Select a domain:"
+    "INDEX": {
+      "D1": "Preliminary Legal Advice",
+      "D2": "Book an Instant Digital Meeting with a Lawyer",
+      "D3": "Quick video call scheduling",
+      "D4": "Rating system that guarantees quality",
+      "D5": "Pay at the click of a button",
+      "START":"Start now"
     },
-    "MYMEETING":{
-      "NORDV1":"You don't have any scheduled appointments. Please make your first appointment with our best lawyers by",
-      "NORDV2":"clicking here.",
-      "DATE":"Date",
+    "LAWYER-LIST": {
+      "SHEDULE": "Schedule a meeting",
+      "DETAILS": "View details",
+      "NOTAVA": "We didn't find any availability at this date.",
+      "NORAT": "No rating available for this user",
+      "USERRAT": "User's rating",
+      "EXPERIENCE": "Experience",
+      "PRICE": "Price",
+      "SPECIAL": "Specialty",
+      "SHEDULEWITH": "Schedule a meeting with:",
+      "NOTLAFOUND": " We have not found lawyer in the category"
+    },
+    "SEARCH": {
+      "CATEGORYSELECT": "Select a domain:"
+    },
+    "MYMEETING": {
+      "NORDV1": "You don't have any scheduled appointments. Please make your first appointment with our best lawyers by",
+      "NORDV2": "clicking here.",
+      "DATE": "Date",
       "NAME": "Lawyer name",
-      "CONFIRM":"Confirmation",
-      "HOURS":"Hours",
-      "PRICE":"Price",
-      "PAYED":"Payed",
-      "ACTION":"Actions",
-      "REFUSED":"Refused",
-      "AWAIT":"Awaiting confirmation",
-      "CONFIRMED":"Confirmed",
-      "NOTRANS":"No transaction performed",
-      "PAYCONF":"Payment confirmed",
-      "PAYREF":"Payment refused",
-      "TSDELETEMESS":"Are you sure that you want to delete this meetting(You will not be refunded)?",
-      "TSDELETEHEAD":"Delete the meetting"
+      "CONFIRM": "Confirmation",
+      "HOURS": "Hours",
+      "PRICE": "Price",
+      "PAYED": "Payed",
+      "ACTION": "Actions",
+      "REFUSED": "Refused",
+      "AWAIT": "Awaiting confirmation",
+      "CONFIRMED": "Confirmed",
+      "NOTRANS": "No transaction performed",
+      "PAYCONF": "Payment confirmed",
+      "PAYREF": "Payment refused",
+      "TSDELETEMESS": "Are you sure that you want to delete this meetting(You will not be refunded)?",
+      "TSDELETEHEAD": "Delete the meetting"
 
 
     }
 
+  },
+  "LAWYER": {
+    "MYMEETING": {
+      "NORDV1": "You don't have any scheduled appointments."
+
+    }
   }
 }

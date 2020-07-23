@@ -71,6 +71,25 @@ app.get('/test/mymeeting', async (req, res) => {
 })
 
 
+var photo: Application = express();
+photo.get('*', (req, res) => {
+  try {
+
+    const allowedExt = ['.ico', '.png', '.jpg', '.jpeg', '.svg', '.gif'];
+    if (allowedExt.filter((ext) => req.url.indexOf(ext) > 0).length > 0) {
+      if (fs.existsSync(path.join(__dirname, "../", 'uploads/images', `${req.url}`))) {
+        return res.sendFile(path.join(__dirname, "../", 'uploads/images', `${req.url}`));
+
+      }
+    }
+    throw new Error("");
+
+
+  } catch (error) {
+    res.status(404).send();
+  }
+});
+app.use('/photo/', photo)
 
 var website: Application = express();
 website.get('*', (req, res) => {

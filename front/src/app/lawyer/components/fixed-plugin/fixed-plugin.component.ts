@@ -1,12 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-
+import { faCog, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: "app-fixed-lawyer-plugin",
   templateUrl: "./fixed-plugin.component.html",
   styleUrls: ["./fixed-plugin.component.scss"]
 })
 export class FixedPluginComponent implements OnInit {
+  public faCog:IconDefinition=faCog;
   public sidebarColor: string = "red";
   public state: boolean = true;
   public dashboardColor: boolean = true;

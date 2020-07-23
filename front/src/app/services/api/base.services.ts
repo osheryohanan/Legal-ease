@@ -21,6 +21,14 @@ export class ApiHttpService {
 
     return this.http.post(environment.apiURL + url, data, {headers:this.getHeader()});
   }
+  public putFD(url: string, data: any) {
+    let obj={"mimeType": "multipart/form-data"};
+    // obj['Content-Type']='multipart/form-data';
+    if(localStorage.getItem('token'))
+      obj['token']= localStorage.getItem('token');
+
+    return this.http.put(environment.apiURL + url, data, {headers:new HttpHeaders(obj)});
+  }
   public put(url: string, data: any) {
     return this.http.put(environment.apiURL + url, data, {headers: this.getHeader()});
   }

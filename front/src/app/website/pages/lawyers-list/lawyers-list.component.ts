@@ -13,6 +13,7 @@ import { finalize } from 'rxjs/operators';
 import { UserService } from '../../../services/api/user.service';
 import { MessageService } from 'primeng/api/';
 import { Iuser } from 'src/app/interfaces/user.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-lawyers-list',
@@ -54,6 +55,10 @@ export class LawyersListComponent implements OnInit {
         }
       }))
     )
+  }
+  profileImg(imagePath){
+
+    return imagePath!='/assets/img/profile.png'?  environment.apiURL+'photo/'+imagePath : imagePath;
   }
   getAvailability(event: Date) {
     this.loading=true;

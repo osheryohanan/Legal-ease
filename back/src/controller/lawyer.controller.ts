@@ -12,6 +12,7 @@ var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
 import { availability_default } from '../helpers/default.availability';
 
 import mongoose, { } from "mongoose";
+import { Comments } from '../model/comments.model';
 export class lawyerController {
     color;
     constructor() {
@@ -495,19 +496,16 @@ export class lawyerController {
         try {
             var ids: string = req.query.id.toString();
 
-            let lawyer:any = await Lawyer.find({ category: { "$in": [ids] } }).populate('category').select('-password -__v -zoomDetails')
+            let lawyer: any = await Lawyer.find({ category: { "$in": [ids] } }).populate('category').select('-password -__v -zoomDetails')
             for (let index = 0; index < lawyer.length; index++) {
-                
-                lawyer[index].set('rating', {
-                    score: 4.1,
-                    all: 343
 
-                },
+                let rating= await lawyerController.getRating(lawyer._id);
+                lawyer[index].set('rating', rating,
                     { strict: false });
 
-                    let availability = lawyer[index].availability || availability_default;
-                    var result=this.getAv(availability);
-                    lawyer[index].set('availability', result,{ strict: false })
+                let availability = lawyer[index].availability || availability_default;
+                var result = this.getAv(availability);
+                lawyer[index].set('availability', result, { strict: false })
             }
 
             res.send(lawyer);
@@ -557,18 +555,14 @@ export class lawyerController {
             if (!laywer.imagePath) laywer.set('imagePath', '/assets/img/profile.png', { strict: false })
             laywer.firstname = laywer.firstname.charAt(0).toUpperCase() + laywer.firstname.slice(1);
             laywer.lastname = laywer.lastname.charAt(0).toUpperCase() + laywer.lastname.slice(1);
-
-            laywer.set('rating', {
-                score: 4.1,
-                all: 343
-
-            },
+            let rating= await lawyerController.getRating(laywer._id);
+            laywer.set('rating', rating,
                 { strict: false })
 
             let availability = laywer.availability || availability_default;
-            var result=this.getAv(availability);
-            
-            laywer.set('availability', result,{ strict: false })
+            var result = this.getAv(availability);
+
+            laywer.set('availability', result, { strict: false })
 
             return res.send(laywer);
 
@@ -605,7 +599,7 @@ export class lawyerController {
 
 
             let availability = laywer.availability || availability_default;
-            var result=this.getAv(availability);
+            var result = this.getAv(availability);
             return res.json(result);
 
 
@@ -613,7 +607,7 @@ export class lawyerController {
 
         }
     }
-    
+
 
 
     getAv(availability) {
@@ -644,6 +638,31 @@ export class lawyerController {
             });
         });
         return resultat;
+    }
+    static async getRating(idLawyer) {
+        let rating: any = await Comments.find({
+            lawyer: mongoose.Types.ObjectId(idLawyer)
+        })
+
+        let all = rating.length;
+        let score = 0;
+        let o=0;
+        if (all > 0) {
+            for (let i = 0; i < all; i++) {
+                let item = rating[i];
+                if (item.rating) {
+                    score+=item.rating;o++;
+                }
+            }
+            score=o!=0?score/o:score;
+        }
+        return {
+            score,
+            all
+        }
+
+
+
     }
 
 

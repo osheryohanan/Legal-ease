@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import swal from "sweetalert2";
 import { Injectable } from '@angular/core';
 import { faShekelSign, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class ValidatorService {
@@ -45,7 +46,7 @@ export class ProfileComponent implements OnInit {
   category:Array<any>;
   subs: Subscription[]=[];
   faShekelSign:IconDefinition=faShekelSign;
-
+  changeImage:boolean=false;
   constructor(private validationService:ValidatorService,private store:Store<{user:any}>,private formBuilder: FormBuilder,public toastr: ToastrService,public lawyerService:LawyerService) {
       this.subs.push(this.lawyerService.category().subscribe((arg:Array<any>) => {this.category = arg;this.getdata()}));
 
@@ -71,6 +72,9 @@ export class ProfileComponent implements OnInit {
 
 
 
+  }
+  changeImageHandler(status:boolean){
+    this.changeImage=status;
   }
   getdata(){
     this.subs.push(this.auth = this.store.pipe(select('user')).subscribe(
@@ -156,7 +160,7 @@ export class ProfileComponent implements OnInit {
   }
   get profileImg(){
     if (!this.user) return 'assets/img/profile.png';
-    return this.user.imagePath? this.user.imagePath : 'assets/img/profile.png'
+    return this.user.imagePath?  environment.apiURL+'photo/'+this.user.imagePath : 'assets/img/profile.png'
   }
   get description(){
     if (!this.user) return '';

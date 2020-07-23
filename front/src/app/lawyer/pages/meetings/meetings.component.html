@@ -1,49 +1,72 @@
-<div class=" content">
-  <div class=" row">
-    <div class="  col-md-10 ml-auto mr-auto">
+<div class="content">
+  <div class="row">
+    <div class="col-md-10 ml-auto mr-auto">
       <div class="card card-calendar">
-        <div class=" card-header">
-          <h3 class=" card-title">My Meetings</h3>
+        <div class="card-header">
+          <h3 class="card-title">My Meetings</h3>
         </div>
-        <div class=" card-body">
+        <div class="card-body">
           <tabset class="nav-pills-danger" type="pills">
             <tab heading="Table">
               <table class="table" *ngIf="meetings.length; else noMeeting">
                 <thead>
                   <tr>
                     <th class="text-center">#</th>
-                    <th class="text-center">{{ 'WEBSITE.MYMEETING.NAME' | translate }}</th>
-                    <th class="text-center">{{ 'WEBSITE.MYMEETING.DATE' | translate }}</th>
-                    <th class="text-center">{{ 'WEBSITE.MYMEETING.CONFIRM' | translate }}</th>
-                    <th class="text-center">{{ 'WEBSITE.MYMEETING.HOURS' | translate }}</th>
-                    <th class="text-center">{{ 'WEBSITE.MYMEETING.PRICE' | translate }}</th>
-                    <th class="text-center">{{ 'WEBSITE.MYMEETING.PAYED' | translate }}</th>
+                    <th class="text-center">
+                      {{ "WEBSITE.MYMEETING.NAME" | translate }}
+                    </th>
+                    <th class="text-center">
+                      {{ "WEBSITE.MYMEETING.DATE" | translate }}
+                    </th>
+                    <th class="text-center">
+                      {{ "WEBSITE.MYMEETING.CONFIRM" | translate }}
+                    </th>
+                    <th class="text-center">
+                      {{ "WEBSITE.MYMEETING.HOURS" | translate }}
+                    </th>
+                    <th class="text-center">
+                      {{ "WEBSITE.MYMEETING.PRICE" | translate }}
+                    </th>
+                    <th class="text-center">
+                      {{ "WEBSITE.MYMEETING.PAYED" | translate }}
+                    </th>
                     <th class="text-center">ZOOM LINK</th>
-                    <th class="text-center">{{ 'WEBSITE.MYMEETING.ACTION' | translate }}</th>
+                    <th class="text-center">
+                      {{ "WEBSITE.MYMEETING.ACTION" | translate }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of meetings; let i = index">
                     <td class="text-center">{{ i + 1 }}</td>
                     <td>
-                      {{ item.lawyerID[0].firstname }}
-                      {{ item.lawyerID[0].lastname }}
+                      {{ item.userID[0].firstname }}
+                      {{ item.userID[0].lastname }}
                     </td>
                     <td>
-                      {{item.date}}
+                      {{ item.date }}
                     </td>
                     <td>
-                      <span *ngIf="item.confirmed == 0" class="badge badge-warning"
-                        >{{ 'WEBSITE.MYMEETING.AWAIT' | translate }}</span
+                      <span
+                        *ngIf="item.confirmed == 0"
+                        class="badge badge-warning"
+                        >{{ "WEBSITE.MYMEETING.AWAIT" | translate }}</span
                       >
-                      <span *ngIf="item.confirmed == 1" class="badge badge-success"
-                        >{{ 'WEBSITE.MYMEETING.CONFIRMED' | translate }}</span
+                      <span
+                        *ngIf="item.confirmed == 1"
+                        class="badge badge-success"
+                        >{{ "WEBSITE.MYMEETING.CONFIRMED" | translate }}</span
                       >
-                      <span *ngIf="item.confirmed == 2" class="badge badge-danger"
-                        >{{ 'WEBSITE.MYMEETING.REFUSED' | translate }}</span
+                      <span
+                        *ngIf="item.confirmed == 2"
+                        class="badge badge-danger"
+                        >{{ "WEBSITE.MYMEETING.REFUSED" | translate }}</span
                       >
                     </td>
-                    <td>{{ item.hour.length / 2 }} {{ 'WEBSITE.MYMEETING.HOURS' | translate }}</td>
+                    <td>
+                      {{ item.hour.length / 2 }}
+                      {{ "WEBSITE.MYMEETING.HOURS" | translate }}
+                    </td>
                     <td
                       class="text-right"
                       [innerHTML]="calculePrice(item.lawyerID[0], item.hour)"
@@ -52,40 +75,57 @@
                       <span
                         *ngIf="paymentConfirmation(item.paymentinfo) === 0"
                         class="badge badge-pill badge-warning"
-                        >{{ 'WEBSITE.MYMEETING.NOTRANS' | translate }}</span
+                        >{{ "WEBSITE.MYMEETING.NOTRANS" | translate }}</span
                       >
                       <span
                         *ngIf="paymentConfirmation(item.paymentinfo) === 1"
                         class="badge badge-pill badge-success"
-                        >{{ 'WEBSITE.MYMEETING.PAYCONF' | translate }}</span
+                        >{{ "WEBSITE.MYMEETING.PAYCONF" | translate }}</span
                       >
                       <span
                         *ngIf="paymentConfirmation(item.paymentinfo) === 2"
                         class="badge badge-pill badge-danger"
-                        >{{ 'WEBSITE.MYMEETING.PAYREF' | translate }}</span
+                        >{{ "WEBSITE.MYMEETING.PAYREF" | translate }}</span
                       >
                     </td>
-                    <td><a [attr.href]="item.zoomDetails?item.zoomDetails.link:'https://zoom.us/'">Link</a><td>
-                    <td class="td-actions text-right">
-                      <button
-                        type="button"
-                        *ngIf="paymentConfirmation(item.paymentinfo) !== 1"
-                        ngbTooltip="Pay by credit card"
-                        class="btn btn-info btn-icon btn-sm btn-simple"
-                        data-original-title=""
-                        title=""
+                    <td>
+                      <a
+                        [attr.href]="
+                          item.zoomDetails
+                            ? item.zoomDetails.link
+                            : 'https://zoom.us/'
+                        "
+                        >Link</a
                       >
-                        <i class="tim-icons icon-credit-card"></i>
-                      </button>
-                      <button
-                        type="button"
-                        ngbTooltip="Remove"
-                        class="btn btn-danger btn-icon btn-sm btn-simple"
-                        data-original-title=""
-                        title=""
-                      >
-                        <i class="tim-icons icon-simple-remove"></i>
-                      </button>
+                    </td>
+                    <td></td>
+                    <td class="td-actions">
+                      <div class="row">
+                        <div class="col-6">
+                          <button
+                            type="button"
+                            (click)="updateStatus(item._id, 1)"
+                            ngbTooltip="Accept the meeting"
+                            class="btn btn-success btn-icon btn-sm btn-simple"
+                            data-original-title=""
+                            title=""
+                          >
+                            <i class="tim-icons icon-check-2"></i>
+                          </button>
+                        </div>
+                        <div class="col-6">
+                          <button
+                            type="button"
+                            (click)="updateStatus(item._id, 2)"
+                            ngbTooltip="Refuse the meeting"
+                            class="btn btn-danger btn-icon btn-sm btn-simple"
+                            data-original-title=""
+                            title=""
+                          >
+                            <i class="tim-icons icon-simple-remove"></i>
+                          </button>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -94,10 +134,8 @@
                 <div class="row">
                   <div class="col text-center">
                     <p>
-                      {{ 'WEBSITE.MYMEETING.NORDV1' | translate }}
-                      <span [routerLink]="['/search']">
-                        {{ 'WEBSITE.MYMEETING.NORDV2' | translate }}
-                      </span>
+                      {{ "LAWYER.MYMEETING.NORDV1" | translate }}
+
                     </p>
                   </div>
                 </div>
@@ -106,13 +144,9 @@
             <tab heading="Calendar">
               <div id="calendar"></div>
             </tab>
-
           </tabset>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-

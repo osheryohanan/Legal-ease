@@ -271,12 +271,25 @@
             <div class="block block-three"></div>
             <div class="block block-four"></div>
             <a href="javascript:void(0)">
-              <img alt="..." class="avatar" [src]="profileImg" />
+              <img
+                *ngIf="!changeImage"
+                (click)="changeImage = true"
+                alt="..."
+                class="avatar"
+                [src]="profileImg"
+              />
+              <app-picture-upload
+                *ngIf="changeImage"
+                class=""
+                [avatar]="true"
+                (changeImageStatus)="changeImageHandler($event)"
+              ></app-picture-upload>
 
               <h5 class="title">{{ name }}</h5>
             </a>
             <p class="description">Lawyer</p>
           </div>
+
           <div class="card-description">
             {{ description }}
           </div>

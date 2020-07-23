@@ -40,8 +40,6 @@ export class NavbarComponent implements OnInit {
    }
    public setLanguage = (language) => {
 
-
-    console.log('[LANGUAGE SWITCH TRIGGERED] setting language value to '+language);
     this.translate.use(language);
 }
   ngOnInit() {

@@ -17,7 +17,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslationModule } from '../moduleTranslation.module';
-
+import { ComponentsModule } from './components/components.module';
 
 
 @NgModule({
@@ -34,7 +34,8 @@ import { TranslationModule } from '../moduleTranslation.module';
     AngularMultiSelectModule,
     JwBootstrapSwitchNg2Module,
     ProgressbarModule.forRoot(),
-    TranslationModule
+    TranslationModule,
+    ComponentsModule
 
   ],
   providers:[MessageService]

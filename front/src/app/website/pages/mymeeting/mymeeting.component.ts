@@ -8,6 +8,7 @@ import { Imeeting } from 'src/app/interfaces/meeting.interface';
 import { finalize } from 'rxjs/operators';
 import { Ilawyer } from 'src/app/interfaces/lawyer.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-mymeeting',
@@ -38,7 +39,9 @@ export class MymeetingComponent implements OnInit {
     private messageService: MessageService,
     private userService: UserService,
     private confirmationService: ConfirmationService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private modalService: NgbModal,
+
   ) {
     this.subs.push(this.store.pipe(select('user')).subscribe(
       ((state) => {
@@ -49,7 +52,13 @@ export class MymeetingComponent implements OnInit {
       }))
     )
   }
+  openModal(ModalId) {
+    this.modalService.open(ModalId, { backdrop: 'static', backdropClass: 'light-blue-backdrop', windowClass: 'easeModal', });
+  }
+  closeModal(modal) {
+    modal.dismiss('Cross click')
 
+  }
   ngOnInit(): void {
 
   }
