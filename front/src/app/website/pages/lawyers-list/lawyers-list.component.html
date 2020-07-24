@@ -14,7 +14,7 @@
                   <div class="row">
                     <div class="col d-flex justify-content-center">
                       <div class="pimf">
-                        <img [src]="profileImg(item.imagePath)" alt="" class="img img-raised" />
+                        <img [src]="profileImg(item.imagePath)" alt="" class="img img-raised roudedImg"  />
                       </div>
                     </div>
                   </div>
@@ -61,7 +61,7 @@
       </h1>
       <div class="card-avatar">
         <a href="javascript:;">
-          <img class="img img-raised" [src]="profileImg(currentLawyer.imagePath)" />
+          <img class="img img-raised roudedImgModal" [src]="profileImg(currentLawyer.imagePath)" />
         </a>
         <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
           <span aria-hidden="true">&times;</span>
@@ -83,6 +83,16 @@
         </div>
         <div class="col-12">
           <h1><strong>{{ 'WEBSITE.LAWYER-LIST.EXPERIENCE' | translate }}</strong></h1>
+          <p *ngIf="currentLawyer.rating&&currentLawyer.rating.all>0">
+            {{currentLawyer.rating.all}} {{ 'WEBSITE.LAWYER-LIST.NEW' | translate }}
+          </p>
+          <p *ngIf="currentLawyer.rating&&currentLawyer.rating.all==0">
+            {{ 'WEBSITE.LAWYER-LIST.NEW' | translate }}
+          </p>
+        </div>
+        <div class="col-12">
+          <h1><strong>{{ 'WEBSITE.LAWYER-LIST.DESCRIPTION' | translate }}</strong></h1>
+          <p> {{currentLawyer.morInfo}} </p>
         </div>
         <div class="col-12">
           <h1><strong>{{ 'WEBSITE.LAWYER-LIST.PRICE' | translate }}</strong></h1>
@@ -95,7 +105,7 @@
         </div>
         <div class="col-12">
           <h1><strong>{{ 'WEBSITE.LAWYER-LIST.USERRAT' | translate }}</strong></h1>
-          <div *ngIf="currentLawyer.rating; else noRating">
+          <div *ngIf="currentLawyer.rating&&currentLawyer.rating.all!=0; else noRating">
             <app-rating [rating]="currentLawyer.rating"></app-rating>
           </div>
           <ng-template #noRating>{{ 'WEBSITE.LAWYER-LIST.NORAT' | translate }}</ng-template>

@@ -54,10 +54,15 @@ export class LawyerService {
   updateMeetingsStatus(id,status){
     return this.api.put(`meeting/confirmRejectMeeting/${id}`,{status})
   }
+  updateZoomUrl(id,url){
+    return this.api.put(`meeting/updateZoomURL/${id}`,{url})
+  }
 
   updateImage(image){
     return this.api.putFD(`lawyer/profileImageUpdate`,image);
   }
+
+
 
   getLwaerInfo(token?){
     if(localStorage.getItem('token')){

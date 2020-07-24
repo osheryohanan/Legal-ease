@@ -278,7 +278,7 @@ export class userController {
 
         User.findByIdAndUpdate(req.user._id, {
             $set: req.body
-        }, function (err, product) {
+        }, function (err, _resultat) {
             if (err) {
                 var error: errorHandler = {
                     status: 500,
@@ -290,7 +290,7 @@ export class userController {
                 return res.status(error.status).send(error);
 
             }
-            res.json(product);
+            res.json(_resultat);
         });
     };
     getDetails(req: Request, res: Response) {
@@ -438,7 +438,7 @@ export class userController {
                 $set: {
                     password: await bcrypt.hash(req.body.password, salt)
                 }
-            }, function (err, product) {
+            }, function (err, _resultat) {
                 if (err) {
                     var error: errorHandler = {
                         status: 500,

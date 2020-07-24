@@ -8,9 +8,16 @@
   position: relative;
   height: 600px;
   overflow: auto;
-
 }
 
+.roudedImg{
+  min-height: 160.200px;
+    min-width: 160.200px;
+}
+.roudedImgModal{
+  min-height: 131.200px;
+    min-width: 131.200px;
+}
 .btnease {
   background-position: top right;
   /* background-color: #e14eca; */
@@ -91,3 +98,5 @@
   }
 
 }
+
+

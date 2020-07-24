@@ -173,6 +173,7 @@ this.loading=true;
       this.userService.saveMeeting(meeting).pipe(finalize(() => { setTimeout(() => { this.loading = false; }, 500); })).subscribe(
         (data:any) => {
           this.messageService.add({ severity: 'success', summary: data.type, detail: data.message });
+          this.modalService.dismissAll();
           this.router.navigate(['/mymeeting']);
 
         },

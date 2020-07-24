@@ -90,6 +90,7 @@ export class MymeetingComponent implements OnInit {
   }
   paymentConfirmation(_paymentDetails):number{
     if(!_paymentDetails)return 0;
+    return 1;
     //Complete here with de payment information of the סליקה
   }
 

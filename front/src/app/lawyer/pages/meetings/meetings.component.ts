@@ -24,7 +24,7 @@ export class MeetingsComponent implements OnInit {
   y = this.today.getFullYear();
   m = this.today.getMonth();
   d = this.today.getDate();
-  calendar:any;
+  calendar: any;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -74,15 +74,17 @@ export class MeetingsComponent implements OnInit {
   }
   paymentConfirmation(_paymentDetails): number {
     if (!_paymentDetails) return 0;
+    return 1;
+
     //Complete here with de payment information of the סליקה
   }
-  updateStatus(id,status){
-   this.subs.push(this.lawyerService.updateMeetingsStatus(id,status).subscribe(
-     x=>this.loadData()
-   ))
+  updateStatus(id, status) {
+    this.subs.push(this.lawyerService.updateMeetingsStatus(id, status).subscribe(
+      x => this.loadData()
+    ))
   }
   loadData() {
-    this.calendar?this.calendar.removeAllEvents():undefined;
+    this.calendar ? this.calendar.removeAllEvents() : undefined;
     this.subs.push(this.lawyerService.getMeetingsForLawyer().subscribe(
       (x: any) => {
         this.events = x.calendarEvent;
@@ -101,21 +103,64 @@ export class MeetingsComponent implements OnInit {
     ));
   }
 
-  //   confirmDelete(_id) {
-  //     this.confirmationService.confirm({
-  //         message: this.translate.instant('WEBSITE.MYMEETING.TSDELETEMESS'),
-  //         header:`${this.translate.instant('WEBSITE.MYMEETING.TSDELETEHEAD')} ${_id}`,
-  //         icon: 'pi pi-info-circle',
-  //         accept: () => {
-  //           this.subs.push(this.lawyerService.deleteMeeting(_id).subscribe(
-  //             data=>{this.messageService.add({ severity: 'danger', summary: 'Removed', detail: 'Item was successfuly removed' });this.loadData()}
-  //           ))
-  //         },
-  //         reject:() => {
-  //           this.messageService.add({ severity: 'info', summary: 'Info', detail: `We didn't removed the meeting` });
+  addZoomLink(id) {
+    swal
+      .fire({
+        title: "Please enter the zoom url of the meeting",
+        html:
+          `<div class="form-group">
+              <input class="form-control text-default" placeholder="Zoom url" id="input-field">
+              </div>`,
+        showCancelButton: true,
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false
+      })
+      .then((result)=> {
+        try {
+          if (result.value) {
+            let zoomLink = (document.getElementById(
+              "input-field"
+            ) as HTMLInputElement).value;
+            if (zoomLink.length == 0) throw new Error("");
+            this.lawyerService.updateZoomUrl(id, zoomLink).subscribe(
+              x => {
+                swal.fire({
+                  title: "Saved!",
+                  text: "We saved the changes!",
+                  buttonsStyling: false,
+                  confirmButtonClass: "btn btn-success",
+                  type: "success"
+                });
+              },
+              e => {
+                swal.fire({
+                  title: 'Oops...',
+                  text: 'Something went wrong!',
 
-  //         },
-  //     });
-  // }
+                })
+              }
+            )
+
+          }
+        } catch (error) {
+          swal.fire({
+            title: 'Oops...',
+            text: 'Something went wrong!',
+
+          })
+
+        }
+
+
+
+
+
+
+      });
+
+  }
+
+
 
 }

@@ -15,7 +15,7 @@ export interface Ilawyer{
   morInfo?:string,
   category?:object,
   availability?:object,
-  rating?:object,
+  rating?:object|any,
   priceHourly?:number,
 
   articlesPath?:string, //many

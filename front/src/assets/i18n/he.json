@@ -27,10 +27,14 @@
       "NORAT": "אין דירוג זמין למשתמש זה",
       "USERRAT": "דירוג המשתמש",
       "EXPERIENCE": "ניסיון",
+      "EXPERIENCEC": "עבודה מושלמת",
       "PRICE": "מחיר",
       "SPECIAL": "התמחות",
       "SHEDULEWITH": "קבע פגישה עם:",
-      "NOTLAFOUND": "לא מצאנו עורך דין בקטגוריה"
+      "NOTLAFOUND": "לא מצאנו עורך דין בקטגוריה",
+      "DESCRIPTION":"עליי",
+      "NEW":"חדש באתר"
+
     },
     "SEARCH": {
       "CATEGORYSELECT": "בחר תחום:"

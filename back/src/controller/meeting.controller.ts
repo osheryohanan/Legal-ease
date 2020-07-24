@@ -154,7 +154,8 @@ export class meetingController {
             let meetings: Imeeting[] = await Meeting.find({
                 lawyerID: mongoose.Types.ObjectId(req.laywer._id),
                 removed: { $ne: 1 }
-            }).populate({ path: 'userID', select: 'firstname lastname _id priceHourly' });
+            }).populate({ path: 'userID', select: 'firstname lastname _id' })
+            .populate({ path: 'lawyerID', select: 'priceHourly' });
 
             let calendarEvent: CalendarEvent[] = [];
 
@@ -201,7 +202,7 @@ export class meetingController {
         }
         Meeting.findByIdAndUpdate(req.params.id, {
             $set: { confirmed: req.body.status }
-        }, function (err, product) {
+        }, function (err, _resultat) {
             if (err) {
                 var error: errorHandler = {
                     status: 500,
@@ -213,7 +214,7 @@ export class meetingController {
                 return res.status(error.status).send(error);
 
             }
-            return res.json(product);
+            return res.json(_resultat);
         })
 
 
@@ -232,7 +233,7 @@ export class meetingController {
         }
         Meeting.findByIdAndUpdate(req.params.id, {
             $set: { removed: 1 }
-        }, function (err, product) {
+        }, function (err, _resultat) {
             if (err) {
                 var error: errorHandler = {
                     status: 500,
@@ -244,8 +245,41 @@ export class meetingController {
                 return res.status(error.status).send(error);
 
             }
-            return res.json(product);
+            return res.json(_resultat);
         })
+
+    }
+    updateZoomURL(req: Request, res: Response) {
+        {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                var error: errorHandler = {
+                    status: 400,
+                    message: `We need to specified all attributes`,
+                    type: 'Requirement',
+                    all: errors.array()
+                }
+                return res.status(error.status).send(error);
+    
+            }
+            Meeting.findByIdAndUpdate(req.params.id, {
+                $set: { zoomDetails: req.body.url }
+            }, function (err, _resultat) {
+                if (err) {
+                    var error: errorHandler = {
+                        status: 500,
+                        message: `We occured an error during saving, please try again later.`,
+                        type: 'DataBasing',
+                        all: err
+    
+                    }
+                    return res.status(error.status).send(error);
+    
+                }
+                return res.json(_resultat);
+            })
+    
+        }
 
     }
 

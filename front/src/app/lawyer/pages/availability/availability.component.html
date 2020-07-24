@@ -49,7 +49,10 @@
                             <td *ngFor="let item of daysInWeek">
                               <bSwitch [switch-on-color]="'danger'" [switch-off-color]="'danger'"
                                 [switch-off-text]="iconOff" [switch-on-text]="iconOn"
-                                [(ngModel)]="availability[item.key][i]" (changeState)="onChange($event)">
+                                [(ngModel)]="availability[item.key][i]"
+                                (click)="changeState(item.key,i)"
+                                (changeState)="onChange($event)"
+                                [switch-readonly]="true">
                               </bSwitch>
                             </td>
                           </tr>

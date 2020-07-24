@@ -256,7 +256,7 @@ export class lawyerController {
 
         Lawyer.findByIdAndUpdate(req.laywer._id, {
             $set: req.body
-        }, function (err, product) {
+        }, function (err, _resultat) {
             if (err) {
                 var error: errorHandler = {
                     status: 500,
@@ -268,7 +268,7 @@ export class lawyerController {
                 return res.status(error.status).send(error);
 
             }
-            res.json(product);
+            res.json(_resultat);
         });
     };
     getDetails(req: Request, res: Response) {
@@ -416,7 +416,7 @@ export class lawyerController {
                 $set: {
                     password: await bcrypt.hash(req.body.password, salt)
                 }
-            }, function (err, product) {
+            }, function (err, _resultat) {
                 if (err) {
                     var error: errorHandler = {
                         status: 500,
@@ -450,8 +450,8 @@ export class lawyerController {
 
 
 
-            Category.find({}, (err, product) => {
-                res.send(product)
+            Category.find({}, (err, _resultat) => {
+                res.send(_resultat)
             })
             //    res.send(await Category.find());
 

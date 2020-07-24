@@ -14,7 +14,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 })
 export class AvailabilityComponent implements OnInit {
   date = new Date()
-  availability;
+  public availability;
   iconOff: string = '<i class="tim-icons icon-simple-remove"></i>';
   iconOn: string = '<i class="tim-icons icon-check-2"></i>';
   daysInWeek = [{ name: "Sunday", key: "sun" }, { name: "Monday", key: "mon" }, { name: "Tuesday", key: "the" }, { name: "Wednesday", key: "wed" }, { name: "Thursday", key: "thu" }, { name: "Friday", key: "fri" }, { name: "Saturday", key: "sat" }];
@@ -94,13 +94,18 @@ export class AvailabilityComponent implements OnInit {
     this.subs.push(this.store.pipe(select('user')).subscribe(
       ((state) => {
         if (state && state.isAuthentified) {
-          this.availability = state.user.availability ? state.user.availability : availability_default;
+          this.availability = state.user.availability ? JSON.parse(JSON.stringify(state.user.availability)) : availability_default;
           this.ps()
         }
       })));
   }
   onChange(state) {
     // saving
+  }
+
+  changeState(day,index){
+    this.availability[day][index]=!this.availability[day][index];
+
   }
   ps() {
     setTimeout(() => {

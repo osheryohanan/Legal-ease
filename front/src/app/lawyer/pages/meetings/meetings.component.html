@@ -92,7 +92,7 @@
                       <a
                         [attr.href]="
                           item.zoomDetails
-                            ? item.zoomDetails.link
+                            ? item.zoomDetails
                             : 'https://zoom.us/'
                         "
                         >Link</a
@@ -101,9 +101,23 @@
                     <td></td>
                     <td class="td-actions">
                       <div class="row">
-                        <div class="col-6">
+                        <div class="col-3">
                           <button
                             type="button"
+                            *ngIf="!item.zoomDetails"
+                            (click)="addZoomLink(item._id)"
+                            ngbTooltip="Zoom Link"
+                            class="btn btn-info btn-icon btn-sm btn-simple"
+                            data-original-title=""
+                            title=""
+                          >
+                            <i class="tim-icons icon-camera-18"></i>
+                          </button>
+                        </div>
+                        <div class="col-3">
+                          <button
+                            type="button"
+                            *ngIf="item.confirmed !=1"
                             (click)="updateStatus(item._id, 1)"
                             ngbTooltip="Accept the meeting"
                             class="btn btn-success btn-icon btn-sm btn-simple"
@@ -113,10 +127,11 @@
                             <i class="tim-icons icon-check-2"></i>
                           </button>
                         </div>
-                        <div class="col-6">
+                        <div class="col-3">
                           <button
                             type="button"
                             (click)="updateStatus(item._id, 2)"
+                            *ngIf="item.confirmed != 2&&paymentConfirmation(item.paymentinfo) !== 1"
                             ngbTooltip="Refuse the meeting"
                             class="btn btn-danger btn-icon btn-sm btn-simple"
                             data-original-title=""
