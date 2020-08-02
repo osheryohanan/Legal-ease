@@ -18,6 +18,12 @@ export class UserService {
       }
   }
 
+  GenerateResetPassword(email){
+    return this.api.post(`user/GenerateResetPassword`,{email})
+  }
+  ResetPassword(password,token){
+    return this.api.post(`user/resetPassword`,{password,token})
+  }
   login(email,password,longtime?){
      return this.api.post('user/login',{email:email,password:password,longtime:longtime?1:0})
   }

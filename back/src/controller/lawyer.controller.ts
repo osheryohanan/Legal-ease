@@ -352,7 +352,7 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
     }
-    GenerateResetPassword(req: Request, res: Response) {
+    async GenerateResetPassword(req: Request, res: Response) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             var error: errorHandler = {
@@ -364,8 +364,22 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
         try {
+            const email=req.body.email;
+         
+            let c = await Lawyer.findOne({
+                "email": email
+            });
+            if (!c) {
+                var error: errorHandler = {
+                    status: 400,
+                    message: 'Lawyer not found! Please enter your correct email',
+                    type: 'Requirement',
+                }
+                return res.status(error.status).send(error);
+            }
             const payload = {
-                email: req.body.email
+                email,
+                type:'lawyer'
             }
             jwt.sign(
                 payload,
@@ -380,6 +394,7 @@ export class lawyerController {
                     //https://stackoverflow.com/questions/48075688/how-to-decode-the-jwt-encoded-token-payload-on-client-side-in-angular-5
                     return res.status(200).json({
                         status: 200,
+                        // token,
                         message: 'An email has been sent to you. please follow the instructions to renew your password.'
                     });
                 }
@@ -407,8 +422,21 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
         try {
+            const {password,token}=req.body;
+            if(!lawyerController.patternExp(password,[/[a-z]/,/[A-Z]/,/\d/],8))
+            {
+                var error: errorHandler = {
+                    status: 400,
+                    message: `Password not valid`,
+                    type: 'Requirement',
+                    all: errors.array()
+                }
+                return res.status(error.status).send(error);
+            }
+                
             var cert = fs.readFileSync(path.join(__dirname, '../../', 'public.key'));
             const decoded = jwt.verify(req.body.token, cert);
+            if(decoded.type!='lawyer') throw new Error("Token");
             const salt = await bcrypt.genSalt(10);
             Lawyer.findOneAndUpdate({
                 email: decoded.email
@@ -427,10 +455,14 @@ export class lawyerController {
                     }
                     return res.status(error.status).send(error);
                 }
-                res.json({
-                    status: 'success',
-                    message: 'Your password has been changed'
-                });
+                req.body.email= decoded.email;
+                req.body.password=password;
+                req.body.longtime=true;
+                this.login(req,res);
+                // res.json({
+                //     status: 'success',
+                //     message: 'Your password has been changed'
+                // });
             });
 
 
@@ -663,6 +695,14 @@ export class lawyerController {
 
 
 
+    }
+    static patternExp(word:string,patern:RegExp[],minLengh=8){
+        for (let index = 0; index < patern.length; index++) {
+            const element = patern[index];
+            if(!element.exec(word))return false;
+        }
+        if(word.length<minLengh)return false;
+        return true;
     }
 
 

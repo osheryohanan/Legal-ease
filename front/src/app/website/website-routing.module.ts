@@ -8,6 +8,7 @@ import { UserActivateService } from '../services/guards/authentified.guard';
 import { LawyersListComponent } from './pages/lawyers-list/lawyers-list.component';
 import { LawyerComponent } from './pages/lawyer/lawyer.component';
 import { MymeetingComponent } from './pages/mymeeting/mymeeting.component';
+import { ForgotComponent } from './pages/forgot/forgot.component';
 
 
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: '', component: IndexComponent,/*canActivate:[UserActivateService]*/ },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent, },
+  { path: 'forgotPassword', component: ForgotComponent, },
   { path: 'search', component: SearchComponent ,canActivate:[UserActivateService] },
   { path: 'mymeeting', component: MymeetingComponent ,canActivate:[UserActivateService] },
   { path: 'lawyerList/:id', component: LawyersListComponent ,canActivate:[UserActivateService] },

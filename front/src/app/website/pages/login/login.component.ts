@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/api/user.service';
 import { Store, select, Action, ActionCreator } from '@ngrx/store';
-import { LoginUser ,LoginLawyer} from 'src/app/stores/user/action.store';
+import { LoginUser, LoginLawyer } from 'src/app/stores/user/action.store';
 import { MessageService } from 'primeng/api/';
 import { FacebookLoginProvider, GoogleLoginProvider, AuthService } from "angularx-social-login";
 
@@ -18,10 +18,19 @@ import { FacebookLoginProvider, GoogleLoginProvider, AuthService } from "angular
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   auth: any;
-  lawyer:boolean=false;
+  lawyer: boolean = false;
   api;
   dispatcherLogin;
-  constructor(private authService: AuthService, private lawyerservice: LawyerService, private messageService: MessageService, private formBuilder: FormBuilder, private userservice: UserService, private store: Store<{ user: any }>, private router: Router, private route: ActivatedRoute, ) {
+  constructor(
+    private authService: AuthService,
+    private lawyerservice: LawyerService,
+    private messageService: MessageService,
+    private formBuilder: FormBuilder,
+    private userservice: UserService,
+    private store: Store<{ user: any }>,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
     this.auth = this.store.pipe(select('user')).subscribe(
       ((state) => {
         if (state && state.isAuthentified) {
@@ -30,8 +39,8 @@ export class LoginComponent implements OnInit {
         }
       }));
 
-   this.api=userservice;
-   this.dispatcherLogin=LoginUser;
+    this.api = userservice;
+    this.dispatcherLogin = LoginUser;
   }
 
   ngOnInit(): void {
@@ -81,21 +90,21 @@ export class LoginComponent implements OnInit {
     }
 
   }
-  changeLU(type){
+  changeLU(type) {
     switch (type) {
       case 'user':
         {
-          this.api=this.userservice;
-          this.lawyer=false;
-          this.dispatcherLogin=LoginUser;
+          this.api = this.userservice;
+          this.lawyer = false;
+          this.dispatcherLogin = LoginUser;
           break;
 
         }
-        case 'lawyer':
+      case 'lawyer':
         {
-          this.api=this.lawyerservice;
-          this.lawyer=true;
-          this.dispatcherLogin=LoginLawyer;
+          this.api = this.lawyerservice;
+          this.lawyer = true;
+          this.dispatcherLogin = LoginLawyer;
 
           break;
 

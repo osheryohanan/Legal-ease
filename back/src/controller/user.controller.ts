@@ -1,3 +1,4 @@
+import { EmailTransporter } from './../helpers/mail.helpers';
 import {
     Request,
     Response
@@ -19,6 +20,7 @@ import {
     User,
     Iuser
 } from "../model/user.model";
+import { lawyerController } from './lawyer.controller';
 
 var privateKey = fs.readFileSync(path.join(__dirname, '../../', 'private.key'));
 
@@ -53,7 +55,7 @@ export class userController {
                 "email": email
             });
             if (c) {
-                let msg: Array < string > = [];
+                let msg: Array<string> = [];
                 msg.push('Email Already Exists');
                 var error: errorHandler = {
                     status: 400,
@@ -76,7 +78,7 @@ export class userController {
             userModel.save();
             const payload = {
                 user: {
-                    type:'user',
+                    type: 'user',
                     id: userModel._id
                 }
             };
@@ -141,7 +143,7 @@ export class userController {
             }
             const payload = {
                 user: {
-                    type:'user',
+                    type: 'user',
                     id: user.id
                 }
             };
@@ -150,9 +152,9 @@ export class userController {
             return jwt.sign(
                 payload,
                 privateKey, {
-                    expiresIn: expiresIn,
-                    algorithm: 'RS256',
-                },
+                expiresIn: expiresIn,
+                algorithm: 'RS256',
+            },
 
                 (err, token) => {
                     if (err) throw err;
@@ -226,8 +228,8 @@ export class userController {
                 userModel.save();
                 const payload = {
                     user: {
-                    type:'user',
-                    id: userModel._id
+                        type: 'user',
+                        id: userModel._id
                     }
                 };
                 return res.status(200).json({
@@ -237,20 +239,20 @@ export class userController {
                         expiresIn: 10000,
                         algorithm: 'RS256'
                     })
-                });   
+                });
             }
             const payload = {
                 user: {
-                    type:'user',
+                    type: 'user',
                     id: user._id
                 }
             };
             return jwt.sign(
                 payload,
                 privateKey, {
-                    expiresIn: 10000,
-                    algorithm: 'RS256',
-                },
+                expiresIn: 10000,
+                algorithm: 'RS256',
+            },
 
                 (err, token) => {
                     if (err) throw err;
@@ -374,7 +376,7 @@ export class userController {
             return res.status(error.status).send(error);
         }
     }
-    GenerateResetPassword(req: Request, res: Response) {
+    async GenerateResetPassword(req: Request, res: Response) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             var error: errorHandler = {
@@ -386,24 +388,46 @@ export class userController {
             return res.status(error.status).send(error);
         }
         try {
+            const email = req.body.email;
+
+            let c = await User.findOne({
+                "email": email
+            });
+            if (!c) {
+                var error: errorHandler = {
+                    status: 400,
+                    message: 'User not found! Please enter your correct email',
+                    type: 'Requirement',
+                }
+                return res.status(error.status).send(error);
+            }
             const payload = {
-                email: req.body.email
+                email,
+                type: 'user'
             }
             jwt.sign(
                 payload,
                 privateKey, {
-                    expiresIn: 10000,
-                    algorithm: 'RS256',
-                },
+                expiresIn: 10000,
+                algorithm: 'RS256',
+            },
 
-                (err, token) => {
+                async (err, token) => {
                     if (err) throw err;
+                    try {
+                        let ret = await EmailTransporter.forgotPassword(email, token);
+                        return res.status(200).json({
+                            status: 200,
+                            // token,
+                            message: 'An email has been sent to you. please follow the instructions to renew your password.'
+                        });
+
+                    } catch (error) {
+                        throw error;
+                    }
                     //send email to the client
                     //https://stackoverflow.com/questions/48075688/how-to-decode-the-jwt-encoded-token-payload-on-client-side-in-angular-5
-                    return res.status(200).json({
-                        status: 200,
-                        message: 'An email has been sent to you. please follow the instructions to renew your password.'
-                    });
+
                 }
             );
         } catch (error) {
@@ -429,8 +453,20 @@ export class userController {
             return res.status(error.status).send(error);
         }
         try {
+            const { password, token } = req.body;
+            if (!lawyerController.patternExp(password, [/[a-z]/, /[A-Z]/, /\d/], 8)) {
+                var error: errorHandler = {
+                    status: 400,
+                    message: `Password not valid`,
+                    type: 'Requirement',
+                    all: errors.array()
+                }
+                return res.status(error.status).send(error);
+            }
+
             var cert = fs.readFileSync(path.join(__dirname, '../../', 'public.key'));
             const decoded = jwt.verify(req.body.token, cert);
+            if (decoded.type != 'user') throw new Error("Token");
             const salt = await bcrypt.genSalt(10);
             User.findOneAndUpdate({
                 email: decoded.email
@@ -438,7 +474,7 @@ export class userController {
                 $set: {
                     password: await bcrypt.hash(req.body.password, salt)
                 }
-            }, function (err, _resultat) {
+            }, (err, _resultat) => {
                 if (err) {
                     var error: errorHandler = {
                         status: 500,
@@ -449,10 +485,14 @@ export class userController {
                     }
                     return res.status(error.status).send(error);
                 }
-                res.json({
-                    status: 'success',
-                    message: 'Your password has been changed'
-                });
+                req.body.email = decoded.email;
+                req.body.password = password;
+                req.body.longtime = true;
+                this.login(req, res);
+                // res.json({
+                //     status: 'success',
+                //     message: 'Your password has been changed'
+                // });
             });
 
 
