@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { Location } from "@angular/common";
-import { ROUTES } from "../sidebar/sidebar.component";
+import { RouteService } from "../sidebar/sidebar.component";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 
@@ -20,6 +20,8 @@ export class RtlNavbarComponent implements OnInit {
 
   private listTitles: any[];
   constructor(location: Location, public toastr: ToastrService, private element: ElementRef,
+    private routeS:RouteService,
+
   private router: Router,) {
     this.location = location;
   }
@@ -64,7 +66,10 @@ export class RtlNavbarComponent implements OnInit {
     );
   }
   ngOnInit() {
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.routeS.Routechange$.subscribe(e => {
+      this.listTitles = e.filter(listTitle => listTitle);
+    })
+    // this.listTitles = this.routeS.ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName("navbar-toggler")[0];
     this.router.events.subscribe(event => {

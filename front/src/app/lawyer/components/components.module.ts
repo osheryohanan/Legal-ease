@@ -1,3 +1,4 @@
+import { TranslationModule } from './../../moduleTranslation.module';
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
@@ -12,7 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
-import { SidebarComponent } from "./sidebar/sidebar.component";
+import { SidebarComponent, RouteService } from "./sidebar/sidebar.component";
 import { VectorMapComponent1 } from "./vector-map/vector-map.component";
 import { PictureUploadComponent } from "./picture-upload/picture-upload.component";
 import { AuthNavbarComponent } from "./auth-navbar/auth-navbar.component";
@@ -34,6 +35,7 @@ import { UserService } from 'src/app/services/api/user.service';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     FontAwesomeModule,
+    TranslationModule,
   ],
   declarations: [
     FooterComponent,
@@ -57,6 +59,6 @@ import { UserService } from 'src/app/services/api/user.service';
     RtlSidebarComponent,
     FixedPluginComponent
   ],
-  providers:[LawyerService,UserService]
+  providers:[LawyerService,UserService,RouteService]
 })
 export class ComponentsModule {}

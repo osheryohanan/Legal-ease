@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ROUTES } from "../sidebar/sidebar.component";
+import { RouteService } from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { ToastrService } from "ngx-toastr";
 
@@ -16,7 +16,9 @@ export class AuthNavbarComponent implements OnInit {
   private listTitles: any[];
   location: Location;
 
-  constructor(location: Location, public toastr: ToastrService) {
+  constructor(location: Location, public toastr: ToastrService,
+    private routeS:RouteService
+    ) {
     this.location = location;
   }
   minimizeSidebar() {
@@ -60,7 +62,10 @@ export class AuthNavbarComponent implements OnInit {
     );
   }
   ngOnInit() {
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.routeS.Routechange$.subscribe(e => {
+      this.listTitles = e.filter(listTitle => listTitle);
+    })
+    // this.listTitles = this.routeS.ROUTES.filter(listTitle => listTitle);
   }
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());

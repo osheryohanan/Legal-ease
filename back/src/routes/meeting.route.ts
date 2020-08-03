@@ -18,6 +18,7 @@ export class meetingsRoute {
         this.router.post('/checkLawyerAvability',[checkDbConnection,auth,checkUser,body('date','Please confirm the laywer id').notEmpty(),body('laywerId','Please confirm the laywer id').notEmpty()], this.controller.checkLawyerAvability)
         this.router.post('/getMeetingsForUser',[checkDbConnection,auth,checkUser,body('userID','Please confirm the user id').notEmpty()], this.controller.getMeetingsForUser)
         this.router.post('/getMeetingsForLawyer',[checkDbConnection,auth,checkLawyer], this.controller.getMeetingsForLawyer)
+        this.router.post('/getStatsPricesForLawyer',[checkDbConnection,auth,checkLawyer], (req,res)=>{this.controller.getStatsPricesForLawyer(req,res)})
         this.router.put('/confirmRejectMeeting/:id',[checkDbConnection,auth,checkLawyer,param('id','Please enter a valid id').notEmpty().custom(val=>Types.ObjectId.isValid(val)),body('status','Please send the status').notEmpty().isNumeric()], this.controller.confirmRejectMeeting)
         this.router.put('/updateZoomURL/:id',[checkDbConnection,auth,checkLawyer,param('id','Please enter a valid id').notEmpty().custom(val=>Types.ObjectId.isValid(val)),body('url','Please send the url').notEmpty()], this.controller.updateZoomURL)
         this.router.delete('/remove/:id',[checkDbConnection,auth,checkUser,param('id','Please enter a valid id').custom(val=>Types.ObjectId.isValid(val))], this.controller.delete)

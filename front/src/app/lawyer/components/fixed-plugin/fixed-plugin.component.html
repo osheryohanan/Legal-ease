@@ -17,7 +17,7 @@
       role="menu"
       aria-labelledby="button-basic"
     >
-      <li class=" header-title">Sidebar Background</li>
+      <li class=" header-title">{{ 'LAWYER.FIXED.SBG' | translate }}</li>
       <li class=" adjustments-line">
         <a class=" switch-trigger background-color" href="javascript:void(0)">
           <div class=" badge-colors text-center">
@@ -54,7 +54,7 @@
           <div class=" clearfix"></div>
         </a>
       </li>
-      <li class="header-title">Sidebar Mini</li>
+      <li class="header-title">{{ 'LAWYER.FIXED.SMINI' | translate }}</li>
       <li class="adjustments-line">
         <div class="togglebutton switch-sidebar-mini">
           <span class="label-switch">OFF</span>
@@ -81,6 +81,19 @@
             (click)="onChangeDashboardColor($event)"
           ></bSwitch>
           <span class="label-switch label-right"> DARK MODE </span>
+        </div>
+      </li>
+      <li class="header-title">{{ 'LAWYER.FIXED.LANG' | translate }}</li>
+      <li class=" adjustments-line text-center color-change">
+        <div class="togglebutton switch-sidebar-mini">
+          <bSwitch
+            [switch-on-color]="'primary'"
+            [switch-off-text]="'Hebrew'"
+            [switch-on-text]="'English'"
+            [(ngModel)]="currentL"
+            (onChangeState)="onChangeSwitchLanguage($event)"
+            (click)="onChangeSwitchLanguage($event)"
+          ></bSwitch>
         </div>
       </li>
 

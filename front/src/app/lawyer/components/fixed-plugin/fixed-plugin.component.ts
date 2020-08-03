@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { faCog, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: "app-fixed-lawyer-plugin",
   templateUrl: "./fixed-plugin.component.html",
@@ -10,8 +11,23 @@ export class FixedPluginComponent implements OnInit {
   public faCog:IconDefinition=faCog;
   public sidebarColor: string = "red";
   public state: boolean = true;
-  public dashboardColor: boolean = true;
-  constructor(public toastr: ToastrService) {}
+  public dashboardColor: boolean = false;
+  currentL:boolean=true;
+  constructor(public toastr: ToastrService,public translate: TranslateService) {
+    this.currentL=this.translate.currentLang=='en'?true:false;
+    this.onChangeDashboardColor(null);
+    setTimeout(() => {
+      this.changeSidebarColor('green')
+    }, 100);
+  }
+  onChangeSwitchLanguage(event){
+    this.translate.use(this.currentL?'en':'he');
+    if (this.currentL === false) {
+      this.changeRTL("rtl");
+    } else {
+      this.changeRTL("");
+    }
+  }
   changeSidebarColor(color) {
     var sidebar = document.getElementsByClassName("sidebar")[0];
     var mainPanel = document.getElementsByClassName("main-panel")[0];
@@ -23,6 +39,14 @@ export class FixedPluginComponent implements OnInit {
     }
     if (mainPanel != undefined) {
       mainPanel.setAttribute("data", color);
+    }
+  }
+  changeRTL(rtl) {
+    var body = document.getElementsByTagName("body")[0];
+    if (body && rtl === "rtl") {
+      body.classList.add(rtl);
+    } else if (body.classList.contains("rtl")) {
+      body.classList.remove("rtl");
     }
   }
   changeDashboardColor(color) {

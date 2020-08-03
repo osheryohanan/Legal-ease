@@ -57,6 +57,9 @@ export class LawyerService {
   getMeetingsForLawyer(){
     return this.api.post(`meeting/getMeetingsForLawyer`,{})
   }
+  getStatsPricesForLawyer(){
+    return this.api.post(`meeting/getStatsPricesForLawyer`,{})
+  }
   updateMeetingsStatus(id,status){
     return this.api.put(`meeting/confirmRejectMeeting/${id}`,{status})
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ROUTES } from "../sidebar/sidebar.component";
+import { RouteService } from "../sidebar/sidebar.component";
 
 @Component({
   selector: "app-rtl-sidebar",
@@ -9,9 +9,15 @@ import { ROUTES } from "../sidebar/sidebar.component";
 export class RtlSidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() {}
+  constructor(
+    private routeS:RouteService
+
+  ) {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.routeS.Routechange$.subscribe(e => {
+      this.menuItems = e.filter(menuItem => menuItem);;
+    })
+    // this.menuItems = this.routeS.ROUTES.filter(menuItem => menuItem);
   }
 }

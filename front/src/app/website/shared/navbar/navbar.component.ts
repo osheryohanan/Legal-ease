@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import {  Event,  NavigationCancel,  NavigationEnd,  NavigationError,  NavigationStart,Router, RouterEvent} from '@angular/router';
+import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { logout } from 'src/app/stores/user/action.store';
@@ -18,30 +18,30 @@ export class NavbarComponent implements OnInit {
   // mode: ProgressBarMode = 'determinate';
   private toggleButton: any;
   private sidebarVisible: boolean;
-  user:any=null;
+  user: any = null;
   auth: Subscription;
 
 
-  constructor(public location: Location, private element: ElementRef, private router: Router, private store:Store<{user:any}>,public translate: TranslateService) {
+  constructor(public location: Location, private element: ElementRef, private router: Router, private store: Store<{ user: any }>, public translate: TranslateService) {
     this.sidebarVisible = false;
 
     this.auth = this.store.pipe(select('user')).subscribe(
       ((state) => {
         if (state) {
-          this.user=state.user;
+          this.user = state.user;
 
         }
       }));
 
-   }
-   logout(){
-     this.store.dispatch(logout())
+  }
+  logout() {
+    this.store.dispatch(logout())
 
-   }
-   public setLanguage = (language) => {
+  }
+  public setLanguage = (language) => {
 
     this.translate.use(language);
-}
+  }
   ngOnInit() {
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];

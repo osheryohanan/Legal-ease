@@ -64,8 +64,29 @@
   },
   "LAWYER": {
     "MYMEETING": {
-      "NORDV1": "You don't have any scheduled appointments."
+      "NORDV1": "You don't have any scheduled appointments.",
+      "NAME": "Client name"
 
+    },
+    "FIXED": {
+      "LANG": "Language",
+      "SMINI": "Sidebar Mini",
+      "SBG": "SIDEBAR BACKGROUND"
+    },
+    "DASHBOARD":{
+      "TOTAL":"Total clients",
+      "UPDATE":"Update Now",
+      "FEESALERT":"Please enter your fees.",
+      "GAIN":"Total Profit",
+      "NEXTMEET":"My next meeting"
+    },
+    "SIDEBAR":{
+      "MYMEETING":"My meetings",
+      "DASHBOARD": "Dashboard",
+      "PERSOPREF":"Personal preference",
+      "USERPR":"User Profile",
+      "AVA":"Availability"
     }
+
   }
 }

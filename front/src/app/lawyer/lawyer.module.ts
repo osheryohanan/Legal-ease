@@ -13,11 +13,10 @@ import { AvailabilityComponent } from './pages/availability/availability.compone
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import { TranslationModule } from '../moduleTranslation.module';
 import { ComponentsModule } from './components/components.module';
+
 
 
 @NgModule({
@@ -35,7 +34,8 @@ import { ComponentsModule } from './components/components.module';
     JwBootstrapSwitchNg2Module,
     ProgressbarModule.forRoot(),
     TranslationModule,
-    ComponentsModule
+    ComponentsModule,
+
 
   ],
   providers:[MessageService]

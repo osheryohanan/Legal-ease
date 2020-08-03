@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import Chart from "chart.js";
+import { Imeeting, CalendarEvent } from 'src/app/interfaces/meeting.interface';
+import { Subscription } from 'rxjs';
+import { LawyerService } from 'src/app/services/api/lawyer.service';
+import swal from "sweetalert2";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,9 +20,205 @@ export class DashboardComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public clicked2: boolean = false;
-  constructor() {}
+  public today = new Date();
+
+  subs: Subscription[] = [];
+  meetings: Imeeting[] = []
+  calendar: any;
+  events: CalendarEvent[] = [];
+  nextMeeting: Date | string = "";
+  TotalClient:  number[] = [];
+  TotalMoney: [] = [];
+
+  constructor(
+    private lawyerservice: LawyerService,
+    public translate: TranslateService
+  ) { }
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  private drawClientChart(){
+    this.canvas = document.getElementById("chartLineClient");
+    this.ctx = this.canvas.getContext("2d");
+
+    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke.addColorStop(1, "rgba(233,32,16,0.2)");
+    gradientStroke.addColorStop(0.4, "rgba(233,32,16,0.0)");
+    gradientStroke.addColorStop(0, "rgba(233,32,16,0)"); //red colors
+
+    var chart_labels = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC"
+    ];
+    var data = {
+      labels: chart_labels,
+      datasets: [
+        {
+          label: `Total client of ${new Date().getFullYear()}`,
+          fill: true,
+          backgroundColor: gradientStroke,
+          borderColor: "#ec250d",
+          borderWidth: 2,
+          borderDash: [],
+          borderDashOffset: 0.0,
+          pointBackgroundColor: "#ec250d",
+          pointBorderColor: "rgba(255,255,255,0)",
+          pointHoverBackgroundColor: "#ec250d",
+          pointBorderWidth: 20,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 15,
+          pointRadius: 4,
+          data: this.TotalClient
+        }
+      ]
+    };
+
+    var myChart = new Chart(this.ctx, {
+      type: "line",
+      data: data,
+      options: this.getChartConfig('red')
+    });
+  }
+  private drawMoneyChart(){
+    this.canvas = document.getElementById("chartLineMoney");
+    this.ctx = this.canvas.getContext("2d");
+
+    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke.addColorStop(1, "rgba(66,134,121,0.15)");
+    gradientStroke.addColorStop(0.4, "rgba(66,134,121,0.0)"); //green colors
+    gradientStroke.addColorStop(0, "rgba(66,134,121,0)"); //green colors
+
+    var chart_labels = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC"
+    ];
+    var data = {
+      labels: chart_labels,
+      datasets: [
+        {
+          label: `Total money of ${new Date().getFullYear()}`,
+          fill: true,
+          backgroundColor: gradientStroke,
+          borderColor: "#00d6b4",
+          borderWidth: 2,
+          borderDash: [],
+          borderDashOffset: 0.0,
+          pointBackgroundColor: "#00d6b4",
+          pointBorderColor: "rgba(255,255,255,0)",
+          pointHoverBackgroundColor: "#00d6b4",
+          pointBorderWidth: 20,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 15,
+          pointRadius: 4,
+          data: this.TotalMoney
+        }
+      ]
+    };
+
+    var myChart = new Chart(this.ctx, {
+      type: "line",
+      data: data,
+      options: this.getChartConfig('green')
+    });
+  }
+  private drawChart(){
+    this.drawClientChart();
+    this.drawMoneyChart();
+  }
+
+  loadData() {
+    this.subs.push(this.lawyerservice.getMeetingsForLawyer().subscribe(
+      (x: any) => {
+        this.events = x.calendarEvent;
+        this.meetings = x.meetings;
+        this.nextMeeting = x.nextMeeting;
+        // this.calendar.addEventSource(this.events);
+      },
+      err => {
+
+        swal.fire({
+          title: 'Oops...',
+          text: 'Something went wrong!',
+
+        })
+      }
+
+    ));
+    this.subs.push(this.lawyerservice.getStatsPricesForLawyer().subscribe(
+      (x: any) => {
+        this.TotalClient = x.totalC;
+        this.TotalMoney = x.totalA;
+        this.drawChart()
+      },
+      err => {
+
+        swal.fire({
+          title: 'Oops...',
+          text: 'Something went wrong!',
+
+        })
+      }
+
+    ));
+  }
+  paymentConfirmation(_paymentDetails): number {
+    if (!_paymentDetails) return 0;
+    return 1;
+
+    //Complete here with de payment information of the סליקה
+  }
+  updateStatus(id, status) {
+    this.subs.push(this.lawyerservice.updateMeetingsStatus(id, status).subscribe(
+      x => this.loadData()
+    ))
+  }
+  calculePrice(lawyer, hour: []): string {
+    if (!lawyer.priceHourly)
+      return this.translate.instant('LAWYER.DASHBOARD.FEESALERT')
+    let price: number = (hour.length) * (lawyer.priceHourly / 2);
+
+    return `&#8362;  ${price}`;
+  }
+  TotalPrice(): string {
+    if (this.meetings.length == 0) return `&#8362;  ${0}`;
+    let priceHourly = this.meetings[0].lawyerID[0].priceHourly | 0;
+    if (priceHourly == 0) return this.translate.instant('LAWYER.DASHBOARD.FEESALERT');
+    let total: number = 0;
+    this.meetings.forEach((e) => {
+      let hour = e.hour;
+      total += ((hour.length) * (priceHourly / 2));
+    })
+    return `&#8362;  ${total}`;
+  }
+  public updateOptions() {
+    this.myChartData.data.datasets[0].data = this.data;
+    this.myChartData.update();
+  }
+  private getChartConfig(color: string): any {
     var gradientChartOptionsConfigurationWithTooltipBlue: any = {
       maintainAspectRatio: false,
       legend: {
@@ -277,7 +478,22 @@ export class DashboardComponent implements OnInit {
         ]
       }
     };
-
+    switch (color) {
+      case 'blue':
+        return gradientChartOptionsConfigurationWithTooltipBlue;
+      case 'purple':
+        return gradientChartOptionsConfigurationWithTooltipPurple;
+      case 'green':
+        return gradientChartOptionsConfigurationWithTooltipGreen;
+      case 'red':
+        return gradientChartOptionsConfigurationWithTooltipRed;
+      case 'orange':
+        return gradientChartOptionsConfigurationWithTooltipOrange;
+      default:
+        return gradientChartOptionsConfigurationWithTooltipRed;
+    }
+  }
+  private getGradientBarChartConfiguration() {
     var gradientBarChartConfiguration: any = {
       maintainAspectRatio: false,
       legend: {
@@ -327,176 +543,6 @@ export class DashboardComponent implements OnInit {
         ]
       }
     };
-
-    this.canvas = document.getElementById("chartLineRed");
-    this.ctx = this.canvas.getContext("2d");
-
-    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke.addColorStop(1, "rgba(233,32,16,0.2)");
-    gradientStroke.addColorStop(0.4, "rgba(233,32,16,0.0)");
-    gradientStroke.addColorStop(0, "rgba(233,32,16,0)"); //red colors
-
-    var data = {
-      labels: ["JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
-      datasets: [
-        {
-          label: "Data",
-          fill: true,
-          backgroundColor: gradientStroke,
-          borderColor: "#ec250d",
-          borderWidth: 2,
-          borderDash: [],
-          borderDashOffset: 0.0,
-          pointBackgroundColor: "#ec250d",
-          pointBorderColor: "rgba(255,255,255,0)",
-          pointHoverBackgroundColor: "#ec250d",
-          pointBorderWidth: 20,
-          pointHoverRadius: 4,
-          pointHoverBorderWidth: 15,
-          pointRadius: 4,
-          data: [80, 100, 70, 80, 120, 80]
-        }
-      ]
-    };
-
-    var myChart = new Chart(this.ctx, {
-      type: "line",
-      data: data,
-      options: gradientChartOptionsConfigurationWithTooltipRed
-    });
-
-    this.canvas = document.getElementById("chartLineGreen");
-    this.ctx = this.canvas.getContext("2d");
-
-    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke.addColorStop(1, "rgba(66,134,121,0.15)");
-    gradientStroke.addColorStop(0.4, "rgba(66,134,121,0.0)"); //green colors
-    gradientStroke.addColorStop(0, "rgba(66,134,121,0)"); //green colors
-
-    var data = {
-      labels: ["JUL", "AUG", "SEP", "OCT", "NOV"],
-      datasets: [
-        {
-          label: "My First dataset",
-          fill: true,
-          backgroundColor: gradientStroke,
-          borderColor: "#00d6b4",
-          borderWidth: 2,
-          borderDash: [],
-          borderDashOffset: 0.0,
-          pointBackgroundColor: "#00d6b4",
-          pointBorderColor: "rgba(255,255,255,0)",
-          pointHoverBackgroundColor: "#00d6b4",
-          pointBorderWidth: 20,
-          pointHoverRadius: 4,
-          pointHoverBorderWidth: 15,
-          pointRadius: 4,
-          data: [90, 27, 60, 12, 80]
-        }
-      ]
-    };
-
-    var myChart = new Chart(this.ctx, {
-      type: "line",
-      data: data,
-      options: gradientChartOptionsConfigurationWithTooltipGreen
-    });
-
-    var chart_labels = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC"
-    ];
-    this.datasets = [
-      [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
-      [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120],
-      [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130]
-    ];
-    this.data = this.datasets[0];
-
-    this.canvas = document.getElementById("chartBig1");
-    this.ctx = this.canvas.getContext("2d");
-
-    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke.addColorStop(1, "rgba(233,32,16,0.2)");
-    gradientStroke.addColorStop(0.4, "rgba(233,32,16,0.0)");
-    gradientStroke.addColorStop(0, "rgba(233,32,16,0)"); //red colors
-
-    var config = {
-      type: "line",
-      data: {
-        labels: chart_labels,
-        datasets: [
-          {
-            label: "My First dataset",
-            fill: true,
-            backgroundColor: gradientStroke,
-            borderColor: "#ec250d",
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: "#ec250d",
-            pointBorderColor: "rgba(255,255,255,0)",
-            pointHoverBackgroundColor: "#ec250d",
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: this.data
-          }
-        ]
-      },
-      options: gradientChartOptionsConfigurationWithTooltipRed
-    };
-    this.myChartData = new Chart(this.ctx, config);
-
-    this.canvas = document.getElementById("CountryChart");
-    this.ctx = this.canvas.getContext("2d");
-    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
-    gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
-    gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
-
-    var myChart = new Chart(this.ctx, {
-      type: "bar",
-      responsive: true,
-      legend: {
-        display: false
-      },
-      data: {
-        labels: ["USA", "GER", "AUS", "UK", "RO", "BR"],
-        datasets: [
-          {
-            label: "Countries",
-            fill: true,
-            backgroundColor: gradientStroke,
-            hoverBackgroundColor: gradientStroke,
-            borderColor: "#1f8ef1",
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            data: [53, 20, 10, 80, 100, 45]
-          }
-        ]
-      },
-      options: gradientBarChartConfiguration
-    });
-  }
-  public updateOptions() {
-    this.myChartData.data.datasets[0].data = this.data;
-    this.myChartData.update();
+    return gradientBarChartConfiguration;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, OnDestroy } from "@angular/core";
-import { ROUTES } from "../sidebar/sidebar.component";
+import { RouteService } from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     location: Location,
+    private routeS:RouteService,
     private element: ElementRef,
     private router: Router,
     public toastr: ToastrService,
@@ -104,7 +105,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     window.addEventListener("resize", this.updateColor);
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.routeS.Routechange$.subscribe(e => {
+      this.listTitles = e.filter(listTitle => listTitle);
+    })
+    // this.listTitles = this.routeS.ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName("navbar-toggler")[0];
     this.router.events.subscribe(event => {

@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter } from "@angular/core";
+import { TranslateService } from '@ngx-translate/core';
 
 export interface RouteInfo {
   path: string;
@@ -31,52 +32,6 @@ export interface ChildrenItems2 {
   rtlTitle: string;
   type?: string;
 }
-//Menu Items
-export const ROUTES: RouteInfo[] = [
-  {
-    path: "/lawyer/dashboard",
-    title: "Dashboard",
-    type: "link",
-    icontype: "tim-icons icon-chart-pie-36",
-    rtlTitle: "لوحة القيادة"
-  },
-  {
-    path: "/lawyer/mymeetings",
-    title: "My Meetings",
-    type: "link",
-    icontype: "tim-icons icon-time-alarm",
-    rtlTitle: "המפגשים שלי"
-  },
-  {
-    path: "/lawyer",
-    title: "Personal preference",
-    type: "sub",
-    icontype: "tim-icons icon-image-02",
-    collapse: "pages",
-    rtlTitle: "صفحات",
-    isCollapsed: true,
-    children: [
-
-      {
-        path: "profile",
-        rtlTitle: "ملف تعريفي للمستخدم",
-        rtlSmallTitle: " شع",
-        title: "User Profile",
-        type: "link",
-        smallTitle: "UP"
-      },
-      {
-        path: "availability",
-        rtlTitle: "ملف تعريفي للمستخدم",
-        rtlSmallTitle: " شع",
-        title: "Availability",
-        type: "link",
-        smallTitle: "AV"
-      }
-    ]
-  },
-
-];
 
 @Component({
   selector: "app-lawyer-sidebar",
@@ -86,9 +41,91 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() {}
+  constructor(
+    private routeS: RouteService
+  ) {
+
+  }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.routeS.Routechange$.subscribe(e => {
+      this.menuItems = e.filter(menuItem => menuItem);;
+    })
+    // this.menuItems = this.routeS.ROUTES.filter(menuItem => menuItem);
   }
+}
+
+
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class RouteService {
+  private ROUTES: RouteInfo[]
+  // Routechange: EventEmitter<RouteInfo[]> = new EventEmitter();
+  private Routechange: BehaviorSubject<RouteInfo[]>;
+  public Routechange$: Observable<RouteInfo[]>;
+  constructor(
+    public translate: TranslateService
+
+  ) {
+    this.loadRoute()
+    this.Routechange = new BehaviorSubject<RouteInfo[]>(this.ROUTES)
+    this.Routechange$ = this.Routechange.asObservable();
+    this.translate.onLangChange.subscribe(
+      () => {
+        this.loadRoute();
+        this.Routechange.next(this.ROUTES);
+      }
+    )
+  }
+
+  loadRoute() {
+    this.ROUTES = [
+      {
+        path: "/lawyer/dashboard",
+        title: this.translate.instant('LAWYER.SIDEBAR.DASHBOARD'),
+        type: "link",
+        icontype: "tim-icons icon-chart-pie-36",
+        rtlTitle: "لوحة القيادة"
+      },
+      {
+        path: "/lawyer/mymeetings",
+        title: this.translate.instant('LAWYER.SIDEBAR.MYMEETING'),
+        type: "link",
+        icontype: "tim-icons icon-time-alarm",
+        rtlTitle: "המפגשים שלי"
+      },
+      {
+        path: "/lawyer",
+        title: this.translate.instant('LAWYER.SIDEBAR.PERSOPREF'),
+        type: "sub",
+        icontype: "tim-icons icon-image-02",
+        collapse: "pages",
+        rtlTitle: "صفحات",
+        isCollapsed: true,
+        children: [
+
+          {
+            path: "profile",
+            rtlTitle: "ملف تعريفي للمستخدم",
+            rtlSmallTitle: " شع",
+            title: this.translate.instant('LAWYER.SIDEBAR.USERPR'),
+            type: "link",
+            smallTitle: "UP"
+          },
+          {
+            path: "availability",
+            rtlTitle: "ملف تعريفي للمستخدم",
+            rtlSmallTitle: " شع",
+            title: this.translate.instant('LAWYER.SIDEBAR.AVA'),
+            type: "link",
+            smallTitle: "AV"
+          }
+        ]
+      },
+
+    ];
+  }
+
 }

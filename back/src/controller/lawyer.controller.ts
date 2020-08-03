@@ -364,8 +364,8 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
         try {
-            const email=req.body.email;
-         
+            const email = req.body.email;
+
             let c = await Lawyer.findOne({
                 "email": email
             });
@@ -379,7 +379,7 @@ export class lawyerController {
             }
             const payload = {
                 email,
-                type:'lawyer'
+                type: 'lawyer'
             }
             jwt.sign(
                 payload,
@@ -422,9 +422,8 @@ export class lawyerController {
             return res.status(error.status).send(error);
         }
         try {
-            const {password,token}=req.body;
-            if(!lawyerController.patternExp(password,[/[a-z]/,/[A-Z]/,/\d/],8))
-            {
+            const { password, token } = req.body;
+            if (!lawyerController.patternExp(password, [/[a-z]/, /[A-Z]/, /\d/], 8)) {
                 var error: errorHandler = {
                     status: 400,
                     message: `Password not valid`,
@@ -433,10 +432,10 @@ export class lawyerController {
                 }
                 return res.status(error.status).send(error);
             }
-                
+
             var cert = fs.readFileSync(path.join(__dirname, '../../', 'public.key'));
             const decoded = jwt.verify(req.body.token, cert);
-            if(decoded.type!='lawyer') throw new Error("Token");
+            if (decoded.type != 'lawyer') throw new Error("Token");
             const salt = await bcrypt.genSalt(10);
             Lawyer.findOneAndUpdate({
                 email: decoded.email
@@ -455,10 +454,10 @@ export class lawyerController {
                     }
                     return res.status(error.status).send(error);
                 }
-                req.body.email= decoded.email;
-                req.body.password=password;
-                req.body.longtime=true;
-                this.login(req,res);
+                req.body.email = decoded.email;
+                req.body.password = password;
+                req.body.longtime = true;
+                this.login(req, res);
                 // res.json({
                 //     status: 'success',
                 //     message: 'Your password has been changed'
@@ -531,7 +530,7 @@ export class lawyerController {
             let lawyer: any = await Lawyer.find({ category: { "$in": [ids] } }).populate('category').select('-password -__v -zoomDetails')
             for (let index = 0; index < lawyer.length; index++) {
 
-                let rating= await lawyerController.getRating(lawyer._id);
+                let rating = await lawyerController.getRating(lawyer._id);
                 lawyer[index].set('rating', rating,
                     { strict: false });
 
@@ -587,7 +586,7 @@ export class lawyerController {
             if (!laywer.imagePath) laywer.set('imagePath', '/assets/img/profile.png', { strict: false })
             laywer.firstname = laywer.firstname.charAt(0).toUpperCase() + laywer.firstname.slice(1);
             laywer.lastname = laywer.lastname.charAt(0).toUpperCase() + laywer.lastname.slice(1);
-            let rating= await lawyerController.getRating(laywer._id);
+            let rating = await lawyerController.getRating(laywer._id);
             laywer.set('rating', rating,
                 { strict: false })
 
@@ -639,6 +638,13 @@ export class lawyerController {
 
         }
     }
+    async dashbordData(req: Request, res: Response) {
+        try {
+
+        } catch (error) {
+
+        }
+    }
 
 
 
@@ -678,15 +684,15 @@ export class lawyerController {
 
         let all = rating.length;
         let score = 0;
-        let o=0;
+        let o = 0;
         if (all > 0) {
             for (let i = 0; i < all; i++) {
                 let item = rating[i];
                 if (item.rating) {
-                    score+=item.rating;o++;
+                    score += item.rating; o++;
                 }
             }
-            score=o!=0?score/o:score;
+            score = o != 0 ? score / o : score;
         }
         return {
             score,
@@ -696,12 +702,14 @@ export class lawyerController {
 
 
     }
-    static patternExp(word:string,patern:RegExp[],minLengh=8){
+
+
+    static patternExp(word: string, patern: RegExp[], minLengh = 8) {
         for (let index = 0; index < patern.length; index++) {
             const element = patern[index];
-            if(!element.exec(word))return false;
+            if (!element.exec(word)) return false;
         }
-        if(word.length<minLengh)return false;
+        if (word.length < minLengh) return false;
         return true;
     }
 
