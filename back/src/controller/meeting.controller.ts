@@ -206,7 +206,7 @@ export class meetingController {
 
             let calendarEvent: CalendarEvent[] = [];
             let nextMeeting: Date | string;
-            if (meetings) {
+            if (meetings&&meetings.length) {
                 let today: Date = new Date()
                 let dates: Date[] = meetingController.getDateObj(meetings);
                 var index = $nearest(dates, today);

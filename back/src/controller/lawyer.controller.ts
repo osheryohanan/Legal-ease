@@ -290,6 +290,8 @@ export class lawyerController {
                 }
                 return res.status(error.status).send(error);
             }
+            laywer.set('type', 'laywer',
+                    { strict: false });
             res.status(200).json(laywer);
         })
     };

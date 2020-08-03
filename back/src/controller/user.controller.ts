@@ -314,6 +314,8 @@ export class userController {
                 }
                 return res.status(error.status).send(error);
             }
+            user.set('type', 'user',
+            { strict: false });
             res.status(200).json(user);
         })
     };
