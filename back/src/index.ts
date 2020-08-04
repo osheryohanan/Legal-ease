@@ -113,7 +113,6 @@ website.get('*', (req, res) => {
 });
 
 
-
 app.all("*", (req, res) => {
   var error: errorHandler = {
     status: 404,
@@ -122,20 +121,25 @@ app.all("*", (req, res) => {
   };
   res.status(error.status).send(error);
 });
+
+
+var pricipale=express();
+
 if (process.env.ENV == 'dev') {
-  app.use('/', website);
+  pricipale.use('/', app);
+  pricipale.use('/website', website);
 
 
   const PORT = process.env.PORT || 8080;
-  app.listen(PORT, () => {
+  pricipale.listen(PORT, () => {
     console.log("Listen on port " + PORT);
   });
 
 
 }
 else {
-  app.use(vhost('legal-ease.co.il', website)); // Serves all subdomains via Redirect app
-  app.use(vhost('api.legal-ease.co.il', app)); // Serves all subdomains via Redirect app
+  pricipale.use(vhost('legal-ease.co.il', website)); // Serves all subdomains via Redirect app
+  pricipale.use(vhost('api.legal-ease.co.il', app)); // Serves all subdomains via Redirect app
 
   require('greenlock-express').create({
     email: 'Oad.sh551@gmail.com'     // The email address of the ACME user / hosting provider
@@ -144,7 +148,7 @@ else {
     , communityMember: true             // Join the community to get notified of important updates
     , telemetry: true                   // Contribute telemetry data to the project
     , store: require('greenlock-store-fs')
-    , app
+    , pricipale
 
   }).listen(80, 443);
 
