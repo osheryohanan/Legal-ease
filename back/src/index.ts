@@ -113,33 +113,41 @@ website.get('*', (req, res) => {
 });
 
 
-app.all("*", (req, res) => {
-  var error: errorHandler = {
-    status: 404,
-    message: `We can't access to this path`,
-    type: "Invalid Path",
-  };
-  res.status(error.status).send(error);
-});
 
-
-var pricipale=express();
 
 if (process.env.ENV == 'dev') {
-  pricipale.use('/', app);
-  pricipale.use('/website', website);
+  app.use('/', website);
+
+
+  app.all("*", (req, res) => {
+    var error: errorHandler = {
+      status: 404,
+      message: `We can't access to this path`,
+      type: "Invalid Path",
+    };
+    res.status(error.status).send(error);
+  });
 
 
   const PORT = process.env.PORT || 8080;
-  pricipale.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.log("Listen on port " + PORT);
   });
 
 
 }
 else {
-  pricipale.use(vhost('legal-ease.co.il', website)); // Serves all subdomains via Redirect app
-  pricipale.use(vhost('api.legal-ease.co.il', app)); // Serves all subdomains via Redirect app
+  app.use(vhost('legal-ease.co.il', website)); // Serves all subdomains via Redirect app
+  
+  app.all("*", (req, res) => {
+    var error: errorHandler = {
+      status: 404,
+      message: `We can't access to this path`,
+      type: "Invalid Path",
+    };
+    res.status(error.status).send(error);
+  });
+  app.use(vhost('api.legal-ease.co.il', app)); // Serves all subdomains via Redirect app
 
   require('greenlock-express').create({
     email: 'Oad.sh551@gmail.com'     // The email address of the ACME user / hosting provider
@@ -148,7 +156,7 @@ else {
     , communityMember: true             // Join the community to get notified of important updates
     , telemetry: true                   // Contribute telemetry data to the project
     , store: require('greenlock-store-fs')
-    , pricipale
+    , app
 
   }).listen(80, 443);
 
