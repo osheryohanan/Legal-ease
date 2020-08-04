@@ -13,6 +13,8 @@ export class AppComponent {
     translate.addLangs(['en', 'he']);
     translate.setDefaultLang('en');
     const browserLang = translate.getBrowserLang();
+    console.log(browserLang);
+
     translate.use(browserLang.match(/en|he/) ? browserLang : 'en');
 
   }

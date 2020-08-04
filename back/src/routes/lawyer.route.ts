@@ -11,7 +11,13 @@ export class lawyerRoute {
     public router = express.Router();
     private controller = new lawyerController();
     constructor() {
-        this.initializeRoutes()
+        try {
+            this.initializeRoutes()
+        } catch (error) {
+            console.error(error);
+            
+        }
+        
     }
     private initializeRoutes() {
         this.router.post('/create',[uploadMulter.none(),checkDbConnection,body('email','Please enter you email').notEmpty(),body('password','Please enter you password').notEmpty(),body('lawyerNum','Please enter you laywerNum').notEmpty(),body('firstname','Please enter you firstname').notEmpty(),body('lastname','Please enter you lastname').notEmpty(),body('phone','Please enter you phone').notEmpty()],(req,res)=>{ this.controller.signup(req,res)})

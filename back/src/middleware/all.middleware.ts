@@ -21,14 +21,25 @@ export var checkDbConnection = (req, res, next) => {
 export var upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, '../../', 'uploads/images'))
-    },
-    filename: function (req:any, file, cb) {
-      if(req.user){
-        let filename=req.user._id+path.extname(file.originalname);
-        return cb(null,filename);
+      try {
+        cb(null, path.join(__dirname, '../../', 'uploads/images'))
+
+      } catch (error) {
+        console.error('err upload' + error);
+
       }
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    },
+    filename: function (req: any, file, cb) {
+      try {
+        if (req.user) {
+          let filename = req.user._id + path.extname(file.originalname);
+          return cb(null, filename);
+        }
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+      } catch (error) {
+        console.error('err upload fn' + error);
+
+      }
     }
   })
 })

@@ -112,8 +112,8 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registeUserForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.minLength(6)]],
-      lastname: ['', [Validators.required, Validators.minLength(6)],],
+      firstname: ['', [Validators.required, Validators.minLength(1)]],
+      lastname: ['', [Validators.required, Validators.minLength(1)],],
       email: ['', [Validators.required, Validators.email],],
       password: ['', [Validators.required, Validators.minLength(6)],],
       repassword: ['', [Validators.required, Validators.minLength(6)],],
@@ -123,8 +123,8 @@ export class RegisterComponent implements OnInit {
         validator: MustMatch('password', 'repassword')
       });
     this.registeLawyerForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.minLength(6)]],
-      lastname: ['', [Validators.required, Validators.minLength(6)],],
+      firstname: ['', [Validators.required, Validators.minLength(1)]],
+      lastname: ['', [Validators.required, Validators.minLength(1)],],
       email: ['', [Validators.required, Validators.email],],
       password: ['', [Validators.required, Validators.minLength(6)],],
       repassword: ['', [Validators.required, Validators.minLength(6)],],

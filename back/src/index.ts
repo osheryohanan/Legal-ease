@@ -17,7 +17,8 @@ const app: Application = express();
 //json -POST
 app.use(bodyParser.json());
 //urlencoded -POST
-app.use(bodyParser.urlencoded({ extended: true }));
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+app.use(urlencodedParser);
 
 app.use(express.static("public"));
 app.use(cors());
@@ -113,19 +114,16 @@ website.get('*', (req, res) => {
 
 
 
-
+app.all("*", (req, res) => {
+  var error: errorHandler = {
+    status: 404,
+    message: `We can't access to this path`,
+    type: "Invalid Path",
+  };
+  res.status(error.status).send(error);
+});
 if (process.env.ENV == 'dev') {
   app.use('/', website);
-
-
-  app.all("*", (req, res) => {
-    var error: errorHandler = {
-      status: 404,
-      message: `We can't access to this path`,
-      type: "Invalid Path",
-    };
-    res.status(error.status).send(error);
-  });
 
 
   const PORT = process.env.PORT || 8080;
