@@ -93,4 +93,10 @@ export class LawyerLayoutComponent implements OnInit {
       }
     );
   }
+  ngOnDestroy() {
+    var body = document.getElementsByTagName("body")[0];
+    if (body.classList.contains("white-content")) {
+      body.classList.remove("white-content");
+    }
+  }
 }
