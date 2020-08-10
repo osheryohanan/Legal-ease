@@ -94,8 +94,8 @@ app.use('/photo/', photo)
 
 var website: Application = express();
 website.get('*', (req, res) => {
-  let WebsitePath={return:"../../",path:'comming/'}
-  // let WebsitePath={return:"../../",path:'front/dist/lease-ease/'}
+  // let WebsitePath={return:"../../",path:'comming/'}
+  let WebsitePath={return:"../../",path:'front/dist/lease-ease/'}
   try {
     if (fs.existsSync(path.join(__dirname, WebsitePath.return, `${WebsitePath.path}index.html`))) {
       const allowedExt = ['.js', '.ico', '.css', '.png', '.jpg', '.woff2', '.woff', '.ttf', '.svg', '.gif', '.map'];
