@@ -1,3 +1,4 @@
+import { Iuser, User } from './../model/user.model';
 import mongoose, { Document } from "mongoose";
 import { Request, Response } from 'express';
 import { availability_default } from '../helpers/default.availability';
@@ -7,6 +8,7 @@ import { Ilawyer, IlawyerD, Lawyer } from '../model/lawyer.model';
 import { Meeting, Imeeting, ImeetingD, CalendarEvent } from '../model/meeting.model';
 import $dateformat from "dateformat";
 import $nearest from "nearest-date";
+import { zoomApiController } from "./zoomapi.controller";
 export class meetingController {
     async addMeeting(req: Request, res: Response) {
         const errors = validationResult(req);
@@ -27,11 +29,22 @@ export class meetingController {
             meeting.date = $dateformat(date, 'dd/mm/yyyy');
 
             let meetingModel = new Meeting(meeting);
+
+            // zoomadding*
+
+            let lawyerID:string=meetingModel.lawyerID.toString();
+            let userID:string=meetingModel.userID.toString();
+            let { start, end } = meetingController.dateStartEnd(meetingModel.date, Array.from(meetingModel.hour).map(v => v[0]));
+            let meetingZoomDetail :string= await meetingController.addZoomMeeting(lawyerID,start,userID);
+            meetingModel.zoomDetails=meetingZoomDetail;
             meetingModel.save();
-            res.status(200).json({
+
+
+            return res.status(200).json({
                 type: 'success',
                 message: `We are successful save this metting`,
             });
+
 
         } catch (error) {
             var error: errorHandler = {
@@ -404,6 +417,27 @@ export class meetingController {
     }
     static isValidDate(d: Date) {
         return d instanceof Date && (d.getTime() === d.getTime());
+    }
+
+    static async addZoomMeeting(laywerId:string,date:Date,userID:string): Promise<string>{
+        try {
+           var lawyerInfo:Ilawyer=await Lawyer.findOne({_id:mongoose.Types.ObjectId(laywerId)})
+           var userInfo:Iuser=await User.findOne({_id:mongoose.Types.ObjectId(userID)})
+           if(lawyerInfo&& !lawyerInfo.zoomDetails){
+                return "";
+           }
+           let zoomD:any= lawyerInfo.zoomDetails;
+           var zoomapi=new zoomApiController();
+           let getNewToken=await zoomapi.refreshAccessToken(zoomD.refresh_token,laywerId);
+           let access_token:string=getNewToken.data.access_token;
+           let meetingDetail=await zoomapi.addMeeting(access_token,date,`${userInfo.firstname} ${userInfo.lastname}`);
+           return meetingDetail.join_url;
+            
+        } 
+        catch (error) {
+            return '';
+        }
+
     }
 
 

@@ -33,7 +33,7 @@ export interface Ilawyer{
     payments?:string,//id  ARRY
     bankDetails?:string
     vacancySchedule?:string, //Dates and times for meetings
-    zoomDetails?:string,
+    zoomDetails?:string|any,
 
 
   

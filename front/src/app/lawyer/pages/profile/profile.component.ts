@@ -47,8 +47,11 @@ export class ProfileComponent implements OnInit {
   subs: Subscription[]=[];
   faShekelSign:IconDefinition=faShekelSign;
   changeImage:boolean=false;
+  zoomUri:String;
+
   constructor(private validationService:ValidatorService,private store:Store<{user:any}>,private formBuilder: FormBuilder,public toastr: ToastrService,public lawyerService:LawyerService) {
       this.subs.push(this.lawyerService.category().subscribe((arg:Array<any>) => {this.category = arg;this.getdata()}));
+      this.zoomUri=environment.zoomURI;
 
    }
 

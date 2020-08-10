@@ -6,6 +6,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { userRoute } from "./routes/user.route";
 import { commentsRoute } from "./routes/comments.route";
+import { zoomApiRoute } from "./routes/zoomapi.route";
 import { InitiateMongoServer } from "./config/db";
 import fs from "fs";
 import path from "path";
@@ -29,47 +30,48 @@ app.use("/user", new userRoute().router);
 app.use("/lawyer", new lawyerRoute().router);
 app.use("/comments", new commentsRoute().router);
 app.use("/meeting", new meetingsRoute().router);
+app.use('/zoomapi', new zoomApiRoute().router)
 
-var test = new zoomApiController();
-app.get('/test/api', async (req, res) => {
+// var test = new zoomApiController();
+// app.get('/test/api', async (req, res) => {
 
-  try {
-    let tokens = await test.getAccessToken(req.query.code)
-    let user = await test.checkuser(tokens.access_token)
-    res.send({ user, tokens });
-  } catch (error) {
-    res.send({ error: 'true', type: error })
-  }
-})
-app.get('/test/refresh_token', async (req, res) => {
+//   try {
+//     let tokens = await test.getAccessToken(req.query.code)
+//     let user = await test.checkuser(tokens.access_token)
+//     res.send({ user, tokens });
+//   } catch (error) {
+//     res.send({ error: 'true', type: error })
+//   }
+// })
+// app.get('/test/refresh_token', async (req, res) => {
 
-  try {
-    let tokens = await test.refreshAccessToken(req.query.refresh_token);
-    let sawait = await test.saveRefreshToken(tokens, '5ed3d805f399e42330d7f885')
-    res.send({ tokens, sawait });
-  } catch (error) {
-    res.send({ error: 'true', type: error })
-  }
-})
+//   try {
+//     let tokens = await test.refreshAccessToken(req.query.refresh_token);
+//     let sawait = await test.saveRefreshToken(tokens, '5ed3d805f399e42330d7f885')
+//     res.send({ tokens, sawait });
+//   } catch (error) {
+//     res.send({ error: 'true', type: error })
+//   }
+// })
 
-app.get('/test/meeting', async (req, res) => {
+// app.get('/test/meeting', async (req, res) => {
 
-  try {
-    let meeing = await test.addMeeting()
-    res.send({ meeing });
-  } catch (error) {
-    res.send({ error: 'true', type: error })
-  }
-})
-app.get('/test/mymeeting', async (req, res) => {
+//   try {
+//     let meeing = await test.addMeeting()
+//     res.send({ meeing });
+//   } catch (error) {
+//     res.send({ error: 'true', type: error })
+//   }
+// })
+// app.get('/test/mymeeting', async (req, res) => {
 
-  try {
-    let meeing = await test.myMeeting(req.query.access_token)
-    res.send({ meeing });
-  } catch (error) {
-    res.send({ error: 'true', type: error })
-  }
-})
+//   try {
+//     let meeing = await test.myMeeting(req.query.access_token)
+//     res.send({ meeing });
+//   } catch (error) {
+//     res.send({ error: 'true', type: error })
+//   }
+// })
 
 
 var photo: Application = express();

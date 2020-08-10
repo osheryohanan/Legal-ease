@@ -241,9 +241,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="!this.user.zoomDetails" >
                 <a
-                  href="https://zoom.us/oauth/authorize?response_type=code&client_id=52DlYHw3TT2TWmB26P0IQ&redirect_uri=https://legal-ease.co.il/"
+                  [href]="zoomUri"
                   target="_blank"
                   rel="noopener noreferrer"
                   ><img

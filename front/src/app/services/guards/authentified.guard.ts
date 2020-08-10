@@ -42,8 +42,11 @@ export class UserLoadService implements CanLoad {
       if (!this.state.url.includes('return=')){
         this.router.navigate(['/login'], {
           queryParams: {
-            return: segment.map(x=>x.path).join('/')
-          }
+            return: segment.map(x=>x.path).join('/'),
+
+          },
+          preserveQueryParams: true
+
         });
       }else{
         this.router.navigate(['/login']);
@@ -65,7 +68,8 @@ export class UserActivateService implements CanActivate {
     this.router.navigate(['/login'], {
       queryParams: {
         return: state.url
-      }
+      },
+      preserveQueryParams: true
     });
     return false;
   }
