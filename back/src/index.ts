@@ -94,16 +94,18 @@ app.use('/photo/', photo)
 
 var website: Application = express();
 website.get('*', (req, res) => {
+  let WebsitePath={return:"../../",path:'comming/'}
+  // let WebsitePath={return:"../../",path:'front/dist/lease-ease/'}
   try {
-    if (fs.existsSync(path.join(__dirname, "../../", "front/dist/lease-ease/index.html"))) {
+    if (fs.existsSync(path.join(__dirname, WebsitePath.return, `${WebsitePath.path}index.html`))) {
       const allowedExt = ['.js', '.ico', '.css', '.png', '.jpg', '.woff2', '.woff', '.ttf', '.svg', '.gif', '.map'];
       // if (req.ip != '::ffff:37.142.6.113') {
       //   return res.send('you are unauthorized to access this resource from the ip '+req.ip);
       // }
       if (allowedExt.filter((ext) => req.url.indexOf(ext) > 0).length > 0) {
-        return res.sendFile(path.join(__dirname, "../../", 'front/dist/lease-ease/', `${req.url}`));
+        return res.sendFile(path.join(__dirname, "../../", `${WebsitePath.path}`, `${req.url}`));
       } else {
-        return res.sendFile(path.join(__dirname, "../../", "front/dist/lease-ease/index.html"));
+        return res.sendFile(path.join(__dirname, "../../", `${WebsitePath.path}index.html`));
       }
     }
     throw "err";
