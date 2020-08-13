@@ -34,7 +34,7 @@ export function provideConfig() {
     },
     // {
     //   id: FacebookLoginProvider.PROVIDER_ID,
-    //   provider: new FacebookLoginProvider("Facebook-App-Id")
+    //   provider: new FacebookLoginProvider(environment.FACEBOOKID)
     // }
   ]);;
 }

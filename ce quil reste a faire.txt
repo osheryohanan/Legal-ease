@@ -1,18 +1,7 @@
-OK - db thoumim -  
-
-OK - select thoumim 
-
-Zman panouille 
-
-Meeting 
-API zoom
+ZOOM LINK
 
 
-Dashboard
+DATE +1 
 
-Oheh dine
 
-Pgicha
-    Zaner 
-    Profile 
-
+loaddata

@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiURL:'http://localhost:8080/',
   GID:"802321656680-tu39g3vtn7qnf0itslvs1969eiv1f169.apps.googleusercontent.com",
-  zoomURI:"https://zoom.us/oauth/authorize?client_id=D57O7NXmTPGEabl4Aze2Q&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fzoomapi%2Fupdate"
+  zoomURI:"https://zoom.us/oauth/authorize?client_id=D57O7NXmTPGEabl4Aze2Q&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fzoomapi%2Fupdate",
+  FACEBOOKID:""
 
 };
 

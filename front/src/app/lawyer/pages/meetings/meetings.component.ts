@@ -70,6 +70,7 @@ export class MeetingsComponent implements OnInit {
       return `The lawyer didn't specify his price.`
     let price: number = (hour.length) * (lawyer.priceHourly / 2);
 
+
     return `&#8362;  ${price}`;
   }
   paymentConfirmation(_paymentDetails): number {
@@ -125,6 +126,7 @@ export class MeetingsComponent implements OnInit {
             if (zoomLink.length == 0) throw new Error("");
             this.lawyerService.updateZoomUrl(id, zoomLink).subscribe(
               x => {
+                this.loadData();
                 swal.fire({
                   title: "Saved!",
                   text: "We saved the changes!",
